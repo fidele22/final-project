@@ -1,0 +1,10 @@
+.rejected-fuel-requisition-form{
+    background-color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.navigate-fuel-request p:hover{
+ cursor: pointer;
+ color: blue;
+}

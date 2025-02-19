@@ -1,0 +1,19 @@
+/* customAlert.css */
+.custom-swal {
+    width: 300px; 
+    padding: 10px; 
+    font-size: 14px; 
+  }
+  
+  .custom-swal .swal2-title {
+    font-size: 18px; 
+  }
+  
+  .custom-swal .swal2-content {
+    font-size: 14px; 
+  }
+  
+  .custom-swal .swal2-confirm {
+    padding: 5px 10px; 
+    font-size: 14px; 
+  }

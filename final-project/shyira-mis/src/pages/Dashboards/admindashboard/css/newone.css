@@ -1,0 +1,56 @@
+/* Existing CSS - Update as needed */
+.items-table {
+    border-collapse: collapse;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    overflow-x: auto; /* Allow horizontal scrolling */
+  }
+  
+  /* New CSS - Ensure the table scrolls on smaller screens */
+  .items-table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Horizontal scroll */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+  }
+  
+  .items-table th, .items-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    font-size: 12px;
+    width: 150px; /* Adjust width if needed */
+  }
+  
+  @media (max-width: 768px) {
+    .items-table th, .items-table td {
+      font-size: 14px;
+      padding: 6px;
+      width: 120px; /* Adjust width if needed */
+    }
+  
+    .edit-delete label {
+      font-size: 12px;
+    }
+  
+    .pagination button {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .items-table th, .items-table td {
+      font-size: 12px;
+      padding: 4px;
+      width: 100px; /* Adjust width if needed */
+    }
+  
+    .edit-delete label {
+      font-size: 10px;
+    }
+  
+    .pagination button {
+      font-size: 12px;
+    }
+  }
+  

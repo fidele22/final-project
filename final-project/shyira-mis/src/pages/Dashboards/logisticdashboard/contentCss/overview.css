@@ -1,0 +1,132 @@
+
+.overview-content {
+    padding: 10px;
+    background-color:white;
+    min-height:30vh;
+    width:100%;
+    border-radius: 3px;
+    
+   
+    
+  }
+ .welcome-nav{
+    background-color: #0b53a0eb;
+    height: 15vh;
+    padding: 40px;
+    border-radius: 5px;
+
+  }
+  .welcome-nav h1{
+    text-align: center;
+    color:rgb(249, 245, 245);
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .reminder-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .dashboard-content {
+    width: 20px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .dashboard-content h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+ .logistic-overview-section{
+  width: 100%;
+ }
+  .logistic-overview-section h1 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .overview-section p {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  .overview-section img{
+    width: 100%;
+    height: 20vh;
+  
+  }
+  .logistic-overview-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .widget {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    width: auto;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+  
+  .widget h3 {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #007bff;
+    font-weight: 900;
+  }
+  
+  .widget p {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+  .widget label{
+     font-size: 50px;
+  }
+  .additional-section {
+    margin-top: 30px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+  
+  .additional-section h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .additional-section p {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .additional-section ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 12px;
+  }
+  
+  .additional-section ul li {
+    margin-bottom: 10px;
+  }
+  
+  .additional-section ul li a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .additional-section ul li a:hover {
+    text-decoration: underline;
+  }
+  @media (min-width: 601px) and (max-width: 800px) {
+
+    .overview-content {
+      width: 790px;
+      margin-left: -7.5rem;
+      margin-top: -7%;
+    }
+  
+  }
+  

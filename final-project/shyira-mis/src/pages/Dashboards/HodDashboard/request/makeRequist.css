@@ -1,0 +1,150 @@
+/* makeRequist.css */
+.requistion {
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+ 
+}
+
+.hod-requistion h2{
+  padding: 10px;
+  text-align: center;
+ 
+}
+
+.heading-title .title{
+  display: flex;
+}
+.heading-title.title h4{
+  padding:10px; 
+  font-size: 12px;
+  
+}
+.heading-title .title input{
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  width: 20%;
+  margin-top: -.5%;
+  font-size:20px;
+}
+.image-logo img{
+  width: 100%;
+  height: 20vh;
+  margin-bottom: 100px;
+}
+.date-field{
+  position: absolute;
+  right: 10%;
+  margin-top: 20%;
+  display: block;
+}
+/*styling form*/
+.hod-request-form {
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+
+}
+
+.hod-request-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  width:auto;
+}
+.itemname-td{
+  width: 300px;
+}
+table th {
+  background-color: #f2f2f2;
+  font-size: 12px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+.additem-btn{
+  background-color: blue;
+  font-size: 14px;
+  width: 100px;
+}
+.remove-btn{
+  background-color: rgb(218, 47, 47);
+}
+.hod-submit-btn{
+  font-size: 20px;
+  width: 150px;
+}
+ 
+
+
+.logistician-sign input[type=text]{
+  width: 50%;
+
+}
+form h4{
+  text-align: center;
+}
+
+.footerimg{
+  width: 100%;
+}
+
+
+@media (max-width: 600px) {
+  .signature-section {
+    flex-direction: column;
+  }
+
+  .signature,
+  .date,
+  .image-upload-section {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+

@@ -1,0 +1,23 @@
+/* Notification.css */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+  }
+  .notification.success {
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
+  
+  .notification.error {
+    background-color: #f44336; /* Red */
+    color: white;
+  }

@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+}
+.verified-requist{
+    display: flex;
+    gap: 5rem;
+}
+.reject-btn{
+    background-color: blue;
+    font-size: 18px;
+}

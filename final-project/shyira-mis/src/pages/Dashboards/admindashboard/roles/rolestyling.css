@@ -1,0 +1,51 @@
+.role-privilegies-section{
+    margin-left: 2%;
+    margin-right: 4.5%;
+}
+.role-privileges{
+    display: flex;
+    background-color: white;
+    padding: 15px;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+.role-privileges div{
+    padding: 10px;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.role-privileges h2{
+    color: rgb(42, 42, 240);
+    font-size: 17px;
+    text-align: center;
+}
+.role-privileges li{
+    color: rgb(117, 116, 116);
+}
+/* Container for privileges */
+.edit-form {
+    width: 700px;
+}
+.edit-form div {
+    display: flex;
+    justify-content: space-between; /* Distribute items left and right */
+    flex-wrap: wrap; /* Allow wrapping if necessary */
+    gap: 10px; /* Add spacing between items */
+  }
+  
+  /* Individual privilege label styling */
+  .edit-form label {
+    display: flex;
+    align-items: center;
+    margin: 2px 0;
+    font-size: 16px;
+  }
+  
+  /* Optional styling for checkboxes */
+  .edit-form input[type="checkbox"] {
+    margin-right: 10px; /* Space between checkbox and label text */
+  }
+  

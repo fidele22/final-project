@@ -1,0 +1,48 @@
+
+
+.register-user{
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    margin-left: 2%;
+}
+.register-user h1{
+    text-align: center;
+    color: blue;
+    font-size: 20px;
+}
+.register-user span{
+    color: black;
+    text-align: center;
+    padding: 10px;
+}
+.register-user input[type='text']{
+    font-size: 16px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.register-user input[type='password']{
+    height: 40px;
+    font-size: 16px;
+
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.register-user-btn{
+    background-color: rgb(58, 134, 205);
+    font-size: 20px;
+    margin-top: 2rem;
+}
+.headers{
+    display: flex;
+}
+.add-new-user-btn{
+    position: absolute;
+    right:4%;
+    background-color:blue;
+    border-radius: 5px;
+ 
+}

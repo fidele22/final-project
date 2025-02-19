@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+}
+.order-status{
+    display: flex;
+}
+.verified-requist h2{
+text-align: center;
+padding: 20px;
+color: blue;
+}
+.pagination-buttons{
+    text-align: center;
+}
+.pagination-buttons button{
+    background-color: rgb(0, 81, 255);
+    font-size: 16px;
+    margin-left: 2%;
+}
+.search-form{
+   
+    display: flex;
+    gap: 20%;
+    padding: 20px;
+    box-shadow:
+     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+.search-supplier {
+    width: 30%;
+}
+.statusFilter{
+    padding: 10px;
+}
+.statusFilter input[type='text']{
+    width: 40%;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+.status-pending {
+    color: rgb(39, 230, 204); /* Color for pending status */
+  }
+  .status-verified {
+    color: rgb(211, 221, 63); /* Color for approved status */
+  }
+  
+  .status-approved {
+    color: green; /* Color for approved status */
+  }
+ 
+  .status-rejected {
+    color: red; /* Color for rejected status */
+  }
+  
+  .status-received {
+    color: blue; /* Color for received status */
+  }

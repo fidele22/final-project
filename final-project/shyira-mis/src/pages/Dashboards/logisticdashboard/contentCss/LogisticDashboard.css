@@ -1,0 +1,23 @@
+body{
+  overflow-x: hidden;
+}
+.logistic-dashboard {
+    display: flex;
+    width: 100%;
+    height:auto;
+  
+
+  }
+  .content-page{
+    height: auto;
+    width: 82%; 
+    height: auto;
+    justify-content: space-between;
+    padding: 70px 10px 0px 0px;
+    margin-left: 16%;
+    margin-right: 1%;
+
+    
+   
+  }
+  

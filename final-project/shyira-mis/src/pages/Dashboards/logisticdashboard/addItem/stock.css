@@ -1,0 +1,285 @@
+*{
+    margin: 0;
+}
+
+.item-stock{
+   background-color: rgb(252, 250, 250);
+   margin: 10px 20px 0px 20px; 
+   padding: 20px;
+}
+.pagination-controls{
+  padding: 20px;
+}
+.pagination-controls button{
+  background-color: #007bff;
+
+}
+.search-item-input input[type='text']{
+ width:25%;
+ border-top: none;
+ border-left: none;
+ border-right: none;
+}
+/* Overlay styles */
+.edit-overlay {
+  position: fixed; /* Fixed position to cover the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  z-index: 1000; /* High z-index to ensure it is on top */
+  display: flex; /* Use flexbox to center the popup */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+/* Edit item form container styles */
+.edit-item-form-container {
+  background-color: white; /* Background color for the popup */
+  padding: 20px; /* Padding inside the popup */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  width: 400px; /* Set a width for the popup */
+  max-width: 90%; /* Responsive width */
+}
+
+/* Label styles */
+label {
+  display: block; /* Block display for labels */
+  margin-bottom: 10px; /* Space between labels */
+}
+
+/* Input styles */
+input {
+  width: 100%; /* Full width for inputs */
+  padding: 8px; /* Padding inside inputs */
+  margin-top: 5px; /* Space above inputs */
+  border: 1px solid #ccc; /* Border for inputs */
+  border-radius: 4px; /* Rounded corners for inputs */
+}
+
+/* Button styles */
+.edit-item-form-container button {
+  background-color: #007bff; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* No border */
+  padding: 10px 15px; /* Padding inside buttons */
+  border-radius: 4px; /* Rounded corners for buttons */
+  cursor: pointer; /* Pointer cursor on hover */
+  margin-right: 10px; /* Space between buttons */
+}
+
+.edit-item-form-container button:hover {
+  background-color: #0056b3; /* Darker background on hover */
+}
+
+/* Cancel button styles */
+.edit-item-form-container button.cancel {
+  background-color: #dc3545; /* Red background for cancel button */
+}
+
+.edit-item-form-container button.cancel:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+/****************styling stock details********************/
+.stockDetails-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dim background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+    }
+  .stock-details{
+      background-color: white;
+      width: 80%;
+      position: absolute;
+      left: 16%;
+      border-radius: 4px;
+      padding: 10px;
+    
+    }
+   .detail-history{
+     display: flex;
+     gap: 20rem;
+    
+   }
+    .stock-details-btn{
+      background-color: blue;
+    }
+    .detail-cancel-btn{
+      background-color: red;
+      font-size: 14px;
+      margin: 5px 0px;
+    }
+    .detail-update-btn{
+      background-color: green;
+    }
+    .detail-close-btn{
+      position: absolute;
+      right: 0;
+      top: -2;
+      background-color: #d1d1d3da;
+      text-decoration: none;
+      color: rgb(191, 61, 61);;
+      font-size: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      text-align: center;
+    }
+   .history-close-btn{
+      position: absolute;
+      right: 0;
+      top: 0;
+      background-color: #d1d1d3da;
+      text-decoration: none;
+      color: rgb(191, 61, 61);;
+      font-size: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      text-align: center;
+    }
+  
+    .detail-edit-btn{
+      background-color: rgb(96, 98, 98);
+      font-size: 16px;
+    }
+    .download-exl-btn{
+      background-color: rgb(206, 156, 5);
+      font-size: 14px;
+      margin-left: 2%;
+      margin-top:2% ;
+    }
+    .view-details-btn{
+      background-color: rgb(117, 69, 7);
+      font-size: 20px;
+    }
+    .view-history-btn{
+      background-color: #007bff;
+      font-size: 20px;
+      padding: 10px;
+   
+    }
+    .download-history-btn{
+      background-color: rgb(207, 95, 87);
+      font-size: 14px;
+      margin-top: 1%;
+      
+    }
+    .download-xcl{
+      background-color: rgb(25, 110, 46);
+      font-size: 14px;
+      margin-top: 1%;
+      margin-left: 1%;
+    }
+.download-btn{
+  background-color: rgb(207, 95, 87);
+      font-size: 14px;
+      margin-top: 1%;
+}
+/***********styling *stock history**********/
+    .stockHistory-overlay{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Dim background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; 
+    }
+    .stock-history{
+      background-color: white;
+      width: 80%;
+      position: absolute;
+      left: 16%;
+      border-radius: 4px;
+      padding: 20px;
+      max-height: 90vh;
+      overflow-y: scroll;
+    
+    }
+    .stock-history h2,h3{
+      text-align: center;
+      padding: 10px;
+    }
+    .stock-history span{
+      text-transform: uppercase;
+      padding-left: 10px;
+      text-decoration: underline;
+    }
+    .history-filter{
+      display: flex;
+      gap: 3rem;
+      padding: 10px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    }
+  .warning{
+    background-color: #d9dde2da;
+    width: 150px;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+    .view-history-btn{
+      background-color: #163d68da;
+      padding:10px;
+      height: auto;
+      font-size: 16px;
+      margin: 0;
+    }
+/**************fuel css**********************/
+    .fuel-stock{
+    
+      display: flex;
+    }
+    .stock-updated{
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 500px;
+      margin-left: 2%;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+    }
+    .stock-updated h1{
+      text-align: center;
+      color: #007bff;
+      padding: 20px;
+    }
+
+ /* Dropdown button */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.dropdown-menu button {
+  display: block;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: black;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}

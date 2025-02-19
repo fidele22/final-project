@@ -1,0 +1,124 @@
+.add-item {
+  width: 100%;
+  display: flex;
+}
+.add-item-btn{
+  background-color: #007bff;
+  font-size: 16px;
+}
+.upload-item-btn{
+  background-color: green;
+  font-size: 16px;
+}
+  /* Container styles */
+ .additem {
+    width: 450px;
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fdfafa;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+ .view-items h2{
+text-align: center;
+color: #007bff;
+ } 
+  /* Title styles */
+  .additem h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #0281f0;
+  }
+  
+  /* Form styles */
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Label styles */
+  label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  /* Input styles */
+  input[type="text"],
+  input[type="number"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+.upload-data{
+  background-color:white;
+  padding: 20px;
+  border-radius:8px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+.upload-btn{
+  text-align: center;
+  background-color: rgb(3, 162, 3);
+  font-size: 20px;
+  margin-left: 50%;
+}
+.upload-btn:hover{
+  background-color: green;
+}  
+  /* Input file field */
+  input[type="file"] {
+    display: block;
+    margin: 10px auto;
+    padding: 20px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 300px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="file"]:hover {
+    border-color: #007bff;
+  }
+  
+
+  /* Media query for smaller screens */
+  @media (max-width: 600px) {
+    .container {
+      padding: 15px;
+      max-width: 90%;
+    }
+  
+    input[type="file"], button {
+      max-width: 100%;
+    }
+  }
+  
+ 
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    div {
+      padding: 15px;
+      margin: 20px;
+    }
+  
+    h2 {
+      font-size: 20px;
+    }
+  
+    input[type="text"],
+    input[type="number"] {
+      padding: 8px;
+      font-size: 14px;
+    }
+  
+  }
+  

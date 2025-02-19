@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+}
+.hod-items{
+    background-color: white;
+    padding: 20px;
+    width:auto;
+    
+}
+.hod-items h2{
+    padding: 20px;
+}
+.hod-items input[type='text']{
+    width: 30%;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    font-size: 16px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .pagination-btn:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+  }
+  
+  .pagination span {
+    margin: 0 10px;
+    font-size: 16px;
+  }
+   
