@@ -11,7 +11,7 @@ import UserFuelRequest from './UserfuelRequest/userfuelrequestpage';
 import LogisticFuelOrder from './LogisticFuelOrders/logisticFuelOrderPages';
 import RepairLogisticOrder from './logisticRepairRequest/repairRequisitionPage';
 import ViewItems from '../DGdashboard/StockItem/viewitems';
-import ItemStockReport from '../logisticdashboard/StockReport/ItemReport';
+import ItemStockReport from './itemReport/itemReport';
 import FuelStock from '../logisticdashboard/fuelRequisition/fuelStock';
 import FuelReport from '../logisticdashboard/StockReport/FuelReport'
 import DafProfile from '../UserProfile/profile';

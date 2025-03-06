@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { isValidObjectId } = mongoose;
 const router = express.Router();
 const StockData = require('../models/stockData');
 const StockItem =require('../models/stockItems')
@@ -220,7 +221,9 @@ if (!isValidObjectId(itemId)) {
   const stockEntries = await StockData.find({ itemId }).populate('itemId');
   console.log(`Stock entries found: ${stockEntries.length}`); // Log number of stock entries found
   res.status(200).json(stockEntries);
-  } catch (error) {
+  } 
+  
+  catch (error) {
   console.error('Error fetching stock entries:', error);
   res.status(400).json({ message: 'Error fetching stock entries', error });
 }
@@ -268,6 +271,15 @@ router.get('/history/:year/:month', async (req, res) => {
   res.status(500).json({ message: 'Error fetching stock history', error });
   }
   });
+  // Fetch all stock items
+router.get('/allItems', async (req, res) => {
+  try {
+    const allItems = await Stock.find(); // Assuming Stock is your model for items
+    res.status(200).json(allItems);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching all items', error });
+  }
+});
 
 module.exports = router;
 

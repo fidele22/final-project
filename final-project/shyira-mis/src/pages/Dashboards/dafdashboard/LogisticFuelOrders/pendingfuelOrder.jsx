@@ -306,7 +306,7 @@ const handleRejectSubmit = async () => {
               <form >
                 <h2>Edit Logistic Fuel Order</h2>
                 <div className="request-recieved-heading">
-            <h5>WESTERN PROVINCE</h5>
+            <p>WESTERN PROVINCE</p>
             <h5>DISTRIC: NYABIHU</h5>
             <h5>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h5>
             <h5>DEPARTMENT:  LOGISTIC OFFICE</h5>

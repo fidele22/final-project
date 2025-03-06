@@ -1,115 +1,148 @@
 import React, { useState } from 'react';
-import { FaHome, FaList, FaBoxOpen, FaUser,FaPlus,FaGasPump,FaClipboardList,
-  FaChartBar,FaClipboardCheck, FaLifeRing } from 'react-icons/fa';
+import { FaHome, FaList, FaBoxOpen, FaPlus, FaGasPump, FaClipboardList, 
+  FaChartBar, FaClipboardCheck } from 'react-icons/fa';
 import './navigationbar.css';
 
 const Navbar = ({ setCurrentPage, privileges }) => {
-  const [dropdownsOpen, setDropdownsOpen] = useState({
-    request: false,
-    requisitions: false,
-    requisitionsstatus: false,
-    fuelrequisitionsstatus: false,
-  });
+  const [activePage, setActivePage] = useState('');
 
-  const toggleDropdown = (dropdownName) => {
-    setDropdownsOpen((prevState) => ({
-      ...prevState,
-      [dropdownName]: !prevState[dropdownName],
-    }));
+  const handleNavigation = (page) => {
+    setCurrentPage(page);
+    setActivePage(page);
   };
 
   return (
     <div className="navigation">
-      <div className="nav-logo">
-        <h1>Lmis</h1>
-      </div>
       <ul>
         {privileges.includes('view_overview') && (
-          <li onClick={() => setCurrentPage('overview')}><FaHome /> Overview</li>
+          <li className={activePage === 'overview' ? 'active' : ''} onClick={() => handleNavigation('overview')}>
+            <span><FaHome /></span> Overview
+          </li>
         )}
         {privileges.includes('view_items') && (
-          <li onClick={() => setCurrentPage('view-items')}><FaList /> Available Items</li>
+          <li className={activePage === 'view-items' ? 'active' : ''} onClick={() => handleNavigation('view-items')}>
+            <span><FaList /></span> Available Items
+          </li>
         )}
         {privileges.includes('request_item') && (
-          <li onClick={() => setCurrentPage('requisition')}><FaBoxOpen /> Request Item</li>
+          <li className={activePage === 'requisition' ? 'active' : ''} onClick={() => handleNavigation('requisition')}>
+            <span><FaBoxOpen /></span> Request Item
+          </li>
         )}
         {privileges.includes('request_fuel') && (
-          <li onClick={() => setCurrentPage('fuel-request')}><FaBoxOpen /> Request Fuel</li>
+          <li className={activePage === 'fuel-request' ? 'active' : ''} onClick={() => handleNavigation('fuel-request')}>
+            <span><FaBoxOpen /></span> Request Fuel
+          </li>
         )}
-        {privileges.includes('update_car_data') && (
-          <li onClick={() => setCurrentPage('fill-cardata')}><FaBoxOpen /> Update Car Data</li>
+        {privileges.includes('monthly_car_data') && (
+          <li className={activePage === 'monthly_car_data' ? 'active' : ''} onClick={() => handleNavigation('monthly_car_data')}>
+            <span><FaBoxOpen /></span> Update Car Data
+          </li>
         )}
 
-        {/* links supposed to logistic role */}
-
+        {/* Logistic Role Links */}
         {privileges.includes('Manage_item_stock') && (
-          <li onClick={() => setCurrentPage('manage-items-stock')}> <FaList /> Manage Item stock </li>
+          <li className={activePage === 'manage-items-stock' ? 'active' : ''} onClick={() => handleNavigation('manage-items-stock')}>
+            <span><FaList /></span> Manage Item Stock
+          </li>
         )}
         {privileges.includes('Make_item_order') && (
-          <li onClick={() => setCurrentPage('make-order')}><FaClipboardCheck /> Order Supplies  </li>
+          <li className={activePage === 'make-order' ? 'active' : ''} onClick={() => handleNavigation('make-order')}>
+            <span><FaClipboardCheck /></span> Order Supplies
+          </li>
         )}
         {privileges.includes('view_request_item') && (
-          <li onClick={() => setCurrentPage('item-requisition')}><FaClipboardCheck /> Item Requisition</li>
+          <li className={activePage === 'item-requisition' ? 'active' : ''} onClick={() => handleNavigation('item-requisition')}>
+            <span><FaClipboardCheck /></span> Item Requisition
+          </li>
         )}
         {privileges.includes('view_request_fuel') && (
-          <li onClick={() => setCurrentPage('fuel-requisition')}><FaClipboardCheck /> Fuel Requisition</li>
+          <li className={activePage === 'fuel-requisition' ? 'active' : ''} onClick={() => handleNavigation('fuel-requisition')}>
+            <span><FaClipboardCheck /></span> Fuel Requisition
+          </li>
         )}
         {privileges.includes('View_car_data') && (
-          <li onClick={() => setCurrentPage('view-cars')}> <FaChartBar /> view cars data</li>
+          <li className={activePage === 'view-cars' ? 'active' : ''} onClick={() => handleNavigation('view-cars')}>
+            <span><FaChartBar /></span> View Cars Data
+          </li>
         )}
         {privileges.includes('view_fuel_stock') && (
-         <li onClick={() => setCurrentPage('fuel-stock')}><FaPlus /> Fuel stock</li>
+          <li className={activePage === 'fuel-stock' ? 'active' : ''} onClick={() => handleNavigation('fuel-stock')}>
+            <span><FaPlus /></span> Fuel Stock
+          </li>
         )}
-        
 
-         {/*links supposed to go on daf  */}
-     
+        {/* DAF Role Links */}
         {privileges.includes('view-stock-items') && (
-           <li onClick={() => setCurrentPage('view-stock-items')}> <FaList /> stock Items</li>
+          <li className={activePage === 'view-stock-items' ? 'active' : ''} onClick={() => handleNavigation('view-stock-items')}>
+            <span><FaList /></span> Stock Items
+          </li>
         )}
         {privileges.includes('verify-logistic-item-request') && (
-             <li onClick={() => setCurrentPage('view-logistic-request')}><FaBoxOpen /> Logistic Item Requisition </li>
+          <li className={activePage === 'view-logistic-request' ? 'active' : ''} onClick={() => handleNavigation('view-logistic-request')}>
+            <span><FaBoxOpen /></span> Logistic Item Requisition
+          </li>
         )}
         {privileges.includes('Verify-logistic-fuel-request') && (
-                <li onClick={() => setCurrentPage('Fuel-logistic-Order')}><FaGasPump /> Logistic Fuel Requisition </li>
+          <li className={activePage === 'Fuel-logistic-Order' ? 'active' : ''} onClick={() => handleNavigation('Fuel-logistic-Order')}>
+            <span><FaGasPump /></span> Logistic Fuel Requisition
+          </li>
         )}
         {privileges.includes('Repair-logistic-request') && (
-               <li onClick={() => setCurrentPage('Repair-logistic-Order')}><FaGasPump /> Logistic Repair Requisition </li>
-        )} 
-       {privileges.includes('Approve-user-item-request') && (
-         <li onClick={() => setCurrentPage('user-item-request')}><FaClipboardList /> User Item Requisition</li>  
+          <li className={activePage === 'Repair-logistic-Order' ? 'active' : ''} onClick={() => handleNavigation('Repair-logistic-Order')}>
+            <span><FaGasPump /></span> Logistic Repair Requisition
+          </li>
+        )}
+            {privileges.includes('Approve-user-item-request') && (
+          <li className={activePage === 'Approve-user-item-request' ? 'active' : ''} onClick={() => handleNavigation('user-item-request')}>
+            <span><FaGasPump /></span>User item request
+          </li>
+        )}
+             {privileges.includes('Approve-user-fuel-request') && (
+          <li className={activePage === 'Approve-user-fuel-request' ? 'active' : ''} onClick={() => handleNavigation('user-fuel-request')}>
+            <span><FaGasPump /></span>User fuel request
+          </li>
         )}
 
-       {privileges.includes('Approve-user-fuel-request') && (
-        <li onClick={() => setCurrentPage('user-fuel-request')}><FaGasPump />  User Fuel Requisition</li>
-        )}   
-
-             {/*links supposed to go on DG  */}
-
+        {/* DG Role Links */}
         {privileges.includes('Approve-logistic-request') && (
-         <li onClick={() => setCurrentPage('view-logistic-request')}><FaClipboardList /> Logistic Item requisition</li>
+          <li className={activePage === 'view-logistic-request' ? 'active' : ''} onClick={() => handleNavigation('view-logistic-request')}>
+            <span><FaClipboardList /></span> Logistic Item Requisition
+          </li>
         )}
         {privileges.includes('approve-fuel-logistic-request') && (
-                   <li onClick={() => setCurrentPage('fuel-logistic-request')}><FaGasPump /> Logistic Fuel requisition</li>
+          <li className={activePage === 'fuel-logistic-request' ? 'active' : ''} onClick={() => handleNavigation('fuel-logistic-request')}>
+            <span><FaGasPump /></span> Logistic Fuel Requisition
+          </li>
         )}
         {privileges.includes('approve-repair-logistic-request') && (
-          <li onClick={() => setCurrentPage('repair-logistic-request')}><FaGasPump /> Logistic Repair requisition</li>
+          <li className={activePage === 'repair-logistic-request' ? 'active' : ''} onClick={() => handleNavigation('repair-logistic-request')}>
+            <span><FaGasPump /></span> Logistic Repair Requisition
+          </li>
         )}
         {privileges.includes('view-user-requisition') && (
-          <li onClick={() => setCurrentPage('user-request')}><FaBoxOpen />User item requisition</li>
-        )}
-        {privileges.includes('View-user-fuel-request') && (
-        <li onClick={() => setCurrentPage('fuel-requisition')}><FaClipboardCheck /> User Fuel Requisition </li>
+          <li className={activePage === 'user-request' ? 'active' : ''} onClick={() => handleNavigation('user-request')}>
+            <span><FaBoxOpen /></span> User Item Requisition
+          </li>
         )}
 
-        {/* links shared  */}
+        {/* Shared Links */}
         {privileges.includes('view_item_report') && (
-          <li onClick={() => setCurrentPage('report')}><FaChartBar /> Item Report</li>
-        )} 
+          <li className={activePage === 'report' ? 'active' : ''} onClick={() => handleNavigation('report')}>
+            <span><FaChartBar /></span> Item Report
+          </li>
+        )}
         {privileges.includes('view_fuel_report') && (
-          <li onClick={() => setCurrentPage('fuel-report')}><FaChartBar /> Fuel Report </li>
-        )}  
-       </ul>
+          <li className={activePage === 'fuel-report' ? 'active' : ''} onClick={() => handleNavigation('fuel-report')}>
+            <span><FaChartBar /></span> Fuel Report
+          </li>
+        )}
+           {privileges.includes('view_help_center') && (
+          <li className={activePage === 'help_center' ? 'active' : ''} onClick={() => handleNavigation('help_center')}>
+            <span><FaChartBar /></span> Help Center
+          </li>
+        )}
+      </ul>
     </div>
   );
 };

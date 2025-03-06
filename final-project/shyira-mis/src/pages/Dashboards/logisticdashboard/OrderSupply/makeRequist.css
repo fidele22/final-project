@@ -45,15 +45,15 @@
 .dropdown-content {
   display: none; /* Hidden by default */
   position: absolute; /* Position it below the button */
-
+ /* background-color: slategrey; */
   min-width: 160px; /* Minimum width */
-
   z-index: 1; /* Ensure it appears above other elements */
 }
 
 /* Show the dropdown content when the button is clicked */
 .dropdown:hover .dropdown-content {
   display: block; /* Show the dropdown */
+
 }
 
 /* Dropdown items */

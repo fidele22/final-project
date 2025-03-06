@@ -1,20 +1,16 @@
 .navigation {
     width: 12%;
-    background-color: #2c3b50;
+    background-color: white;
     position: fixed;
     height: 100%;
-    color: white;
+    color: rgb(65, 64, 64);
     padding: 20px;
     display: flex;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     flex-direction: column;
     align-items: flex-start;
-    z-index: 1000;
-    box-shadow: 0 1px 3px -2px black;
-  }
-  
-  .nav-logo{
-    background-color: #3e8cda;
-    border-radius: 30%;
+    /* z-index: 1000; */
+    /* box-shadow: 0 1px 3px -2px black; */
   }
   .navigation h1 {
     padding: 5px;
@@ -28,37 +24,33 @@
   .navigation ul {
     list-style-type: none;
     padding: 10px,0,0, 10px;
-    color: white;
+    color: rgb(99, 98, 98);
+    margin-top: 35%;
+
   }
   
   .navigation ul li {
     margin: 20px 0;
     cursor: pointer;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    /* border: 1px solid #444343; */
+    
   }
-  .dropdown-menu{
-    margin-left: 2rem;
-  
-  }
-  .navigation ul button{
-    font-size: 22px;
-    padding: 10px;
-    border-radius: 5px;
-    border: none;
-    background-color: brown;
-    color: wheat;
-    position: absolute;
-    bottom: 10%;
-    cursor: pointer;
-  }
-  .navigation ul button:hover{
-    background-color: rgb(215, 30, 30);
+  .navigation ul li span{
+   padding-right: 13px;
   }
   .navigation ul li:hover {
-    color: brown;
+    color: rgb(42, 91, 165);
+    border: 1px solid blue;
+    padding: 5px;
   }
-  .logout{
-    position: absolute;
-    bottom: 5%;
+  .navigation ul li.active {
+    background-color: rgb(42, 91, 165);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px;
   }

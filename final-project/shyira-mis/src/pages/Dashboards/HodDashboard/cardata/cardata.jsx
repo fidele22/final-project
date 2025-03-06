@@ -48,7 +48,6 @@ const CarForm = () => {
   return (
     <div className="form-car">
 
-   
     <form onSubmit={handleSubmit}>
     <div className="form-group"> 
         <label htmlFor="carPlaque">Plaque of Car:</label> 

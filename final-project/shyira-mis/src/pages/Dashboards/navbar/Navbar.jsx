@@ -63,6 +63,10 @@ function Navbar({ setCurrentPage }) {
 
   return (
     <div className='Navbar'>
+      <div className="logo">
+        <h1>LEMS </h1>
+        <p>Logistic Equipment Managment System</p>
+      </div>
       <ul className='navbar-menu'>
         <li className="user-dropdown" onClick={toggleDropdown}>
           {user ? (

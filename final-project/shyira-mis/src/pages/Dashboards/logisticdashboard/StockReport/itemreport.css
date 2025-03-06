@@ -52,7 +52,22 @@
     border-collapse: collapse;
     margin-top: 20px;
   }
-  
+  .stock-history-table thead tr.main-table-header th {
+    border-left: 2px solid black;
+  }
+  .stock-history-table th:nth-child(2),
+  .stock-history-table td:nth-child(2),
+  .stock-history-table th:nth-child(5),
+  .stock-history-table td:nth-child(5),
+  .stock-history-table th:nth-child(8),
+  .stock-history-table td:nth-child(8),
+  .stock-history-table th:nth-child(11),
+  .stock-history-table td:nth-child(11),
+  .stock-history-table th:nth-child(14),
+  .stock-history-table td:nth-child(14) {
+    border-left: 2px solid black;
+  }
+    
   .stock-history-table th, .stock-history-table td {
     padding: 12px 15px;
     border: 1px solid #ddd;
@@ -79,7 +94,14 @@
   /* .report-signature-section */
   .report-signature-section{
      display: flex;
-     gap: 10rem;
+     gap: 9rem;
      padding: 20px;
      margin-top: 20px;
   }
+  .item-report-signature label{
+    margin-bottom: 10px;
+  }
+.report-signature{
+  height: 10vh;
+  width: 150px;
+}

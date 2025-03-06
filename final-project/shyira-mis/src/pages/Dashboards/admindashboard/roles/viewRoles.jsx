@@ -20,7 +20,7 @@ const ViewPosition = () => {
     'view_items',
     'view_overview',
     'request_fuel',
-    'update_car_data',
+    'monthly_car_data',
     'view_help_center',
     'Manage_item_stock',
     'Make_item_order',

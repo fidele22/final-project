@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2'; 
 import html2canvas from 'html2canvas';
 
-import './itemreport.css';
+// import './itemreport.css';
 
 const StockHistoryTable = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -36,78 +36,26 @@ const StockHistoryTable = () => {
 
   const fetchStockData = async () => {
     try {
+       // Prepare the query parameters for the date range
+    const queryParams = startDate && endDate ? `?start=${startDate}&end=${endDate}` : '';
 
-      // Fetch all items
-  
-      const allItemsResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
-  
-      const allItems = allItemsResponse.data;
-  
-  
-      // Prepare the query parameters for the date range
-  
-      const queryParams = startDate && endDate ? `?start=${startDate}&end=${endDate}` : '';
-  
-  
       // Fetch current month's stock history
-  
       const currentResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${year}/${month}${queryParams}`);
-  
       setCurrentStock(currentResponse.data);
-  
       
-  
       // Fetch previous month's stock history
-  
       const previousMonth = month === 1 ? 12 : month - 1;
-  
       const previousYear = month === 1 ? year - 1 : year;
-  
       const previousResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${previousYear}/${previousMonth}${queryParams}`);
-  
       setPreviousStock(previousResponse.data);
-  
-  
-      // Combine all items with current and previous stock data
-  
-      aggregateStockData(currentResponse.data, previousResponse.data, allItems);
-  
+
+      aggregateStockData(currentResponse.data, previousResponse.data);
     } catch (error) {
-  
       console.error('Error fetching stock history:', error);
-  
     }
-  
   };
-  
-   // Function to fetch the latest stock for an item
-   const fetchLatestStock = async (itemId) => {
-    try {
-      // Fetch all stock history for the item sorted by date (latest first)
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${itemId}`);
-      
-      const stockHistory = response.data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by latest date
-  
-      // Find the latest stock entry with a balance
-      const latestStock = stockHistory.find(stock => stock.balance?.quantity !== undefined);
-  
-      if (latestStock) {
-        return {
-          balanceQuantity: latestStock.balance.quantity || 0,
-          balanceTotalAmount: latestStock.balance.totalAmount || 0,
-          pricePerUnit: latestStock.entry?.pricePerUnit || 0,
-        };
-      }
-    } catch (error) {
-      console.error(`Error fetching latest stock for item ${itemId}:`, error);
-    }
-  
-    return { balanceQuantity: 0, balanceTotalAmount: 0, pricePerUnit: 0 };
-  };
-  
 
   useEffect(() => {
-    fetchLatestStock();
     fetchStockData();
     fetchSignatures();
   }, [year, month]);
@@ -115,63 +63,63 @@ const StockHistoryTable = () => {
   const handleYearChange = (e) => setYear(e.target.value);
   const handleMonthChange = (e) => setMonth(e.target.value);
 
-  const aggregateStockData = async (currentData, previousData, allItems) => {
+  const aggregateStockData = (currentData, previousData) => {
     const aggregatedData = {};
   
-    for (const item of allItems) {
-      const itemId = item._id;
-      let latestStock = await fetchLatestStock(itemId); // Get latest stock if available
-  
+    // Step 1: Add all previous month items first
+    previousData.forEach(stock => {
+      const itemId = stock.itemId._id;
       aggregatedData[itemId] = {
-        itemName: item.name,
-        openingQuantity: latestStock.balanceQuantity || 0,
-        openingTotalAmount: latestStock.balanceTotalAmount || 0,
-        openingPricePerUnit: latestStock.pricePerUnit || 0,
-        entryQuantity: 0,
-        lastEntryPricePerUnit: item.pricePerUnit || 0, 
+        itemName: stock.itemId.name,
+        openingQuantity: stock.balance?.quantity || 0,
+        openingTotalAmount: stock.balance?.totalAmount || 0,
+        openingPricePerUnit: stock.balance?.pricePerUnit || 0,
+        entryQuantity: 0,// Default to 0, will be updated if found in current month
+        lastEntryPricePerUnit: stock.entry?.pricePerUnit || 0, 
         entryTotalAmount: 0,
         exitQuantity: 0,
         exitTotalAmount: 0,
-        // balanceQuantity: openingQuantity +  || 0, // Initialize balance to opening quantity
-        // balanceTotalAmount: item.totalAmount || 0, // Initialize balance total amount
-
+        balanceQuantity: stock.balance?.quantity || 0, // Default to previous balance
+        balanceTotalAmount: stock.balance?.totalAmount || 0,
       };
-    }
-  
-    // Merge previous month's stock if available
-    previousData.forEach(stock => {
-      const itemId = stock.itemId._id;
-      if (aggregatedData[itemId]) {
-        aggregatedData[itemId].openingQuantity = stock.balance?.quantity || aggregatedData[itemId].openingQuantity;
-        aggregatedData[itemId].openingTotalAmount = stock.balance?.totalAmount || aggregatedData[itemId].openingTotalAmount;
-        aggregatedData[itemId].openingPricePerUnit = stock.balance?.pricePerUnit || aggregatedData[itemId].openingPricePerUnit;
-      }
     });
   
-    // Merge current month's stock
+    // Step 2: Merge current month data
     currentData.forEach(stock => {
       const itemId = stock.itemId._id;
-      if (aggregatedData[itemId]) {
-        if (stock.entry) {
-          aggregatedData[itemId].entryQuantity += stock.entry.quantity || 0;
-          aggregatedData[itemId].entryTotalAmount += stock.entry.totalAmount || 0;
-        }
-        if (stock.exit) {
-          aggregatedData[itemId].exitQuantity += stock.exit.quantity || 0;
-          aggregatedData[itemId].exitTotalAmount += stock.exit.totalAmount || 0;
-        }
-        if (stock.balance) {
-          aggregatedData[itemId].balanceQuantity = aggregatedData[itemId].openingQuantity + 
-            aggregatedData[itemId].entryQuantity - aggregatedData[itemId].exitQuantity;
-          aggregatedData[itemId].balanceTotalAmount = aggregatedData[itemId].openingTotalAmount + 
-            aggregatedData[itemId].entryTotalAmount - aggregatedData[itemId].exitTotalAmount;
-        }
+      if (!aggregatedData[itemId]) {
+        aggregatedData[itemId] = {
+          itemName: stock.itemId.name,
+          openingQuantity: 0,
+          openingTotalAmount: 0,
+          openingPricePerUnit: 0,
+          entryQuantity: 0,
+          entryTotalAmount: 0,
+          exitQuantity: 0,
+          exitTotalAmount: 0,
+          balanceQuantity: 0,
+          balanceTotalAmount: 0,
+        };
+      }
+
+      if (stock.entry) {
+        aggregatedData[itemId].entryQuantity += stock.entry.quantity || 0;
+        aggregatedData[itemId].entryTotalAmount += stock.entry.totalAmount || 0;
+        aggregatedData[itemId].lastEntryPricePerUnit = stock.entry.pricePerUnit || 0;
+      }
+      if (stock.exit) {
+        aggregatedData[itemId].exitQuantity += stock.exit.quantity || 0;
+        aggregatedData[itemId].exitTotalAmount += stock.exit.totalAmount || 0;
+      }
+      if (stock.balance) {
+        aggregatedData[itemId].balanceQuantity = stock.balance.quantity || 0;
+        aggregatedData[itemId].balanceTotalAmount = stock.balance.totalAmount || 0;
       }
     });
   
     setAggregatedStock(Object.values(aggregatedData));
   
-    // Calculate totals
+    // Step 3: Calculate totals
     const totalValues = Object.values(aggregatedData).reduce((acc, stock) => {
       acc.openingQuantity += stock.openingQuantity || 0;
       acc.openingTotalAmount += stock.openingTotalAmount || 0;
@@ -197,7 +145,6 @@ const StockHistoryTable = () => {
   };
   
 
-   
 // filter and display month
 const monthNames = [
   "January", "February", "March", "April", "May", "June", 
@@ -283,12 +230,12 @@ const downloadPDF = async () => {
 const handlePrepareReport = async () => {
   try {
     // Check if a report for the selected month and year exists
-    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/reportSignature/getSignature/${year}/${month}`);
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/reportSignature/check-report-verified/${year}/${month}`);
     
     if (response.data.exists) {
       Swal.fire({
-        title: 'Report Already Prepared!',
-        text: 'A report for this month has already been prepared.',
+        title: 'Report Already Verified!',
+        text: 'A report for this month has already been verified.',
         icon: 'info'
       });
       return; // Stop further execution
@@ -306,10 +253,10 @@ const handlePrepareReport = async () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/reportSignature/sign`, {
+          await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/reportSignature/verify-report`, {
             year,
             month,
-            preparedBy: {
+            verifiedBy: {
               firstName: user.firstName,
               lastName: user.lastName,
               signature: user.signature
@@ -429,7 +376,7 @@ const handlePrepareReport = async () => {
       <table className="stock-history-table">
       
         <thead>
-          <tr className='main-table-header'>
+          <tr>
             <th></th>
             <th colSpan="3">OPENING STOCK</th>
             <th colSpan="3">ENTRY</th>
@@ -466,9 +413,9 @@ const handlePrepareReport = async () => {
               <td>{stock.exitQuantity}</td>
               <td>{stock.lastEntryPricePerUnit}</td>
               <td>{stock.exitTotalAmount}</td>
-              <td>{stock.openingQuantity + stock.entryQuantity - stock.exitQuantity}</td>
+              <td>{stock.balanceQuantity}</td>
               <td>{stock.lastEntryPricePerUnit}</td>
-              <td>{stock.openingTotalAmount + stock.entryTotalAmount - stock.exitTotalAmount}</td>
+              <td>{stock.balanceTotalAmount}</td>
             </tr>
           ))}
         </tbody>
@@ -508,9 +455,9 @@ const handlePrepareReport = async () => {
      
       <p>{report.preparedBy.firstName} {report.preparedBy.lastName}</p>
 
-      <img src={`${process.env.REACT_APP_BACKEND_URL}/${report.preparedBy.signature}`} alt="Signature"  className='report-signature'  />
-
-      {/* <p><strong>Signed At:</strong> {new Date(report.createdAt).toLocaleString()}</p> */}
+      <img src={`${process.env.REACT_APP_BACKEND_URL}/${report.preparedBy.signature}`} alt="" className='report-signature' />
+{/* 
+      <p><strong>Signed At:</strong> {new Date(report.createdAt).toLocaleString()}</p> */}
 
     </p>
 
@@ -569,7 +516,7 @@ const handlePrepareReport = async () => {
      
       <p>{report.approvedBy.firstName} {report.approvedBy.lastName}</p>
 
-      <img src={`${process.env.REACT_APP_BACKEND_URL}/${report.approvedBy.signature}`} alt=" " className='report-signature'  />
+      <img src={`${process.env.REACT_APP_BACKEND_URL}/${report.approvedBy.signature}`} alt=" "  className='report-signature' />
 
       {/* <p><strong>Signed At:</strong> {new Date(report.createdAt).toLocaleString()}</p> */}
 
@@ -587,10 +534,6 @@ const handlePrepareReport = async () => {
         {/* name and signature */}
       </div>
        </div>
-     
-       
-
-
 
         </div>
     

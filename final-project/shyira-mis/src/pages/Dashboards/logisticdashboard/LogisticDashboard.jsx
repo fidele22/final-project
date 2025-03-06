@@ -9,6 +9,7 @@ import AddItem from './addItem/addingitem';
 import MakeRequist from './OrderSupply/MakeRequist';
 import FuelOrder from './OrderSupply/fuelorder';
 import ViewCars from './fuelRequisition/viewcars';
+import CarMontlyData from '../HodDashboard/cardata/cardata';
 import LogisticProfile from '../UserProfile/profile';
 import ItemStockReport from './StockReport/ItemReport';
 import ViewRequisition from './UserRequisitions/RequisitionsPages';
@@ -69,11 +70,13 @@ const LogisticDashboard = () => {
         return <ViewFuelRequest />;
       case 'view-cars':
         return <ViewCars />;
+      case 'monthly_car_data':
+        return <CarMontlyData />;   
       case 'user-profile':
         return <LogisticProfile />;
       case 'item-requisition':
         return <ViewRequisition />;
-      case 'help-center':
+      case 'view_help_center':
         return <HelpCenter />;
       default:
         return <Overview />;

@@ -137,7 +137,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
     <div className="register-user-form">
       <div className="register-form">
       <form onSubmit={handleSubmitRegister}>
-      <div className="overlay-container">
+      <div className="overlay-signup-container">
         
         <div className="overlay-left">
           <h2>Welcome to smart logistic equipment managment system (LEMS)</h2>
@@ -145,7 +145,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
        
         </div>
         <div className="overlay-right">
-        <img src="/image/lems.ppng" alt="" />
+        <img src="/image/lems.png" alt="" />
        
   
       </div>
@@ -163,11 +163,11 @@ const SignUpForm = ({ onSwitchToLogin }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="">Last name</label>
-        <input type="tel" name="lastName" value={formData.lastName} onChange={handleChange} placeholder='Last name' />
-        {registerErrors.lastName && <p className="error">{registerErrors.lastName}</p>}
+        <label htmlFor="">Phone number</label>
+        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder='Phone number' />
+        {registerErrors.phone && <p className="error">{registerErrors.phone}</p>}
         </div>
-      
+  
 
         <div className="form-group">
           <label htmlFor="">Service</label>
@@ -201,9 +201,9 @@ const SignUpForm = ({ onSwitchToLogin }) => {
         </div>
         <div className="form-column">
         <div className="form-group">
-        <label htmlFor="">Phone number</label>
-        <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder='Phone number' />
-        {registerErrors.phone && <p className="error">{registerErrors.phone}</p>}
+          <label htmlFor="">Last name</label>
+        <input type="tel" name="lastName" value={formData.lastName} onChange={handleChange} placeholder='Last name' />
+        {registerErrors.lastName && <p className="error">{registerErrors.lastName}</p>}
         </div>
        
         <div className="form-group">

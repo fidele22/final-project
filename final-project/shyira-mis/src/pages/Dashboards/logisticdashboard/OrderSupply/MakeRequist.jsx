@@ -79,6 +79,10 @@ const LogisticRequestForm = () => {
           popup: 'custom-swal',
         }
       });
+      // Reset form fields after successful submission
+      setItems([]);  // Clear the items array
+      setDate('');  // Reset the date field
+      setSupplierName('');  
     } catch (error) {
       Swal.fire({
         title: 'Error!',

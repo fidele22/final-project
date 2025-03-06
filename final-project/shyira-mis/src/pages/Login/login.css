@@ -93,7 +93,7 @@ color: white;
     right: 8.5%; /* Adjust to position inside input */
     transform: translateY(-50%);
     cursor: pointer;
-    color: red;
+    color: black;
     background-color: #89acf7;
     padding: 9px;
     border-radius: 15px;

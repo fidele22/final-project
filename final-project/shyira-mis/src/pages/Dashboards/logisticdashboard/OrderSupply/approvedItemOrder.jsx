@@ -159,7 +159,7 @@ const ForwardedRequests = () => {
   
       Swal.fire({
         title: 'Error!',
-        text: 'You must sign before approving this requistion.',
+        text: 'You must sign before recieving this requistion.',
         icon: 'error',
         confirmButtonText: 'OK',
   
