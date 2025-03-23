@@ -292,7 +292,14 @@ const handleSignClick = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/rejected/${requestId}`, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/reject-request/${requestId}`, {   
+        
+        rejectedBy: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        signature: user.signature
+      },
+      clicked: true });;
       
        // Show success message using SweetAlert2
        Swal.fire ({
@@ -459,15 +466,23 @@ const handleSignClick = () => {
             ) : (
        
               <>
-          <div className="form-navigation">
-         
-          <button className='verify-requisition' onClick={ handleVerifySubmit}>Verify Request</button>
-          <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
-          <button className='request-edit-btn' onClick={handleEditClick}>Edit</button>
-          <button onClick={() => handleRejectClick(selectedRequest._id)} className="reject-button">Reject request </button>
-          <button className='sign-button' onClick={handleSignClick}>Sign</button>
-             <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
-          </div>
+       <div className="form-navigation">
+        <div className="form-nav-links">
+        <a href="#" className='verify-requisition' onClick={handleVerifySubmit}>Verify Request</a>
+        <a href="#" className='sign-button' onClick={handleSignClick}>Sign</a>
+        <a href="#" className='request-edit-btn' onClick={handleEditClick}>Edit</a>
+         <a href="#" onClick={() => handleRejectClick(selectedRequest._id)} className="reject-button">Reject request</a>
+        </div>
+      <div className="close-requisiton-form">
+       <div>
+        <a href="#" className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</a>
+        </div>
+        <div>
+        <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
+        </div>
+      </div>
+ 
+    </div>
          <div id="pdf-content">
           <div className="image-request-recieved">
           <img src="/image/logo2.png" alt="Logo" className="logo" />
@@ -477,11 +492,11 @@ const handleSignClick = () => {
             <label htmlFor="">{new Date(editFormData.date).toDateString()}</label>
             </div>
          
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT: <span>{editFormData.department}</span> </h1>
-            <h1>SERVICE: <span>{editFormData.service}</span> </h1>
+            <label>WESTERN PROVINCE</label>
+            <label>DISTRIC: NYABIHU</label>
+            <label>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</label>
+            <label>DEPARTMENT: <span>{editFormData.department}</span> </label>
+            <label>SERVICE: <span>{editFormData.service}</span> </label>
 
           </div>
            

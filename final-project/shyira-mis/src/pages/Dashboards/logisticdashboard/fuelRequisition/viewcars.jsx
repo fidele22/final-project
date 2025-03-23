@@ -205,7 +205,7 @@ function CarList() {
                       <label htmlFor="" className='edit-icon' onClick={() => handleEditClick(car)}>
                         <i className="fas fa-edit"></i> </label> 
                       
-                     <label htmlFor=""className='delete-btn' onClick={() => handleDelete(car._id)}>
+                     <label htmlFor=""className='delete-btn-icon' onClick={() => handleDelete(car._id)}>
                         <i className="fas fa-trash-alt"></i> 
                         </label> 
                     </td>

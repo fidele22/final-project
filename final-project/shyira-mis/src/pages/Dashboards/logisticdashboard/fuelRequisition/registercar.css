@@ -48,8 +48,12 @@
     margin-left: 4rem;
     
   }
-  .car-info .delete-btn{
+  .car-info .delete-btn-icon{
     color: red;
+    font-size: 20px;
+  }
+  .car-info .edit-icon{
+    font-size: 20px;
   }
   input[type="text"],
   input[type="date"]
@@ -67,9 +71,14 @@
   button i.fa-trash-alt:hover {
     color: #dc3545;
   }
-  /***************styling*******************/
+  /***************styling*fuel stock component ******************/
   .fuelStock-data{
     display: flex;
+    gap: 30px;
+  }
+  .fuelStock-data label,.stock-updated label{
+    padding: 10px;
+    font-size: 20px;
   }
   .fuel-store-card{
     background-color: white;
@@ -97,6 +106,12 @@
   }
   .date-filter-store-card input[type=date]{
     width: 200px;
+  }
+  .filter-title p{
+    padding: 10px;
+  }
+  .generate-stock-card-btn{
+    background: #0056b3;
   }
   /* Responsive styling */
   @media (max-width: 768px) {

@@ -55,7 +55,7 @@ const HodDashboard = () => {
         return <UserProfile />;
       case 'monthly_car_data':
         return <CarMontlyData />; 
-      case 'view_help_center':
+      case 'help_center':
         return <HelpCenter />;
       default:
         return <Overview />;

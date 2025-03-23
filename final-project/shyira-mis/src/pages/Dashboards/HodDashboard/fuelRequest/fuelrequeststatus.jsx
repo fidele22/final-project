@@ -28,6 +28,7 @@ const LogisticRequestForm = () => {
   });
 
   const [filterStatus, setFilterStatus] = useState("");
+  const [filterDate, setFilterDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15);
 
@@ -121,9 +122,12 @@ const LogisticRequestForm = () => {
     pdf.save("requisition-form.pdf");
   };
 
-  const filteredRequests = requests.filter((request) =>
-    request.status.toLowerCase().includes(filterStatus.toLowerCase())
-  );
+    //filerting 
+    const filteredRequests = requests.filter((request) => {
+      const matchesStatus = filterStatus ? request.status.toLowerCase() === filterStatus.toLowerCase() : true;
+      const matchesDate = filterDate ? new Date(request.createdAt).toDateString() === new Date(filterDate).toDateString() : true;
+      return matchesStatus && matchesDate;
+    });
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const indexOfLastRequest = currentPage * itemsPerPage;
@@ -153,7 +157,32 @@ const LogisticRequestForm = () => {
     <div className={`requisit ${selectedRequest ? "dim-background" : ""}`}>
       <div className="status-board">
         <h2>User Fuel Requisition Status Board</h2>
-
+        <div className="filter-section">
+       
+       <div>
+        <label htmlFor="">search by requested date</label>
+        <input
+        type="date"
+        value={filterDate}
+        onChange={(e) => setFilterDate(e.target.value)}
+      />
+       </div>
+       <div>
+        <label htmlFor="">Search by status</label>
+        <select
+        value={filterStatus}
+        onChange={(e) => setFilterStatus(e.target.value)}
+      >
+        <option value="">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="verified">Verified</option>
+        <option value="approved">Approved</option>
+        <option value="received">Received</option>
+        <option value="rejected">Rejected</option>
+        {/* Add more status options as needed */}
+      </select>
+      </div>
+    </div>
         <table className="requests-table">
           <thead>
             <tr>

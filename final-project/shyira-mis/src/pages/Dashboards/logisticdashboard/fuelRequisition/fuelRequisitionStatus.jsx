@@ -28,6 +28,7 @@ const LogisticRequestForm = () => {
   });
 
   const [filterStatus, setFilterStatus] = useState("");
+  const [filterDate, setFilterDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15);
 
@@ -36,10 +37,11 @@ const LogisticRequestForm = () => {
     fetchUserProfile();
   }, []);
 
-  const    fetchRequests = async () => {
+  const fetchRequests = async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/fuelstatus`);
-      setRequests(response.data);
+      // Reverse the order of requests
+      setRequests(response.data.reverse());
       setLoading(false);
     } catch (error) {
       console.error('Error fetching requisitions:', error);
@@ -47,7 +49,6 @@ const LogisticRequestForm = () => {
       setLoading(false);
     }
   };
-
 
   const fetchUserProfile = async () => {
     try {
@@ -109,9 +110,11 @@ const LogisticRequestForm = () => {
     pdf.save("requisition-form.pdf");
   };
 
-  const filteredRequests = requests.filter((request) =>
-    request.status.toLowerCase().includes(filterStatus.toLowerCase())
-  );
+  const filteredRequests = requests.filter((request) => {
+    const matchesStatus = filterStatus ? request.status.toLowerCase() === filterStatus.toLowerCase() : true;
+    const matchesDate = filterDate ? new Date(request.createdAt).toDateString() === new Date(filterDate).toDateString() : true;
+    return matchesStatus && matchesDate;
+  });
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const indexOfLastRequest = currentPage * itemsPerPage;
@@ -141,6 +144,33 @@ const LogisticRequestForm = () => {
     <div className={`requisit ${selectedRequest ? "dim-background" : ""}`}>
       <div className="status-board">
         <h2>User Fuel Requisition Status Board</h2>
+
+        <div className="filter-section">
+       
+           <div>
+            <label htmlFor="">search by requested date</label>
+            <input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+          />
+           </div>
+           <div>
+            <label htmlFor="">Search by status</label>
+            <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="verified">Verified</option>
+            <option value="approved">Approved</option>
+            <option value="received">Received</option>
+            <option value="rejected">Rejected</option>
+            {/* Add more status options as needed */}
+          </select>
+          </div>
+        </div>
 
         <table className="requests-table">
           <thead>
@@ -200,58 +230,127 @@ const LogisticRequestForm = () => {
           </div>
 
           <div className="fuel-request-details-content">
+          <div className="fuel-img-logo">
+          <img src="/image/logo2.png" alt="Logo" className="log"   />
+          </div>
+
             <h3>Fuel Requisition Form</h3>
-            <form>
-              <div className="view-form-group">
-                <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
+ <div className="form-columns">
+            
+            {/* Left Column */}
+            
+            <div className="form-column">
+            
+              <div className="form-group">
+            
+               
+              <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
+            
               </div>
-              <div className="view-form-group">
-                <div className="right-side">
-                  <label>Car Plaque:</label>
-                  <span>{selectedRequest.carPlaque || ''}</span>
-                </div>
-                <div className="left-side">
-                  <label>Remaining (liters):</label>
-                  <span>{selectedRequest.remainingLiters || ''}</span>
-                </div>
+            
+            
+              <div className="form-group">
+            
+                <label htmlFor="carPlaque">Plaque of Car:</label>
+            
+                <span>{selectedRequest.carPlaque || ''}</span>
               </div>
-              <div className="view-form-group">
-                <div className="right-side">
-                  <label>Kilometers:</label>
-                  <span>{selectedRequest.kilometers || ''}</span>
-                </div>
-                <div className="right-side">
-                  <label>Quantity Requested (liters):</label>
-                  <span>{selectedRequest.quantityRequested || ''}</span>
-                </div>
+            
+            
+              <div className="form-group">
+            
+                <label htmlFor="kilometers">Kilometers:</label>
+            
+                <span>{selectedRequest.kilometers || ''}</span>
+            
               </div>
-              <div className="view-form-group">
-                <div className="left-side">
-                  <label>Average Km/l:</label>
-                  <span>{selectedRequest.average || ''}</span>
-                </div>
-                <div className="left-side">
-                  <label>Quantity Received (liters):</label>
-                  <span>{selectedRequest.quantityReceived || ''}</span>
-                </div>
+            
+            
+              <div className="form-group">
+            
+                <label htmlFor="remainingliters">Remaining Liters:</label>
+                <span>{selectedRequest.remainingLiters || ''}</span>
+            
               </div>
-              <div className="view-form-group">
-                <div className="left-side">
-                  <label>Reason:</label>
-                  <span>{selectedRequest.reason || ''}</span>
-                </div>
-                <div className="detail-row">
-                  {selectedRequest && selectedRequest.file ? (
-                    <div className='file-uploaded'>
-                      <label>Previous Destination file:</label>
-                      <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
-                        <FaEye /> View File
-                      </a>
-                    </div>
-                  ) : (
-                    <p>No file uploaded</p>
-                  )}
-                </div>
+            
+            
+              <div className="form-group">
+            
+                <label htmlFor="quantityRequested">Quantity Requested (liters):</label>
+                <span>{selectedRequest.quantityRequested || ''} liters</span>
+            
+              </div>
+            
+            </div>
+            
+            
+            {/* Right Column */}
+            
+            <div className="form-column">
+            <div className="form-group">
+            
+            <label>Date of Request:</label>
+            
+             <span>{new Date(selectedRequest.RequestedDate || '').toDateString()}</span>
+            
+            </div>
+              <div className="form-group">
+            
+                   <label>Quantity Received (liters):</label>
+                              {isEditing ? (
+                                <input
+                                  type="number"
+                                  name="quantityReceived"
+                                  value={FormData.quantityReceived || ''}
+                                  onChange={handleInputChange}
+                                />
+                              ) : (
+                                <span>{selectedRequest.quantityReceived || ''} liters</span>
+                              )}
+            
+                             
+              </div>
+            
+            
+              <div className="form-group">
+            
+                <label htmlFor="fuelType">Average:</label>
+            
+                <span>{selectedRequest.average || ''}</span>
+            
+              </div>
+            
+            
+              <div className="form-group">
+            
+                <label htmlFor="destination">Previous Destination Report:</label>
+             
+            
+              </div>
+            
+            
+              <div className="detail-row">
+            
+                {selectedRequest && selectedRequest.file ? (
+            
+                  <div className='file-uploaded'>
+            
+                    <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+            
+                      <FaEye /> View File
+            
+                    </a>
+            
+                  </div>
+            
+                ) : (
+            
+                  <p>No file uploaded</p>
+            
+                )}
+            
+              </div>
+              </div>
               </div>
               <hr />
 
@@ -319,7 +418,7 @@ const LogisticRequestForm = () => {
                   )}
                 </div>
               </div>
-            </form>
+        
           </div>
         </div>
       )}

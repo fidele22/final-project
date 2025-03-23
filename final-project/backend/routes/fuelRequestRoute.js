@@ -273,6 +273,41 @@ router.put('/approve/:id', async (req, res) => {
   }
 });
 
+// PUT reject fuel requisition 
+router.put('/reject-request/:id', async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    // Check if the provided ID is valid
+    if (!mongoose.Types.ObjectId.isValid(requestId)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+    }
+
+    // Find the request by ID
+    const request = await FuelRequisition.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    // Update the status and other relevant fields
+    request.status = 'Rejected'; // Set the status to Verified
+
+    if (req.body.clicked !== undefined) {
+      request.clicked = req.body.clicked; // Update clicked if provided
+    }
+
+  
+    // Save the updated request
+    await request.save();
+
+    res.json(request); // Return the updated request
+  } catch (error) {
+    console.error('Error verifying request:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 // PUT /receivefuel/:id
 router.put('/receivefuel/:id', async (req, res) => {
   try {
@@ -350,35 +385,6 @@ router.put('/receivefuel/:id', async (req, res) => {
   }
 });
 
-
-  // Reject fuel requisition
-  router.post('/reject/:id', async (req, res) => {
-    try {
-      const requestToReject = await FuelRequisition.findById(req.params.id);
-      
-      if (!requestToReject) {
-        return res.status(404).json({ message: 'Request not found' });
-      }
-  
-      // Move the request to a rejected collection (you need to implement this logic)
-     // Adjust the path as necessary
-  
-      const rejectedRequest = new RejectedFuelRequest({
-        originalRequisitionId: requestToReject._id, // Add this line
-        ...requestToReject._doc, 
-        rejectedAt: new Date(), 
-         
-      });
-  
-      await rejectedRequest.save();
-      await FuelRequisition.findByIdAndDelete(req.params.id); // Optionally delete the original request
-  
-      res.json({ message: 'Requisition rejected successfully!' });
-    } catch (error) {
-      console.error('Error rejecting requisition:', error);
-      res.status(500).json({ message: error.message });
-    }
-  });
 
 
 module.exports = router;

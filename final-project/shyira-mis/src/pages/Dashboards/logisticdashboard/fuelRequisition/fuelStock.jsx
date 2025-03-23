@@ -5,8 +5,8 @@ import axios from 'axios';
 import { jsPDF } from "jspdf";
 import "jspdf-autotable"; // Import the autotable plugin
 import html2canvas from 'html2canvas'; 
-import html2pdf from 'html2pdf.js';
 import * as XLSX from "xlsx";
+import './registercar.css';
 
 const FuelStockList = () => {
   const [fuelStocks, setFuelStocks] = useState([]);
@@ -310,7 +310,7 @@ const FuelStockList = () => {
 
 <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
 
-<button onClick={handleFilter}>GENERATE</button>
+<button className='generate-stock-card-btn' onClick={handleFilter}>GENERATE</button>
          </div>
          
        

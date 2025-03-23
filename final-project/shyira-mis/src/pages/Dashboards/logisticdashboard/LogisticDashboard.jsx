@@ -3,7 +3,7 @@ import { FaTimes, FaBars } from 'react-icons/fa'; // Correctly import icons
 import Navigation from '../navbar/Navbar';
 import Navbar from '../navsidebar/leftNavigationbar';
 import Footer from '../footer/Footer';
-import Overview from './Overview';
+import Overview from '../dafdashboard/Overview';
 import ViewItem from './addItem/ViewItems';
 import AddItem from './addItem/addingitem';
 import MakeRequist from './OrderSupply/MakeRequist';
@@ -15,7 +15,8 @@ import ItemStockReport from './StockReport/ItemReport';
 import ViewRequisition from './UserRequisitions/RequisitionsPages';
 import ViewFuelRequest from './fuelRequisition/fuelRequisitionPages';
 import FuelStock from './fuelRequisition/fuelStock';
-import FuelReport from './StockReport/FuelReport';
+import FuelReport from './StockReport/FuelFullReport';
+import DataVisualization from '../dafdashboard/dataAnalysis/itemRequisitionAnalysis';
 import HelpCenter from '../helpcenter/helpcenter';
 import './contentCss/LogisticDashboard.css';
 
@@ -76,7 +77,11 @@ const LogisticDashboard = () => {
         return <LogisticProfile />;
       case 'item-requisition':
         return <ViewRequisition />;
-      case 'view_help_center':
+
+      case 'data_charts':
+         return <DataVisualization />  
+
+      case 'help_center':
         return <HelpCenter />;
       default:
         return <Overview />;

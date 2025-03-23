@@ -254,7 +254,15 @@ const RequisitionForm = () => {
                         <input type="date" name="date" value={RequestedDate} onChange={(e) => setRequestedDate(e.target.value)}
                         required />
                      </div>
-
+           <div className="form-group">
+             <label htmlFor="destination">Previous Destination Report:</label>
+             <input
+              type="file"
+              id="destination"
+              onChange={handleFileChange}
+              
+            />
+           </div>
                     <div className="form-group">
                         <label htmlFor="fuelType">Fuel Type:</label>
                         <input
@@ -266,14 +274,7 @@ const RequisitionForm = () => {
                         />
                     </div>
             
-          <div className="form-group">
-          <label htmlFor="destination">Previous Destination Report:</label>
-             <input
-              type="file"
-              id="destination"
-              onChange={handleFileChange}
-            />
-        </div>
+        
 
                     <button type="submit" className="submit-btn">Submit</button>
                 </div>

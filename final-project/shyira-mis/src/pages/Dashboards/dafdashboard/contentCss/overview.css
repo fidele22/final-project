@@ -1,0 +1,171 @@
+
+.overview-content {
+    padding: 10px;
+    background-color:white;
+    min-height:30vh;
+    width:100%;
+    border-radius: 3px;
+    
+   
+    
+  }
+  .welcome-nav {
+    background-color: white;
+    height: auto;
+    padding: 20px;
+    border-radius: 20px; /* Smooth corners */
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Creating the curved effect */
+  .welcome-nav::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-color: #007bff; /* Adjust color */
+    border-top-right-radius: 100px;
+  }
+  
+  .welcome-nav::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background-color: #007bff; /* Adjust color */
+    border-bottom-left-radius: 100px;
+  }
+
+
+.welcome-nav h1 {
+    text-align: center;
+    color: black;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.welcome-nav h1 span {
+    color: #007bff;
+    font-size: 30px;
+}
+  .chart-section{
+    display: flex;
+  }
+  .chart-section h2{
+ width: 100%;
+ text-align: center;
+  }
+  .reminder-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    font-weight: bold;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .dashboard-content {
+    width: 20px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .dashboard-content h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+ .logistic-overview-section{
+  width: 100%;
+ }
+  .logistic-overview-section h1 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .overview-section p {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  .overview-section img{
+    width: 100%;
+    height: 20vh;
+  
+  }
+  .logistic-overview-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .widget {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    width: auto;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+  
+  .widget h3 {
+    font-size: 12px;
+    margin-bottom: 10px;
+    color: #007bff;
+    font-weight: 900;
+  }
+  
+  .widget p {
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+  .widget label{
+     font-size: 50px;
+  }
+  .additional-section {
+    margin-top: 30px;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  }
+  
+  .additional-section h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .additional-section p {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .additional-section ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 12px;
+  }
+  
+  .additional-section ul li {
+    margin-bottom: 10px;
+  }
+  
+  .additional-section ul li a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .additional-section ul li a:hover {
+    text-decoration: underline;
+  }
+  @media (min-width: 601px) and (max-width: 800px) {
+
+    .overview-content {
+      width: 790px;
+      margin-left: -7.5rem;
+      margin-top: -7%;
+    }
+  
+  }
+  

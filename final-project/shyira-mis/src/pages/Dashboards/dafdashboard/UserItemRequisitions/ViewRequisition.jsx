@@ -4,7 +4,7 @@ import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import Swal from 'sweetalert2'; 
-//import '../contentCss/itemrequisition.css'
+import '../contentCss/itemrequisitionpages.css';
 
 const LogisticRequestForm = () => {
 
@@ -141,59 +141,70 @@ const LogisticRequestForm = () => {
   };
 //send verified
 const handleApprovedSubmit = async () => {
-  
+  if (!isSigned) {
+    Swal.fire({
+      title: 'Signature Required!',
+      text: 'You must sign before approving this requisition.',
+      icon: 'warning',
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal',
+      }
+    });
+    return; // Stop execution if not signed
+  }
+
   Swal.fire({
     title: 'Are you sure?',
-    text: 'Do you want to approve this requisition with signing?,',
+    text: 'Do you want to approve this requisition?',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: 'Yes, approve it!',
     customClass: {
-      popup: 'custom-swal', // Apply custom class to the popup
+      popup: 'custom-swal',
     }
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-    await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/approve/${selectedRequest._id}`, { 
-      
-      approvedBy: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        signature: user.signature
-      },
-      clicked: true });
-  
-      // Show success message using SweetAlert2
-      Swal.fire ({
-        title: 'Success!',
-        text: 'requisition approved successfully',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
-    fetchRequests(); // Refresh the list of requests
-    setSelectedRequest(null); // Close the details view
+        await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/approve/${selectedRequest._id}`, { 
+          approvedBy: {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            signature: user.signature
+          },
+          clicked: true 
+        });
 
-  } catch (error) {
-    console.error('Error updating request:', error);
-      // Show error message using SweetAlert2
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to approve requisition',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
-  }
-}
-});
+        Swal.fire({
+          title: 'Success!',
+          text: 'Requisition approved successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal',
+          }
+        });
+
+        fetchRequests(); // Refresh the list of requests
+        setSelectedRequest(null); // Close the details view
+      } catch (error) {
+        console.error('Error updating request:', error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed to approve requisition.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          customClass: {
+            popup: 'custom-swal',
+          }
+        });
+      }
+    }
+  });
 };
+
 const handleSignClick = () => {
 
   setIsSigned(true); // Set signed state to true when sign button is clicked
@@ -293,7 +304,7 @@ const handleSignClick = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/rejected/${requestId}`, { clicked: true });
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/reject-request/${requestId}`, { clicked: true });
       
        // Show success message using SweetAlert2
        Swal.fire ({
@@ -361,15 +372,15 @@ const handleSignClick = () => {
       </form>
       <div className="order-navigation">
         <div className="navigation-title">
-          <h2>Requisition of items form different department</h2>
+          <h2>Requisition of items form different department that has been verified</h2>
         </div>
         {filteredRequests.length > 0 ? (
         <ul>
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form of item from <b>{request.department}</b> done on {new Date(request.createdAt).toDateString()}
-               
+                Requisition Form of item from <b>{request.department}</b>  service of <b>{request.service} </b>done on {new Date(request.createdAt).toDateString()}
+              
               </p>
 
             </li>
@@ -461,13 +472,23 @@ const handleSignClick = () => {
        
               <>
           <div className="form-navigation">
-         
-          <button className='verify-requisition' onClick={ handleApprovedSubmit}>Approve Request</button>
-          <button className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</button>
-          <button className='request-edit-btn' onClick={handleEditClick}>Edit</button>
-          <button onClick={() => handleRejectClick(selectedRequest._id)} className="reject-button">Reject request </button>
-          <button className='sign-button' onClick={handleSignClick}>Sign</button>
-             <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
+          <div className="form-nav-links">
+          <a href="#" className='verify-requisition' onClick={ handleApprovedSubmit}>Approve Request</a>
+          <a href="#" className='sign-button' onClick={handleSignClick}>Sign</a>
+        
+          <a href="#" className='request-edit-btn' onClick={handleEditClick}>Edit</a>
+          <a href="#" onClick={() => handleRejectClick(selectedRequest._id)} className="reject-button">Reject request </a>
+          
+          </div>
+          <div className="close-requisiton-form">
+            <div>
+            <a href="#" className='request-dowload-btn' onClick={downloadPDF}>Download Pdf</a>
+            </div>
+            <div>
+            <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
+            </div>
+            
+           </div>
           </div>
          <div id="pdf-content">
           <div className="image-request-recieved">
@@ -478,11 +499,11 @@ const handleSignClick = () => {
             <label htmlFor="">{new Date(editFormData.date).toDateString()}</label>
             </div>
          
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>DEPARTMENT: <span>{editFormData.department}</span> </h1>
-            <h1>SERVICE: <span>{editFormData.service}</span> </h1>
+            <label>WESTERN PROVINCE</label>
+            <label>DISTRIC: NYABIHU</label>
+            <label>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</label>
+            <label>DEPARTMENT: <span>{editFormData.department}</span> </label>
+            <label>SERVICE: <span>{editFormData.service}</span> </label>
 
           </div>
            

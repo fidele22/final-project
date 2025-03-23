@@ -1,16 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../logisticdashboard/contentCss/overview.css';
+import '../dafdashboard/contentCss/overview.css';
 
 const DashboardOverview = () => {
-    const [user, setUser ] = useState({});
-      const [loading, setLoading] = useState(true);
-      const tabId = sessionStorage.getItem('currentTab');
-      const token = sessionStorage.getItem(`token_${tabId}`); 
+  const [user, setUser ] = useState({});
+  const [loading, setLoading] = useState(true);
+  const tabId = sessionStorage.getItem('currentTab');
+  const token = sessionStorage.getItem(`token_${tabId}`); 
   const [lastName, setLastName] = useState('');
-  const [requestCount, setRequestCount] = useState(0);
-  const [approvedCount, setApprovedCount] = useState(0);
-  const [verifiedCount , setverifiedCount] = useState(0);
+  const [requestCounts, setRequestCounts] = useState({
+    pending: 0,
+    verified: 0,
+    approved: 0,
+    rejected: 0,
+    received: 0,
+  });
+
+
+  const [missingEntries, setMissingEntries] = useState([]);
+  const [isReminderVisible, setIsReminderVisible] = useState(false);
+  
   const [error, setError] = useState(null);
   useEffect(() => {
     const fetchUser  = async () => {
@@ -31,68 +40,79 @@ const DashboardOverview = () => {
 
     fetchUser ();
 
-    const fetchDashboardStats = async () => {
-      // Get the current tab's ID from sessionStorage
-      const currentTab = sessionStorage.getItem('currentTab');
-
-      if (!currentTab) {
-        setError('No tab ID found in sessionStorage');
-        return;
-      }
- 
-      // Retrieve the token using the current tab ID
-      const token = sessionStorage.getItem(`token_${currentTab}`);
-      if (!token) {
-        setError('Token not found');
-        return;
-      } 
- 
+    const fetchRequestCounts = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/approve/dashboard/stats`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/UserRequest/user-count`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Ensure the token is sent with the request
           },
         });
-
-        if (response.status === 200) {
-          setRequestCount(response.data.requestCount);
-          setApprovedCount(response.data.approvedCount);
-          setverifiedCount(response.data.verifiedCount);
-        } else {
-          console.error('Failed to fetch dashboard stats');
-        }
+        setRequestCounts(response.data); // Assuming the response structure matches the state
       } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
+        console.error('Error fetching request counts:', error);
+      }
+    };
+    //reminder message 
+    const fetchMissingEntries = async () => {
+      const currentDate = new Date();
+      const day = currentDate.getDate();
+
+      // Display the reminder only between the 20th and the end of the month
+      if (day >= 20) {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_BACKEND_URL}/api/usercar-data/check-reminders`
+          );
+          if (response.status === 200) {
+            setMissingEntries(response.data.missingEntries);
+            setIsReminderVisible(response.data.missingEntries.length > 0);
+          }
+        } catch (error) {
+          console.error('Error fetching missing entries:', error);
+        }
       }
     };
 
-
-    fetchDashboardStats();
+    fetchMissingEntries();
+    fetchRequestCounts();
   }, []);
+ // Prepare data for the chart
+ const chartData = [
+  { name: 'Pending', count: requestCounts.pending },
+  { name: 'Verified', count: requestCounts.verified },
+  { name: 'Approved', count: requestCounts.approved },
 
+];
   return (
     <div className="overview-content">
-      <div className="welcome-nav">
-      <h1>Welcome back: {lastName}</h1>
+       <div className="welcome-nav">
+        <h1>Welcome back to our system, <br /><span>--- {lastName} ---</span></h1>
       </div>
+      {isReminderVisible && (
+        <marquee className="reminder-message">
+          {`Reminder: Data of kilometer covered and remaining liters in this month are missing for the following register numbers: ${missingEntries.join(', ')}`}
+        </marquee>
+      )}
+
       <section className="overview-section">
         <h2>Here are user's Overview:</h2>
 
         <p>Here you can find essential logistic information relevant to hospital operations.</p>
+        <label htmlFor="">Item requisition status overview</label>
         <div className="logistic-overview-widgets">
           <div className="widget">
             <h3>Number of requisition you sent waited to be verified</h3>
-           <label htmlFor="">{requestCount}</label> 
+            <label>{requestCounts.pending}</label>
           </div>
          
           <div className="widget">
             <h3>Number of verified Requisition for Item</h3>
-            <label htmlFor="">{verifiedCount}</label>
+            <label>{requestCounts.verified}</label>
           </div>
 
           <div className="widget">
             <h3>Number of Approved Requisition for Item</h3>
-            <label htmlFor=""> {approvedCount}</label>
+            <label>{requestCounts.approved}</label>
           </div>
         </div>
       </section>

@@ -220,12 +220,11 @@ const LogisticRequestForm = () => {
             <div className="date-done">
               <label>{new Date(editFormData.date).toDateString()}</label>
             </div>
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>
-              DEPARTMENT: <span>{editFormData.department}</span>
-            </h1>
+            <label>WESTERN PROVINCE</label>
+            <label>DISTRIC: NYABIHU</label>
+            <label>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</label>
+            <label>DEPARTMENT: <span>{editFormData.department}</span> </label>
+            <label>SERVICE: <span>{editFormData.service}</span> </label>
           </div>
 
           <u>

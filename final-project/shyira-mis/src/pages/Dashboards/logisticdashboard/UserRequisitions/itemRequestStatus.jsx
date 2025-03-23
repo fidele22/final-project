@@ -15,6 +15,10 @@ const LogisticRequestForm = () => {
   const [requests, setRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [filterDepartment, setFilterDepartment] = useState("");
+const [filterDate, setFilterDate] = useState("");
+const [filterStatus, setFilterStatus] = useState("");
+
 
   const [editFormData, setEditFormData] = useState({
     department: "",
@@ -23,7 +27,6 @@ const LogisticRequestForm = () => {
     logisticSignature: "",
   });
 
-  const [filterStatus, setFilterStatus] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15);
 
@@ -64,28 +67,15 @@ const LogisticRequestForm = () => {
     setEditFormData(request);
   };
 
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
 
-  const handleCancelEdit = () => {
-    setIsEditing(false);
-    setEditFormData(selectedRequest);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const handleItemChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedItems = editFormData.items.map((item, idx) =>
-      idx === index ? { ...item, [name]: value } : item
-    );
-    setEditFormData((prevState) => ({ ...prevState, items: updatedItems }));
-  };
-
+  const filteredRequests = requests.filter((request) => {
+    const statusMatch = filterStatus ? request.status.toLowerCase().includes(filterStatus.toLowerCase()) : true;
+    const departmentMatch = filterDepartment ? request.department.toLowerCase().includes(filterDepartment.toLowerCase()) : true;
+    const dateMatch = filterDate ? new Date(request.createdAt).toISOString().slice(0, 10) === filterDate : true;
+  
+    return statusMatch && departmentMatch && dateMatch;
+  });
+  
   const downloadPDF = async () => {
     const input = document.getElementById("pdf-content");
     if (!input) return;
@@ -97,9 +87,6 @@ const LogisticRequestForm = () => {
     pdf.save("requisition-form.pdf");
   };
 
-  const filteredRequests = requests.filter((request) =>
-    request.status.toLowerCase().includes(filterStatus.toLowerCase())
-  );
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const indexOfLastRequest = currentPage * itemsPerPage;
@@ -123,6 +110,39 @@ const LogisticRequestForm = () => {
     <div className={`requisit ${selectedRequest ? "dim-background" : ""}`}>
       <div className="status-board">
       <h2>User Item Requisition Status Board</h2>
+      <div className="filters">
+        <div>
+          <label htmlFor="">Filter by department</label>
+        <input
+    type="text"
+    placeholder="Filter by Department"
+    value={filterDepartment}
+    onChange={(e) => setFilterDepartment(e.target.value)}
+  />
+        </div>
+
+   <div>
+    <label htmlFor="">Filter by Requested Date</label>
+   <input
+    type="date"
+    value={filterDate}
+    onChange={(e) => setFilterDate(e.target.value)}
+  />
+
+   </div>
+ <div>
+  <label htmlFor="">Filter by requisition status</label>
+ <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+    <option value="">All Status</option>
+    <option value="pending">Pending</option>
+    <option value="verified">Verified</option>
+    <option value="approved">Approved</option>
+    <option value="received">Received</option>
+    <option value="rejected">Rejected</option>
+  </select>
+ </div>
+ 
+</div>
 
 <table className="requests-table">
   <thead>
@@ -135,25 +155,25 @@ const LogisticRequestForm = () => {
     </tr>
   </thead>
   <tbody>
-    {currentRequests.map((request, index) => (
-      <tr
-        key={request._id}
-        onClick={() => handleRequestClick(request._id)}
-      >
-        <td>{index + 1 + indexOfFirstRequest}</td>
-        <td>
-          Requisition from service of {request.service} and prepared by{" "}
-          {request.hodName}
-        </td>
-        <td>{request.department}</td>
-        <td>{new Date(request.createdAt).toDateString()}</td>
-        <td>
-          <b className={`status-${request.status?.toLowerCase()}`}>
-            {request.status}
-          </b>
-        </td>
-      </tr>
-    ))}
+  {[...currentRequests]
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  .map((request, index) => (
+    <tr key={request._id} onClick={() => handleRequestClick(request._id)}>
+      <td>{index + 1 + indexOfFirstRequest}</td>
+      <td>
+        Requisition from service of {request.service} and prepared by{" "}
+        {request.hodName}
+      </td>
+      <td>{request.department}</td>
+      <td>{new Date(request.createdAt).toDateString()}</td>
+      <td>
+        <b className={`status-${request.status?.toLowerCase()}`}>
+          {request.status}
+        </b>
+      </td>
+    </tr>
+  ))}
+
   </tbody>
 </table>
 <div className="pagination">
@@ -201,12 +221,11 @@ const LogisticRequestForm = () => {
             <div className="date-done">
               <label>{new Date(editFormData.date).toDateString()}</label>
             </div>
-            <h1>WESTERN PROVINCE</h1>
-            <h1>DISTRIC: NYABIHU</h1>
-            <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
-            <h1>
-              DEPARTMENT: <span>{editFormData.department}</span>
-            </h1>
+            <label>WESTERN PROVINCE</label>
+            <label>DISTRIC: NYABIHU</label>
+            <label>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</label>
+            <label>DEPARTMENT: <span>{editFormData.department}</span> </label>
+            <label>SERVICE: <span>{editFormData.service}</span> </label>
           </div>
 
           <u>

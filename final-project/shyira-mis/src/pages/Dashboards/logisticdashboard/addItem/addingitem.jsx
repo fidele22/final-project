@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import './additem.css';
@@ -9,9 +9,38 @@ const AddItem = () => {
   const [quantity, setQuantity] = useState('');
   const [pricePerUnit, setPricePerUnit] = useState('');
   const [totalAmount, setTotalAmount] = useState('');
+  const [existingItems, setExistingItems] = useState([]); // State to hold existing items
+
+  useEffect(() => {
+    const fetchExistingItems = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
+        setExistingItems(response.data); // Store existing items
+      } catch (error) {
+        console.error('Error fetching existing items:', error);
+      }
+    };
+
+    fetchExistingItems();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for duplicate item name
+    const isDuplicate = existingItems.some(item => item.name.toLowerCase() === name.toLowerCase());
+    if (isDuplicate) {
+      Swal.fire({
+        title: 'Duplicate Item!',
+        text: 'An item with this name already exists.',
+        icon: 'warning',
+        confirmButtonText: 'OK',
+        customClass: {
+          popup: 'custom-swal', // Apply custom class to the popup
+        }
+      });
+      return; // Exit the function if duplicate found
+    }
 
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/add`, {

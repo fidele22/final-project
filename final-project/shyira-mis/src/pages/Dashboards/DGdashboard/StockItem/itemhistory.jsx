@@ -16,6 +16,7 @@ const StockHistory = ({ item, onClose }) => {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${item._id}`, {
         params: { startDate, endDate }
       });
+      
       setStockHistory(response.data);
     } catch (error) {
       console.error('Error fetching stock history:', error);
@@ -92,7 +93,7 @@ const StockHistory = ({ item, onClose }) => {
             <p className='history-close-btn' onClick={onClose}><FaTimes /></p>
           </div>
           <div id='history-content'>
-          <h2>Stock sheet of {item.name}</h2>
+          <h2>Item History for {item.name}</h2>
           <table>
             <thead>
               <tr>

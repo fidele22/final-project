@@ -389,7 +389,8 @@ const handlePrepareReport = async () => {
   return (
     <div className="report-content">
 <h1>Get stock report</h1>
-  
+<button className='download-history-btn' onClick={downloadPDF}>Download Report Pdf</button>
+<button className='download-exl-btn' onClick={downloadExcel}>Export excel file</button>
   <div className="stock-history-container">
     <div className="stock-history-header" >
       <label>
@@ -593,8 +594,7 @@ const handlePrepareReport = async () => {
          <img src="/image/footerimg.png" alt="Logo" className="logo" />
          </div>
   </div>
-      <button className='download-history-btn' onClick={downloadPDF}>Download Report Pdf</button>
-      <button className='download-exl-btn' onClick={downloadExcel}>Export excel file</button>
+ 
     </div>
     </div>
   );

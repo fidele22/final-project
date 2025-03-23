@@ -39,7 +39,7 @@ const UserFuelRequesition = () => {
         <ReceivedDecision />
       )  :(
         <div>
-    <p>Navigate to what you want to look.</p>
+    <MakeRequistFuel />
         </div>
       )}
 

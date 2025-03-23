@@ -14,33 +14,38 @@ const ViewPosition = () => {
   const [selectedPrivileges, setSelectedPrivileges] = useState([]);
 
   const availablePrivileges = [
-    'manage users',
-    'view reports',
-    'request_item',
-    'view_items',
+   
     'view_overview',
-    'request_fuel',
+    'manage_users',
+    'view_reports',
+    'view_items',
     'monthly_car_data',
     'view_help_center',
     'Manage_item_stock',
     'Make_item_order',
-    'view_request_item',
-    'view_request_fuel',
+    
     'View_car_data',
     'view_fuel_stock',
     'view_item_report',
     'view_fuel_report',
-    'view-stock-items',
-    'verify-logistic-item-request',
-    'Verify-logistic-fuel-request',
-    'Approve-logistic-request',
-    'approve-fuel-logistic-request',
-    'Repair-logistic-request',
-    'approve-repair-logistic-request',
-    'Approve-user-item-request',
-    'Approve-user-fuel-request',
-    'view-user-requisition',
-    'View-user-fuel-request',
+    'view_stock_items',
+    'view_data_charts',
+
+    'make_requisition_item',
+    'make_requisition_fuel',
+    'verify_users_item_request',
+    'verify_users_fuel_request',
+    'verify_logistic_item_request',
+    'Verify_logistic_fuel_request',
+    'Approve_logistic_request',
+    'approve_fuel_logistic_request',
+    'Repair_logistic_request',
+    
+    'Approve_user_item_request',
+    'Approve_user_fuel_request',
+    'view_user_requisition',
+    'View_user_fuel_request',
+    'approve_repair_logistic_request',
 
 
 
@@ -202,8 +207,9 @@ const ViewPosition = () => {
               value={roleName}
               onChange={(e) => setRoleName(e.target.value)}
             />
-            <div>
-            <p>Assign privileges </p>
+             <div>  <p>Assign privileges </p> <br /></div>
+            <div className='assign-privilege' >
+         
               {availablePrivileges.map((privilege) => (
                 <div key={privilege}>
                

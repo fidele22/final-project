@@ -13,7 +13,8 @@ import RepairLogisticOrder from './logisticRepairRequest/repairRequisitionPage';
 import ViewItems from '../DGdashboard/StockItem/viewitems';
 import ItemStockReport from './itemReport/itemReport';
 import FuelStock from '../logisticdashboard/fuelRequisition/fuelStock';
-import FuelReport from '../logisticdashboard/StockReport/FuelReport'
+import FuelReport from '../logisticdashboard/StockReport/FuelReport';
+import DataVisualization from './dataAnalysis/itemRequisitionAnalysis';
 import DafProfile from '../UserProfile/profile';
 import './DafDashboard.css';
 import HelpCenter from '../helpcenter/helpcenter';
@@ -83,7 +84,9 @@ const LogisticDashboard = () => {
       return <RepairLogisticOrder />     
      case 'user-fuel-request':
           return <UserFuelRequest />;
-      case 'help-center':
+     case 'data_charts':
+          return <DataVisualization />      
+      case 'help_center':
         return <HelpCenter />    
       default:
         return <Overview />;

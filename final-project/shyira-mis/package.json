@@ -9,6 +9,8 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "file-saver": "^2.0.5",
@@ -19,6 +21,9 @@
     "jspdf-autotable": "^3.8.4",
     "mongoose": "^8.5.1",
     "multer": "^1.4.5-lts.1",
+    "natural": "^8.0.1",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
@@ -27,16 +32,20 @@
     "react-router-dom": "^6.18.0",
     "react-scripts": "5.0.1",
     "react-signature-canvas": "^1.0.6",
+    "recharts": "^2.15.1",
+    "stream-browserify": "^3.0.0",
     "sweetalert2": "^11.14.5",
+    "url": "^0.11.4",
+    "util": "^0.12.5",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+ "scripts": {
+  "start": "react-app-rewired start",
+  "build": "react-app-rewired build",
+  "test": "react-app-rewired test",
+  "eject": "react-scripts eject"
+},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -54,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.2.1"
   }
 }

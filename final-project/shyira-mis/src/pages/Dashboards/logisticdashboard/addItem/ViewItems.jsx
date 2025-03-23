@@ -21,7 +21,7 @@ const DataDisplay = ({ onItemSelect }) => {
   const [showHistory, setShowHistory] = useState(false);  
   const [editingItem, setEditingItem] = useState(null); 
   const dropdownRef = useRef();
-  const itemsPerPage = 5; // Set the number of items per page
+  const itemsPerPage = 10; // Set the number of items per page
 
   useEffect(() => {
     const fetchData = async () => {
