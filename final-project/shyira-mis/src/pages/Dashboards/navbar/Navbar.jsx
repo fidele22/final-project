@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser , FaSignOutAlt, FaChevronDown } from 'react-icons/fa';
+import { FaUser , FaSignOutAlt, FaChevronDown, FaBars,FaTimes } from 'react-icons/fa'; // Import FaBars for the toggle icon
 import './Navbar.css';
 import axios from 'axios';
 
-function Navbar({ setCurrentPage }) {
+function TopNavbar({ setCurrentPage, toggleNav,isNavVisible}) {
   const [user, setUser ] = useState({}); // Initialize user as an empty object
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const tabId = sessionStorage.getItem('currentTab');
-  const token = sessionStorage.getItem(`token_${tabId}`); 
+  const token = sessionStorage.getItem(`token_${tabId}`);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -29,18 +29,29 @@ function Navbar({ setCurrentPage }) {
 
     fetchUser ();
 
-    const handleOutsideClick = (event ) => {
+
+    const handleOutsideClick = (event) => {
+
       if (!event.target.closest('.user-dropdown')) {
+
         setDropdownOpen(false);
+
       }
+
     };
+
 
     document.addEventListener('click', handleOutsideClick);
 
+
     return () => {
+
       document.removeEventListener('click', handleOutsideClick);
+
     };
+
   }, []);
+
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -64,8 +75,11 @@ function Navbar({ setCurrentPage }) {
   return (
     <div className='Navbar'>
       <div className="logo">
-        <h1>LEMS </h1>
-        <p>Logistic Equipment Managment System</p>
+        <h1>LEMS</h1>
+        <p>Logistic Equipment Management System</p>
+      </div>
+      <div className="menu-navbar-toggle" onClick={toggleNav}>
+      {isNavVisible ? <FaTimes /> : <FaBars />} {/* Toggle icon for opening the left navigation */}
       </div>
       <ul className='navbar-menu'>
         <li className="user-dropdown" onClick={toggleDropdown}>
@@ -87,7 +101,7 @@ function Navbar({ setCurrentPage }) {
                 <li onClick={() => setCurrentPage('user-profile')}>
                   <FaUser  /> Profile
                 </li>
-                <li onClick={handleLogout} >
+                <li onClick={handleLogout}>
                   <FaSignOutAlt color='red' /> Logout
                 </li>
               </ul>
@@ -99,4 +113,4 @@ function Navbar({ setCurrentPage }) {
   );
 }
 
-export default Navbar;
+export default TopNavbar;

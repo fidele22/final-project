@@ -46,17 +46,9 @@
     background: #c7c7c7;
   }
   
-  /* Responsive Adjustments 
-  @media screen and (max-width: 768px) {
-    .footer {
-      width: 100%;
-      
-   
-    }
-  
-  
-    .footer-copyright hr {
-      width: 60%; 
+  @media (min-width: 300px) and (max-width: 600px) {
+    /* CSS rules here */
+    .footer-data{
+     display: contents;
     }
   }
-  **/

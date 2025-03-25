@@ -241,3 +241,36 @@ top: 0%;
 .footer-img img{
     width: 100%;
 }
+@media (min-width: 600px) and (max-width: 800px) {
+  /* CSS  here */
+  .request-details{
+   left: 4%;
+   width: 93%;
+   z-index: 1;
+  }
+  .form-navigation{
+    width: 93%;
+    top: 9%;
+    left: 4%;
+    z-index: 2;
+  }
+  .request-close-btn{
+    margin-top: 2px;
+    padding:5px
+  
+  }
+  .request-recieved-heading label{
+    font-size: 11px;
+  }
+  .signature-img{
+    padding: 0;
+    width: 90px;
+    height: 4vh;
+}
+.daf-signature h4{
+  font-size: 14px;
+}
+.daf-signature span,p{
+font-size: 12px;
+}
+}

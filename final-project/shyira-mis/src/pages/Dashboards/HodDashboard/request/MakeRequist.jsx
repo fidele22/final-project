@@ -284,7 +284,7 @@ const UserRequestForm = () => {
             </tbody>
           </table>
 
-          <div>
+          <div className='hod-signature'> 
             {user ? (
               <>
                <label htmlFor="hodName">Name of head of {user.departmentName}</label>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Navigation from '../navbar/Navbar';
+import React, { useState, useEffect,useRef } from 'react';
+import TopNavigation from '../navbar/Navbar';
 import Footer from '../footer/Footer';
-import Navbar from '../navsidebar/leftNavigationbar';
+import LeftNavbar from '../navsidebar/leftNavigationbar';
 import Overview from './Overview';
 import MakeRequest from './request/requisitionPagesLinks';
 import FuelRequestPages from './fuelRequest/fuelRequisitionPages';
@@ -14,6 +14,8 @@ import './hodDashboard.css';
 const HodDashboard = () => {
   const [currentPage, setCurrentPage] = useState('overview');
   const [privileges, setPrivileges] = useState([]);
+  const [isNavVisible, setIsNavVisible] = useState(false); // State for navigation visibility
+  const navRef = useRef(); 
 
   useEffect(() => {
     const tabId = sessionStorage.getItem('currentTab');
@@ -62,18 +64,58 @@ const HodDashboard = () => {
     }
   };
 
+  const toggleNav = () => {
+
+    setIsNavVisible(!isNavVisible); // Toggle the navigation visibility
+
+  };
+
+
+  const closeNav = () => {
+
+    setIsNavVisible(false); // Function to close the navigation
+
+  };
+
+
+  useEffect(() => {
+
+    const handleClickOutside = (event) => {
+
+      if (navRef.current && !navRef.current.contains(event.target)) {
+
+        closeNav(); // Close navigation if clicked outside
+
+      }
+
+    };
+
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+
+      document.removeEventListener('mousedown', handleClickOutside);
+
+    };
+
+  }, []);
   return (
     <div className="daf-dashboards">
-      <Navigation setCurrentPage={setCurrentPage} />
+      <TopNavigation setCurrentPage={setCurrentPage} toggleNav={toggleNav}  isNavVisible={isNavVisible}   />
+      
       <div className="content-navbar">
-        <Navbar setCurrentPage={setCurrentPage} privileges={privileges} />
+        <LeftNavbar setCurrentPage={setCurrentPage} isVisible={isNavVisible} 
+        privileges={privileges} closeNav={closeNav}  />
       </div>
-      <div className='content-page'>
+      <div className='contents-page'>
           {renderContent()}
         </div>
-      <div className="footer-page">
+     <div className="footer-page">
         <Footer />
       </div>
+  
+
     </div>
   );
 };

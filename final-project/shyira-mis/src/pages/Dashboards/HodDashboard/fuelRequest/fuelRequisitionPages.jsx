@@ -16,7 +16,7 @@ const UserFuelRequesition = () => {
 
   return (
     <div className="requistion">
-      <div className="links">
+      <div className="fuel-request-links">
       <button className='view-requisition' onClick={() => setActiveComponent('MakeRequisition')} >
           <FaEye /> Make Requisition for fuel
         </button>

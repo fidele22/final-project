@@ -121,9 +121,6 @@
   font-size: 16px;
 }
 /***********buttons**********/
-.links button{
-  background-color: rgb(82, 98, 121);
-}
 .cancel-request-btn{
   background-color: red;
   position: absolute;

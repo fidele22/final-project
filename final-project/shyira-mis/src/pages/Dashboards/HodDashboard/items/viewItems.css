@@ -10,7 +10,7 @@
 .hod-items h2{
     padding: 20px;
 }
-.hod-items input[type='text']{
+.search-input input[type='text']{
     width: 30%;
     border-left: none;
     border-top: none;
@@ -44,4 +44,21 @@
     margin: 0 10px;
     font-size: 16px;
   }
-   
+   /* responsiviness */
+   @media (min-width: 600px) and (max-width: 800px) {
+    /* CSS rules here */
+    .hod-items{
+      width: 90%;
+      margin-left: 5%;
+    }
+
+  }
+  @media (min-width: 300px) and (max-width: 600px) {
+    /* CSS rules here */
+  .search-input input[type="text"]{
+    width: 100%;
+  }
+  table th,td{
+    font-size: 12px;
+  }
+  }

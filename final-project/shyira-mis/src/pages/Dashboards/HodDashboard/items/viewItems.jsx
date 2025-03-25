@@ -51,6 +51,7 @@ const DataDisplay = ({ onItemSelect }) => {
       <h2>Items List Available</h2>
 
       {/* Search input field */}
+      <div className="search-input">
       <input
         type="text"
         placeholder="Search by name..."
@@ -58,6 +59,8 @@ const DataDisplay = ({ onItemSelect }) => {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="search-input"
       />
+      </div>
+ 
 
       <table>
         <thead>

@@ -1,18 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect,useRef} from 'react';
 import { FaHome, FaList, FaBoxOpen, FaPlus, FaGasPump, FaClipboardList, 
   FaChartBar, FaClipboardCheck } from 'react-icons/fa';
 import './navigationbar.css';
 
-const Navbar = ({ setCurrentPage, privileges }) => {
+const LeftNavbar = ({ setCurrentPage, privileges, isVisible, closeNav }) => {
+
   const [activePage, setActivePage] = useState('');
+  const navRef = useRef(null);
 
   const handleNavigation = (page) => {
     setCurrentPage(page);
     setActivePage(page);
-  };
+    closeNav(); // Close nav after clicking a link
+};
+
+// Close navbar when clicking outside
+useEffect(() => {
+    const handleClickOutside = (event) => {
+        if (isVisible && navRef.current && !navRef.current.contains(event.target)) {
+            closeNav();
+        }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+}, [isVisible, closeNav]);
 
   return (
-    <div className="navigation">
+    <div ref={navRef} className={`navigation ${isVisible ? 'active' : 'hidden'}`}>
       <ul>
         {privileges.includes('view_overview') && (
           <li className={activePage === 'overview' ? 'active' : ''} onClick={() => handleNavigation('overview')}>
@@ -152,4 +167,4 @@ const Navbar = ({ setCurrentPage, privileges }) => {
   );
 };
 
-export default Navbar;
+export default LeftNavbar;

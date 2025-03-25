@@ -3,7 +3,7 @@
     padding: 10px;
     background-color:white;
     min-height:30vh;
-    width:100%;
+    width:98%;
     border-radius: 3px;
     
    
@@ -159,13 +159,45 @@
   .additional-section ul li a:hover {
     text-decoration: underline;
   }
-  @media (min-width: 601px) and (max-width: 800px) {
+  @media (min-width: 600px) and (max-width: 800px) {
 
     .overview-content {
-      width: 790px;
-      margin-left: -7.5rem;
-      margin-top: -7%;
+     
     }
   
   }
+  @media (min-width: 300px) and (max-width: 600px) {
+    /* CSS rules here */
+    .overview-content{
+      width: 100%;
+      padding: 15px;
+    }
+    .welcome-nav h1 {
+      font-size: 17px;
+   
+  }
   
+  /* Creating the curved effect */
+  .welcome-nav::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 70px;
+    height: 70px;
+    background-color: #007bff; /* Adjust color */
+    border-top-right-radius: 100px;
+  }
+  
+  .welcome-nav::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff; /* Adjust color */
+    border-bottom-left-radius: 100px;
+  }
+
+  }

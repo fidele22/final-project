@@ -254,7 +254,7 @@ const LogisticRequestForm = () => {
           </table>
 
           <div className="signature-section">
-            <div className="hod-signature">
+            <div className="daf-signature">
               <h4>Head of Department</h4>
               <label>Prepared By:</label>
               <span>{selectedRequest.hodName || ""}</span>

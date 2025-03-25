@@ -1,9 +1,17 @@
-*{
+* {
+
   margin: 0;
+  box-sizing: border-box; /* Add this for better box model handling */
+
 }
-body{
+
+
+body {
+
   overflow-x: hidden;
+
 }
+
 .daf-dashboards {
  
     width: 100%;
@@ -11,14 +19,45 @@ body{
   
 
   }
-  .content-page{
+  .contents-page{
     height: auto;
-    width: 82%; 
+    width: 85%; 
     height: auto;
     justify-content: space-between;
     padding: 70px 10px 0px 0px;
     margin-left: 16%;
-    margin-right: 1%; 
+
    
   }
-  
+  @media (min-width: 800px) and (max-width: 1100px) {
+    /* CSS rules here */
+    .content-page{
+      width: 80%; 
+      margin-left: 22%;
+    }
+
+  }
+  @media (min-width: 600px) and (max-width: 800px) {
+    /* CSS rules here */
+    .content-page{
+      width: 100%; 
+      margin-top: 2%;
+      margin-left: 0%;
+    }
+
+  }
+  @media (min-width: 300px) and (max-width: 600px) {
+    /* CSS rules here */
+    .daf-dashboards{
+      background-color: blueviolet;
+      margin: 0%;
+      width: 100%;
+      padding:0;
+
+    }
+    .contents-page{
+      margin: 0;
+      width: 100%;
+      padding: 60px 0px;
+    }
+  }

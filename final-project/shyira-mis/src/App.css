@@ -2,7 +2,7 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+
 }
 
 /* Body and HTML */
@@ -17,5 +17,6 @@ html, body {
 .app {
   width: 100%;
   min-height: 100vh;
-  background-color: #f4f4f4; /* Optional background color */
+ /* Optional background color */
 }
+

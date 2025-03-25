@@ -168,12 +168,16 @@ const RequisitionForm = () => {
       }, []);
 
     return (
+        <div className="fuel-request-page">
+
+        
         <div className="fuel-form-container">
             <form onSubmit={handleSubmit}>
                 <div className="image-logo">
                     <img src="/image/logo2.png" alt="Logo" className="logo" />
                 </div>
                 <h3>Fuel Requisition Form</h3>
+                <hr />
                 <div className="form-columns">
                     {/* Left Column */}
                     <div className="form-column">
@@ -281,6 +285,7 @@ const RequisitionForm = () => {
                 </div>
             
             </form>
+        </div>
         </div>
     );
 };

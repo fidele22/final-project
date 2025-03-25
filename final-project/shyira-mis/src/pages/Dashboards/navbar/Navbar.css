@@ -5,10 +5,11 @@
     padding: 10px 20px;
     background-color: white;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    height: 3rem;
+    height: 4rem;
     position: fixed;
     width: 100%;
     top: 0;
+    margin-left: 0%;
     z-index: 1000; /* Ensure the navbar stays above other content */
   }
   .logo{ 
@@ -63,7 +64,7 @@
     top: 50px; /* Adjust based on your needs */
     right: 0;
     background-color: white;
-   border-radius: 3px;
+    border-radius: 3px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     min-width: 160px;
     z-index: 1;
@@ -86,24 +87,65 @@
   .logout{
     color: red;
   }
-  
-  @media (max-width: 600px) {
- 
-    .Navbar{
-  
-      width: 100%; /* Full width on small screens */
-      margin-top: 0%;
-      margin-left: 0%;/* Remove margin */
+  .menu-navbar-toggle{
+    display: none; /* Hide by default */
 
+    cursor: pointer;
+  
+    font-size: 24px; 
+  }
+
+  @media (max-width: 800px) {
+
+    .menu-navbar-toggle {
+  
+      display: block; /* Show toggle button on small screens */
+  
     }
   
-  }  
-  @media (min-width: 300px) and (max-width: 600px) {
-    .Navbar{
   
-      width: 100%; /* Full width on small screens */
-      margin-top: 0%;
-      margin-left: 0%;/* Remove margin */
+    .logo {
+  
+      display: none; /* Hide the menu on small screens */
+  
+    }
+  
+  
+    .navbar-menu.active {
+  
+      display: block; /* Show the menu when active */
+  
+    }
+  
+  }
 
+  @media (min-width: 300px) and (max-width: 600px) {
+    /* CSS rules here */
+    .navbar-menu{
+      width: 50%;
+      margin-right: 0%;
+      margin-left: 0%;
+     
+    }
+    .user-dropdown .dropdown-menu {
+      position: absolute;
+      top: 50px; /* Adjust based on your needs */
+      right: 0;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      width: 100px;
+      background-color: aqua;
+      z-index: 1;
+    }
+    .user-dropdown {
+      right: 0;
+      margin-left: 65%;
+      width: 50%;
+    }
+    .user-dropdown  h3{
+      font-size: 12px;
+  
+    }
+    .user-dropdown img{
+      margin-left: -70%;
     }
   }

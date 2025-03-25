@@ -42,3 +42,22 @@
 .active-button button {
     color: white;
 }
+
+/* responsiviness */
+
+@media (min-width: 600px) and (max-width: 800px) {
+    /* CSS  here */
+  .hodlinks{
+     gap: 5px;
+     width: 100%;
+  }
+  .link-button{
+   margin-left: 20px;
+
+}
+
+.link-button button{
+    font-size: 14px;
+    
+}
+  }

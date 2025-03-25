@@ -93,7 +93,7 @@ const LogisticDashboard = () => {
       <div>
         <Navigation setCurrentPage={setCurrentPage} />
         <div className="menu-toggle" onClick={handleMenuToggle}>
-          {isMenuOpen ? <FaTimes /> : <FaBars />}
+          {/* {isMenuOpen ? <FaTimes /> : <FaBars />} */}
         </div>
       </div>
       <div className="leftnav">

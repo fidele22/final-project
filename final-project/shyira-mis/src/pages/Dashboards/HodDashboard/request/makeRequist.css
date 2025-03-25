@@ -6,12 +6,6 @@
  
 }
 
-.hod-requistion h2{
-  padding: 10px;
-  text-align: center;
- 
-}
-
 .heading-title .title{
   display: flex;
 }
@@ -134,17 +128,46 @@ form h4{
 }
 
 
-@media (max-width: 600px) {
-  .signature-section {
-    flex-direction: column;
-  }
+/* responsiviness */
 
-  .signature,
-  .date,
-  .image-upload-section {
-    margin-right: 0;
-    margin-bottom: 20px;
+@media (min-width: 600px) and (max-width: 800px) {
+  /* CSS  here */
+  .title h4{
+    padding:0px; 
+    font-size: 11px;
+    
+  }
+  .hod-request-form h3{
+    padding: 10px;
+    font-size: 14px;
+   
+  }
+  .date-field{
+    margin-top: 0%;
+  }
+  .hod-signature img{
+    width: 100px;
+    height: 50px;
+  }
+  .hod-submit-btn{
+    font-size: 1px;
+    padding: 0px;
+    width: 200px;
+  }
+  /* itemstatuspage  */
+  .requests-table{
+    width: 100%;
+    font-size: 12px;
+  }
+  .status-board h2{
+    font-size: 15px;
+    padding: 0;
+  }
+  /* item approved page */
+  .approved-requistion-header{
+    gap: 5px;
   }
 }
+
 
 
