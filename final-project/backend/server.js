@@ -38,7 +38,7 @@ app.use(express.json()); // Or use body-parser's JSON parser
 app.use(bodyParser.json()); // If using body-parser
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: '*',
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true, 

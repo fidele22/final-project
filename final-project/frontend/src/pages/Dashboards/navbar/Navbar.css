@@ -1,0 +1,203 @@
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: white;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    height: 4rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    margin-left: 0%;
+    z-index: 1000; /* Ensure the navbar stays above other content */
+  }
+  .logo{ 
+    margin-top: 0%;
+    font-family:'Courier New', Courier, monospace;
+  }
+  .logo p{
+    font-size: 10px;
+    padding: 0px;
+  }
+  .logo h1{
+    font-size: 40px;
+    margin-bottom: 0px;
+  }
+  .navbar-menu img{
+   width: 40px;
+   height: 40px;
+    }
+  .navbar-menu {
+    position: absolute;
+    display: block; /* Hide the menu by default */
+    list-style: none;
+    right: 10%;
+    
+  }
+  .navbar-menu h1{
+   color: black;
+   font-size: 20px;
+  }
+  .Navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .navbar-menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .user-dropdown {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .user-dropdown .dropdown-menu {
+    position: absolute;
+    top: 50px; /* Adjust based on your needs */
+    right: 0;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    min-width: 160px;
+    z-index: 1;
+  }
+  
+  .user-dropdown .dropdown-menu ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  .user-dropdown .dropdown-menu ul li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .user-dropdown .dropdown-menu ul li:hover {
+    background-color: #f1f1f1;
+  }
+  .logout{
+    color: red;
+  }
+  .menu-navbar-toggle{
+    display: none; /* Hide by default */
+
+    cursor: pointer;
+  
+    font-size: 24px; 
+  }
+
+  /* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  color: black;
+  text-align: center;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-buttons {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-buttons button {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.modal-buttons .confirm-logout:hover {
+  background-color: #2980b9;
+}
+.confirm-logout{
+  background-color: #3498db; 
+}
+.cancel-logout{
+  background-color: rgb(196, 58, 58);
+}
+.modal-buttons .cancel-logout:hover {
+  background-color: #9c3939;
+}
+  @media (max-width: 800px) {
+
+    .menu-navbar-toggle {
+  
+      display: block; /* Show toggle button on small screens */
+  
+    }
+  
+  
+    .logo {
+  
+      display: none; /* Hide the menu on small screens */
+  
+    }
+  
+  
+    .navbar-menu.active {
+  
+      display: block; /* Show the menu when active */
+  
+    }
+  
+  }
+
+  @media (min-width: 300px) and (max-width: 600px) {
+    /* CSS rules here */
+    .navbar-menu{
+      width: 50%;
+      margin-right: 0%;
+      margin-left: 0%;
+     
+    }
+    .user-dropdown .dropdown-menu {
+      position: absolute;
+      top: 50px; /* Adjust based on your needs */
+      right: 0;
+      box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+      width: 100px;
+      background-color: aqua;
+      z-index: 1;
+    }
+    .user-dropdown {
+      right: 0;
+      margin-left: 65%;
+      width: 50%;
+    }
+    .user-dropdown  h3{
+      font-size: 12px;
+  
+    }
+    .user-dropdown img{
+      margin-left: -70%;
+    }
+  }

@@ -515,6 +515,31 @@ router.put('/receive/:id', async (req, res) => {
     if (!request) {
       return res.status(404).json({ message: 'Request not found' });
     }
+   // 1. Prevent duplicate receiving
+   if (request.status === 'Received') {
+    return res.status(400).json({ message: 'This requisition is already marked as Received.' });
+  }
+     // optional: track which items got zeroed out
+     const adjustedItems = [];
+
+     // 2. Iterate items and adjust any over-receipts
+     for (const item of request.items) {
+       const stockData = await StockData.findOne({ itemId: item.itemId });
+       if (!stockData) {
+         console.warn(`No stock data for item ${item.itemId}, skipping adjustment.`);
+         continue;
+       }
+ 
+       // if over-requested, zero it out
+       if (item.quantityReceived > stockData.balance.quantity) {
+         adjustedItems.push({
+           itemId: item.itemId,
+           original: item.quantityReceived,
+           adjustedTo: 0
+         });
+         item.quantityReceived = 0;
+       }
+     }
 
     request.status = 'Received';
 

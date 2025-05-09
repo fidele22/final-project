@@ -324,8 +324,13 @@ router.put('/receivefuel/:id', async (req, res) => {
       return res.status(404).json({ message: 'Request not found' });
     }
 
+      // ❌ Prevent duplicate processing
+   if (request.status === 'Received') {
+          return res.status(400).json({ message: 'This requisition has already been marked as received.' });
+        }
     // Extract quantityReceived from the request itself
     const quantityReceived = request.quantityRequested; // Adjust this if the correct field is different
+
 
     // Update the status and other relevant fields
     request.status = 'Received';
@@ -348,10 +353,10 @@ router.put('/receivefuel/:id', async (req, res) => {
       return res.status(404).json({ message: `Fuel stock not found for ${request.fuelType}` });
     }
 
-    // Ensure there's enough fuel in stock before updating
-    if (fuelStock.quantity < quantityReceived) {
-      return res.status(400).json({ message: 'Not enough fuel in stock' });
-    }
+   // Check stock availability and adjust if needed
+   if (fuelStock.quantity < quantityReceived) {
+    quantityReceived = 0; // Not enough stock, avoid negative
+  }
 
     // Update stock levels
     fuelStock.quantity -= quantityReceived;

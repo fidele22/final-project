@@ -1,0 +1,74 @@
+*{
+    margin: 0;
+
+}
+.hodlinks{
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    gap: 5rem;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.link-button{
+    padding: 8px;
+    height: auto;
+    margin-left: 40px;
+    background-color:white;
+    border-radius: 5px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    cursor: pointer;
+
+}
+
+.link-button button{
+    font-size: 16px;
+    background-color: transparent;
+    color: black;
+    font-family: 'Times New Roman', Times, serif;
+}
+.link-icon{
+    text-align: center;
+    display: flex;
+    height: auto;
+}
+
+/* Active Button */
+.active-button {
+    background-color: rgb(57, 135, 252) !important; 
+    color: white;
+}
+
+.active-button button {
+    color: white;
+}
+/* for fuel  */
+.dropdown-menu-links button{
+    background-color: aqua;
+    margin-left: 0%;
+}
+/* responsiviness */
+
+@media (min-width: 600px) and (max-width: 800px) {
+    /* CSS  here */
+  .hodlinks{
+     gap: 5px;
+     width: 100%;
+  }
+  .link-button{
+   margin-left: 20px;
+
+}
+
+.link-button button{
+    font-size: 14px;
+    
+}
+.fuel-request-links button{
+    margin-left: 0rem;
+    font-size: 12px;
+  
+  }
+  }
+
+
+  
