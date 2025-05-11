@@ -15,7 +15,7 @@ import ItemStockReport from './StockReport/ItemReport';
 import ViewRequisition from './UserRequisitions/RequisitionsPages';
 import ViewFuelRequest from './fuelRequisition/fuelRequisitionPages';
 import FuelStock from './fuelRequisition/fuelStock';
-import FuelReport from './StockReport/FuelFullReport';
+import FuelReport from './StockReport/newreport';
 import DataVisualization from '../dafdashboard/dataAnalysis/itemRequisitionAnalysis';
 import HelpCenter from '../helpcenter/helpcenter';
 import './contentCss/LogisticDashboard.css';

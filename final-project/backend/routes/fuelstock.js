@@ -158,8 +158,6 @@ router.get('/stock-report', async (req, res) => {
 });
 
 
-
-// Endpoint to get car plaques and their data based on month and year
 // Endpoint to get car plaques and their data based on month and year
 router.get('/fuelFull-Report', async (req, res) => {
   const { month, year } = req.query;
@@ -314,6 +312,94 @@ router.get('/totalCostRepairs', async (req, res) => {
   } catch (error) {
     console.error('Error fetching total cost repairs:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+router.get('/generate-repo', async (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+
+    if (!startDate || !endDate) {
+      return res.status(400).json({ error: 'Start date and end date are required.' });
+    }
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    end.setUTCHours(23, 59, 59, 999);
+
+    const report = await FuelRequisitionReceived.aggregate([
+      {
+        $match: {
+          status: 'Received',
+          RequestedDate: {
+            $gte: start,
+            $lte: end,
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'cars',
+          localField: 'carPlaque',
+          foreignField: 'registerNumber',
+          as: 'carInfo',
+        },
+      },
+      {
+        $unwind: {
+          path: '$carInfo',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'fuelstocks',
+          localField: 'fuelType',
+          foreignField: 'fuelType',
+          as: 'fuelStock',
+        },
+      },
+      {
+        $unwind: {
+          path: '$fuelStock',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $addFields: {
+          pricePerLiter: '$fuelStock.pricePerUnit',
+          totalCostConsumedFRW: {
+            $multiply: ['$quantityReceived', '$fuelStock.pricePerUnit'],
+          },
+        },
+      },
+      {
+        $sort: {
+          RequestedDate: 1, // Ascending order
+        },
+      },
+      {
+        $project: {
+          requesterName: 1,
+          carPlaque: 1,
+          fuelType: 1,
+          kilometers: 1,
+          quantityRequested: 1,
+          quantityReceived: 1,
+          RequestedDate: 1,
+          pricePerLiter: 1,
+          totalCostConsumedFRW: 1,
+          'carInfo.modeOfVehicle': 1,
+          'carInfo.dateOfReception': 1,
+          'carInfo.depart': 1,
+        },
+      },
+    ]);
+
+    res.status(200).json(report);
+  } catch (error) {
+    console.error('Error generating report:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
