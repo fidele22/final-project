@@ -121,17 +121,18 @@ const FuelStockList = () => {
 
 
   const downloadExcel = async () => {
-    // Fetch all filtered history
     const allFilteredHistory = await fetchFilteredData(startDate, endDate);
-    
+  
     if (allFilteredHistory.length === 0) {
       alert('No data available for the selected date range');
       return;
     }
   
-    // Transform the data into a flat structure
+    // Sort by requestedDate in ascending order
+    allFilteredHistory.sort((a, b) => new Date(a.requestedDate) - new Date(b.requestedDate));
+  
     const transformedData = allFilteredHistory.map(record => ({
-      lastUpdated: new Date(record.updatedAt).toLocaleString(), // Format date as needed
+      lastUpdated: new Date(record.updatedAt).toLocaleString(),
       carplaque: record.carplaque,
       entryQuantity: record.entry.quantity,
       entryPricePerUnit: record.entry.pricePerUnit,
@@ -371,7 +372,7 @@ const FuelStockList = () => {
               {history.length > 0 ? (
                 history.map((record) => (
                   <tr key={record._id}>
-                    <td>{new Date(record.updatedAt).toLocaleString()}</td>
+                  <td>{new Date(record.requestedDate).toLocaleDateString()}</td>
                     <td>{record.carplaque}</td>
                     <td>{record.entry.quantity}</td>
                     <td>{record.entry.pricePerUnit}</td>

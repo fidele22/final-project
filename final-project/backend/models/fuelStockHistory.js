@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const fuelStockHistorySchema = new mongoose.Schema({
   itemId: { type: mongoose.Schema.Types.ObjectId, ref: 'FuelStock', required: true },
+  requisitionId: { type: mongoose.Schema.Types.ObjectId, ref: 'FuelRequisition' },
   carplaque: { type: String, required: true },
   entry: {
     quantity: { type: Number, default: 0 },
@@ -18,6 +19,8 @@ const fuelStockHistorySchema = new mongoose.Schema({
     pricePerUnit: { type: Number, default: 0 },
     totalAmount: { type: Number, default: 0 }
   },
+
+  requestedDate: { type: Date }, // Add this field
   updatedAt: { type: Date, default: Date.now }
 });
 

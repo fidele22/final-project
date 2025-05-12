@@ -83,22 +83,25 @@ router.get('/fuel-history', async (req, res) => {
 
   try {
     if (fetchAll) {
-      // If fetchAll is true, return all matching records without pagination
-      const history = await FuelStockHistory.find(query).exec();
-      const total = history.length; // Total records found
+      // Return all matching records sorted by requestedDate ASCENDING
+      const history = await FuelStockHistory.find(query)
+        .sort({ requestedDate: 1 }) // Ascending order
+        .exec();
+      const total = history.length;
       return res.json({ total, history });
     } else {
-      // Paginated response
+      // Paginated response sorted by requestedDate ASCENDING
       const skip = (page - 1) * limit;
       const [total, history] = await Promise.all([
         FuelStockHistory.countDocuments(query),
-        FuelStockHistory.find(query).skip(skip).limit(parseInt(limit)).exec()
+        FuelStockHistory.find(query)
+          .sort({ requestedDate: 1 }) // Ascending order
+          .skip(skip)
+          .limit(parseInt(limit))
+          .exec()
       ]);
-      
-      res.json({
-        total,
-        history
-      });
+
+      res.json({ total, history });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -242,7 +245,9 @@ router.get('/fuelFull-Report', async (req, res) => {
       const previousMonthKilometers = await FuelRequisitionReceived.aggregate([
           {
               $match: {
-                  createdAt: { $gte: previousMonthStart, $lte: previousMonthEnd }
+                 
+          status: 'Received',
+          RequestedDate:{ $gte: previousMonthStart, $lte: previousMonthEnd }
               }
           },
           {
@@ -317,24 +322,22 @@ router.get('/totalCostRepairs', async (req, res) => {
 
 router.get('/generate-repo', async (req, res) => {
   try {
-    const { startDate, endDate } = req.query;
+    const { month, year } = req.query;
 
-    if (!startDate || !endDate) {
-      return res.status(400).json({ error: 'Start date and end date are required.' });
+    if (month === undefined || !year) {
+      return res.status(400).json({ error: 'Provide month and year for the report.' });
     }
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
+    const start = new Date(year, month, 1);
+    const end = new Date(year, parseInt(month) + 1, 0);
     end.setUTCHours(23, 59, 59, 999);
 
-    const report = await FuelRequisitionReceived.aggregate([
+    // Get fuel requisitions in the given month
+    const fuelEntries = await FuelRequisitionReceived.aggregate([
       {
         $match: {
           status: 'Received',
-          RequestedDate: {
-            $gte: start,
-            $lte: end,
-          },
+          RequestedDate: { $gte: start, $lte: end },
         },
       },
       {
@@ -345,12 +348,7 @@ router.get('/generate-repo', async (req, res) => {
           as: 'carInfo',
         },
       },
-      {
-        $unwind: {
-          path: '$carInfo',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
+      { $unwind: { path: '$carInfo', preserveNullAndEmptyArrays: true } },
       {
         $lookup: {
           from: 'fuelstocks',
@@ -359,12 +357,7 @@ router.get('/generate-repo', async (req, res) => {
           as: 'fuelStock',
         },
       },
-      {
-        $unwind: {
-          path: '$fuelStock',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
+      { $unwind: { path: '$fuelStock', preserveNullAndEmptyArrays: true } },
       {
         $addFields: {
           pricePerLiter: '$fuelStock.pricePerUnit',
@@ -374,33 +367,58 @@ router.get('/generate-repo', async (req, res) => {
         },
       },
       {
-        $sort: {
-          RequestedDate: 1, // Ascending order
-        },
-      },
-      {
-        $project: {
-          requesterName: 1,
-          carPlaque: 1,
-          fuelType: 1,
-          kilometers: 1,
-          quantityRequested: 1,
-          quantityReceived: 1,
-          RequestedDate: 1,
-          pricePerLiter: 1,
-          totalCostConsumedFRW: 1,
-          'carInfo.modeOfVehicle': 1,
-          'carInfo.dateOfReception': 1,
-          'carInfo.depart': 1,
-        },
+        $sort: { RequestedDate: 1 },
       },
     ]);
 
-    res.status(200).json(report);
-  } catch (error) {
-    console.error('Error generating report:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    // Get mileage per car for the month
+    const carPlaques = [...new Set(fuelEntries.map(f => f.carPlaque))];
+
+    const mileageMap = {};
+
+    await Promise.all(
+      carPlaques.map(async (plaque) => {
+        const startMileage = await CarData.findOne({
+          registerNumber: plaque,
+          createdAt: { $lt: start },
+        }).sort({ createdAt: -1 }).lean();
+
+        const endMileage = await CarData.findOne({
+          registerNumber: plaque,
+          createdAt: { $gte: start, $lte: end },
+        }).sort({ createdAt: -1 }).lean();
+
+        mileageMap[plaque] = {
+          mileageAtBeginning: startMileage?.kilometersCovered || 0,
+          mileageAtEnd: endMileage?.kilometersCovered || (startMileage?.kilometersCovered || 0),
+        };
+      })
+    );
+
+    // Add mileage info and compute distance covered per row
+    const detailedReport = fuelEntries.map(entry => {
+      const mileageInfo = mileageMap[entry.carPlaque] || { mileageAtBeginning: 0, mileageAtEnd: 0 };
+      return {
+        requestedDate: entry.RequestedDate,
+        carPlaque: entry.carPlaque,
+        modeOfVehicle: entry.carInfo?.modeOfVehicle || 'N/A',
+        dateOfReception: entry.carInfo?.dateOfReception || 'N/A',
+        department: entry.carInfo?.depart || 'N/A',
+        mileageAtBeginning: mileageInfo.mileageAtBeginning,
+        mileageAtEnd: mileageInfo.mileageAtEnd,
+        distanceCovered: mileageInfo.mileageAtEnd - mileageInfo.mileageAtBeginning,
+        litersConsumed: entry.quantityReceived,
+        pricePerLiter: entry.pricePerLiter || 0,
+        totalCost: entry.totalCostConsumedFRW || 0,
+      };
+    });
+
+    res.status(200).json(detailedReport);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error.' });
   }
 });
+
 
  module.exports = router;

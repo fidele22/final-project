@@ -324,7 +324,7 @@ router.put('/receivefuel/:id', async (req, res) => {
       return res.status(404).json({ message: 'Request not found' });
     }
 
-      // ❌ Prevent duplicate processing
+      // Prevent duplicate processing
    if (request.status === 'Received') {
           return res.status(400).json({ message: 'This requisition has already been marked as received.' });
         }
@@ -366,6 +366,7 @@ router.put('/receivefuel/:id', async (req, res) => {
     // Log stock update in history
     const fuelStockHistory = new FuelStockHistory({
       itemId: fuelStock._id,
+      requisitionId: request._id, 
       carplaque: request.carPlaque,
       exit: {
         quantity: quantityReceived,
@@ -377,6 +378,7 @@ router.put('/receivefuel/:id', async (req, res) => {
         pricePerUnit: fuelStock.pricePerUnit,
         totalAmount: fuelStock.totalAmount,
       },
+      requestedDate: request.RequestedDate,
       updatedAt: Date.now(),
     });
 

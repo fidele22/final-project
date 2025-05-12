@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import axios from 'axios';
 import { jsPDF } from 'jspdf';
 import * as XLSX from 'xlsx';
@@ -18,6 +18,8 @@ const StockHistoryTable = () => {
   const [currentStock, setCurrentStock] = useState([]);
   const [previousStock, setPreviousStock] = useState([]);
   const [stockHistory, setStockHistory] = useState([]);
+
+const tableRef = useRef(null);
   const [aggregatedStock, setAggregatedStock] = useState([]);
   const [totals, setTotals] = useState({
     openingQuantity: 0,
@@ -171,18 +173,36 @@ const StockHistoryTable = () => {
   
     setAggregatedStock(Object.values(aggregatedData));
   
-    // Calculate totals
-    const totalValues = Object.values(aggregatedData).reduce((acc, stock) => {
-      acc.openingQuantity += stock.openingQuantity || 0;
-      acc.openingTotalAmount += stock.openingTotalAmount || 0;
-      acc.entryQuantity += stock.entryQuantity || 0;
-      acc.entryTotalAmount += stock.entryTotalAmount || 0;
-      acc.exitQuantity += stock.exitQuantity || 0;
-      acc.exitTotalAmount += stock.exitTotalAmount || 0;
-      acc.balanceQuantity += stock.balanceQuantity || 0;
-      acc.balanceTotalAmount += stock.balanceTotalAmount || 0;
-      return acc;
-    }, {
+  //   // Calculate totals
+  //   const totalValues = Object.values(aggregatedData).reduce((acc, stock) => {
+  //     acc.openingQuantity += stock.openingQuantity || 0;
+  //     acc.openingTotalAmount += stock.openingTotalAmount || 0;
+  //     acc.entryQuantity += stock.entryQuantity || 0;
+  //     acc.entryTotalAmount += stock.entryTotalAmount || 0;
+  //     acc.exitQuantity += stock.exitQuantity || 0;
+  //     acc.exitTotalAmount += stock.exitTotalAmount || 0;
+  //     acc.balanceQuantity += stock.balanceQuantity || 0;
+  //     acc.balanceTotalAmount += stock.balanceTotalAmount || 0;
+  //     return acc;
+  //   }, {
+  //     openingQuantity: 0,
+  //     openingTotalAmount: 0,
+  //     entryQuantity: 0,
+  //     entryTotalAmount: 0,
+  //     exitQuantity: 0,
+  //     exitTotalAmount: 0,
+  //     balanceQuantity: 0,
+  //     balanceTotalAmount: 0,
+  //   });
+  
+  //   setTotals(totalValues);
+  };
+  
+  const calculateTotalsFromDOM = () => {
+    const table = tableRef.current;
+    if (!table) return;
+  
+    let totals = {
       openingQuantity: 0,
       openingTotalAmount: 0,
       entryQuantity: 0,
@@ -191,13 +211,30 @@ const StockHistoryTable = () => {
       exitTotalAmount: 0,
       balanceQuantity: 0,
       balanceTotalAmount: 0,
+    };
+  
+    // Loop through all table rows except the header/footer
+    const rows = table.querySelectorAll('tbody tr');
+  
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      if (cells.length >= 8) {
+        totals.openingQuantity += parseFloat(cells[1].textContent) || 0;
+        totals.openingTotalAmount += parseFloat(cells[3].textContent) || 0;
+        totals.entryQuantity += parseFloat(cells[4].textContent) || 0;
+        totals.entryTotalAmount += parseFloat(cells[6].textContent) || 0;
+        totals.exitQuantity += parseFloat(cells[7].textContent) || 0;
+        totals.exitTotalAmount += parseFloat(cells[9].textContent) || 0;
+        totals.balanceQuantity += parseFloat(cells[10].textContent) || 0;
+        totals.balanceTotalAmount += parseFloat(cells[12].textContent) || 0;
+      }
     });
   
-    setTotals(totalValues);
+    return totals;
   };
   
+  const footerTotals = calculateTotalsFromDOM() || totals;
 
-   
 // filter and display month
 const monthNames = [
   "January", "February", "March", "April", "May", "June", 
@@ -427,7 +464,7 @@ const handlePrepareReport = async () => {
          
  
       </div>
-      <table className="stock-history-table">
+      <table className="stock-history-table"  ref={tableRef}>
       
         <thead>
           <tr className='main-table-header'>
@@ -474,22 +511,23 @@ const handlePrepareReport = async () => {
           ))}
         </tbody>
         <tfoot>
-          <tr>
-            <td><strong>Total Amount</strong></td>
-            <td>-</td>
-            <td>-</td>
-            <td><strong>{totals.openingTotalAmount.toFixed(2)}</strong></td>
-            <td>-</td>
-            <td>-</td>
-            <td><strong>{totals.entryTotalAmount.toFixed(2)}</strong></td>
-            <td>-</td>
-            <td>-</td>
-            <td><strong>{totals.exitTotalAmount.toFixed(2)}</strong></td>
-            <td>-</td>
-            <td>-</td>
-            <td><strong>{totals.balanceTotalAmount.toFixed(2)}</strong></td>
-          </tr>
-        </tfoot>
+  <tr>
+    <td><strong>Total</strong></td>
+    <td>-</td>
+    <td>-</td>
+    <td>{footerTotals.openingTotalAmount.toFixed(2)}</td>
+    <td>-</td>
+    <td>-</td>
+    <td>{footerTotals.entryTotalAmount.toFixed(2)}</td>
+    <td>-</td>
+    <td>-</td>
+    <td>{footerTotals.exitTotalAmount.toFixed(2)}</td>
+    <td>-</td>
+    <td>-</td>
+    <td>{footerTotals.balanceTotalAmount.toFixed(2)}</td>
+  </tr>
+</tfoot>
+
       </table>
       <div className="report-footer">
         <div className='logistic-office'>
