@@ -67,47 +67,35 @@ router.post('/add-fuel', async (req, res) => {
       res.status(500).json({ error: 'Error deleting fuel stock entry' });
     }
   });
-
-// Get paginated fuel stock history
-router.get('/fuel-history', async (req, res) => {
-  const { page = 1, limit = 10, startDate, endDate, fetchAll } = req.query;
-
-  const query = {};
+  router.get('/fuel-history', async (req, res) => {
+    try {
+      const records = await FuelStockHistory.find()
+        .select('carplaque requestedDate updatedAt entry exit balance')
+        .sort({ updatedAt: 1 });
   
-  if (startDate && endDate) {
-    query.updatedAt = {
-      $gte: new Date(startDate),
-      $lte: new Date(endDate),
-    };
-  }
-
-  try {
-    if (fetchAll) {
-      // Return all matching records sorted by requestedDate ASCENDING
-      const history = await FuelStockHistory.find(query)
-        .sort({ requestedDate: 1 }) // Ascending order
-        .exec();
-      const total = history.length;
-      return res.json({ total, history });
-    } else {
-      // Paginated response sorted by requestedDate ASCENDING
-      const skip = (page - 1) * limit;
-      const [total, history] = await Promise.all([
-        FuelStockHistory.countDocuments(query),
-        FuelStockHistory.find(query)
-          .sort({ requestedDate: 1 }) // Ascending order
-          .skip(skip)
-          .limit(parseInt(limit))
-          .exec()
-      ]);
-
-      res.json({ total, history });
+      const shiftedRecords = records.map((record, index) => {
+        const next = records[index + 1];
+        return {
+          _id: record._id,
+          carplaque: record.carplaque,
+          requestedDate: record.requestedDate,
+          entry: record.entry,
+          exit: record.exit,
+          balance: next ? next.balance : { quantity: 0, pricePerUnit: 0, totalAmount: 0 },
+        };
+      });
+  
+      // ✅ FIX: return as object with "history" and "total"
+      res.status(200).json({
+        history: shiftedRecords,
+        total: shiftedRecords.length,
+      });
+  
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
+  });
+  
 
 // Route to fetch stock report based on carPlaque and date range
 router.get('/stock-report', async (req, res) => {

@@ -41,19 +41,23 @@ const FuelStockList = () => {
       setError('Error fetching fuel stocks');
     }
   };
-
   const fetchHistory = async (page, limit, startDate = '', endDate = '') => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/fuel-history`, {
-        params: {
-          page,
-          limit,
-          startDate,
-          endDate,
-        },
+        params: { page, limit, startDate, endDate },
       });
-      setHistory(response.data.history);
-      setTotalPages(Math.ceil(response.data.total / limit));
+  
+      console.log("Fuel history API response:", response.data);
+  
+      if (Array.isArray(response.data.history)) {
+        setHistory(response.data.history);
+        setTotalPages(Math.ceil(response.data.total / limit));
+      } else {
+        setHistory([]);
+        setError('Invalid data format received');
+      }
+      
+  
       setLoading(false);
     } catch (error) {
       console.error('Error fetching fuel stock history:', error);
@@ -61,6 +65,7 @@ const FuelStockList = () => {
       setLoading(false);
     }
   };
+  
  // New function to fetch all filtered history
 
  const fetchFilteredData = async (startDate, endDate) => {
@@ -73,7 +78,8 @@ const FuelStockList = () => {
       },
     });
 
-    if (response.data.history && response.data.history.length > 0) {
+    if (Array.isArray(response.data.history) && response.data.history.length > 0)
+      {
       return response.data.history;
     } else {
       alert('No data available for the selected date range');
@@ -259,28 +265,27 @@ const FuelStockList = () => {
 
       <div className="stock-updated">
         <h1>Fuel Stock Update</h1>
-        {fuelStocks.length > 0 ? (
-          fuelStocks.map((stock) => (
-            <div key={stock._id} className='fuelStock-data'>
-            {/* <p>Type of Fuel: {stock.fuelType}</p>*/} 
-             <div>
-             <p>Quantity Liters:</p>
-             <label htmlFor=""> {stock.quantity}</label>
-             </div>
-             <div>
-             <p>Price Per Liter: </p>
-             <label htmlFor="">{stock.pricePerUnit}</label>
-             </div> 
-             <div>
-             <p>Total Amount (Frw):</p>
-             <label htmlFor=""> {stock.totalAmount}</label>
-             </div>
-             
-            </div>
-          ))
-        ) : (
-          <p>No fuel stocks available</p>
-        )}
+        {Array.isArray(fuelStocks) && fuelStocks.length > 0 ? (
+  fuelStocks.map((stock) => (
+    <div key={stock._id} className='fuelStock-data'>
+      <div>
+        <p>Quantity Liters:</p>
+        <label>{stock.quantity}</label>
+      </div>
+      <div>
+        <p>Price Per Liter:</p>
+        <label>{stock.pricePerUnit}</label>
+      </div>
+      <div>
+        <p>Total Amount (Frw):</p>
+        <label>{stock.totalAmount}</label>
+      </div>
+    </div>
+  ))
+) : (
+  <p>No fuel stock data available.</p>
+)}
+
       </div>
       <div className="stock-updated">
         <h1>Amount Stock Update</h1>
@@ -369,30 +374,29 @@ const FuelStockList = () => {
               </tr>
             </thead>
             <tbody>
-              {history.length > 0 ? (
-                history.map((record) => (
-                  <tr key={record._id}>
-                  <td>{new Date(record.requestedDate).toLocaleDateString()}</td>
-                    <td>{record.carplaque}</td>
-                    <td>{record.entry.quantity}</td>
-                    <td>{record.entry.pricePerUnit}</td>
-                    <td>{record.entry.totalAmount}</td>
+  {Array.isArray(history) && history.length > 0 ? (
+    history.map((record) => (
+      <tr key={record._id}>
+        <td>{new Date(record.requestedDate).toLocaleDateString()}</td>
+        <td>{record.carplaque}</td>
+        <td>{record.entry.quantity}</td>
+        <td>{record.entry.pricePerUnit}</td>
+        <td>{record.entry.totalAmount}</td>
+        <td>{record.exit.quantity}</td>
+        <td>{record.exit.pricePerUnit}</td>
+        <td>{record.exit.totalAmount}</td>
+        <td>{record.balance.quantity}</td>
+        <td>{record.balance.pricePerUnit}</td>
+        <td>{record.balance.totalAmount}</td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="11">No history available</td>
+    </tr>
+  )}
+</tbody>
 
-                    <td>{record.exit.quantity}</td>
-                    <td>{record.exit.pricePerUnit}</td>
-                    <td>{record.exit.totalAmount}</td>
-                    <td>{record.balance.quantity}</td>
-                    <td>{record.balance.pricePerUnit}</td>
-                    <td>{record.balance.totalAmount}</td>
-                 
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5">No history available</td>
-                </tr>
-              )}
-            </tbody>
           </table>
           
           <div className="pagination">

@@ -37,13 +37,19 @@ const app = express();
 app.use(express.json()); // Or use body-parser's JSON parser
 app.use(bodyParser.json()); // If using body-parser
 
-app.use(cors({
-  origin: '*',
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
-  credentials: true, 
-}));
 
+const allowedOrigins = ['http://localhost:3000'];
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true,
+}));
 connectDB();
 
 app.use(session({

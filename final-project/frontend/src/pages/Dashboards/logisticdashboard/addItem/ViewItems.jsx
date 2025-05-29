@@ -248,61 +248,44 @@ const DataDisplay = ({ onItemSelect }) => {
 
  {/* Edit Item Modal */}
 
- {editingItem && (
+{/* Edit Item Modal */}
+{editingItem && (
+  <div className="edit-overlay">
+    <div className="edit-item-form-container">
+      <h2>Edit Item</h2>
+      <label>
+        Name:
+        <input
+          type="text"
+          value={editingItem.name}
+          onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
+        />
+      </label>
 
-<div className="edit-overlay">
-  <div className="edit-item-form-container">
-    <h2>Edit Item</h2>
-    <label>
-      Name:
-      <input
-        type="text"
+      <label>
+        Quantity:
+        <input
+          type="number"
+          value={editingItem.quantity}
+          onChange={(e) => setEditingItem({ ...editingItem, quantity: e.target.value })}
+        />
+      </label>
 
-        value={editingItem.name}
+      <label>
+        Price per Unit:
+        <input
+          type="number"
+          value={editingItem.pricePerUnit}
+          onChange={(e) => setEditingItem({ ...editingItem, pricePerUnit: e.target.value })}
+        />
+      </label>
 
-        onChange={(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-
-      />
-
-    </label>
-
-    <label>
-      Quantity: (read only)
-      <input
-        type="number"
-        value={editingItem.quantity}
-
-        // onChange={(e) => setEditingItem({ ...editingItem, quantity: e.target.value })}
-
-      />
-
-    </label>
-
-    <label>
-
-      Price per Unit: (read only)
-
-      <input
-
-        type="number"
-
-        value={editingItem.pricePerUnit} 
-
-        // onChange={(e) => setEditingItem({ ...editingItem, pricePerUnit: e.target.value })}
-
-      />
-
-    </label>
-
-    <button onClick={handleUpdateItem}>Update</button>
-
-    <button  onClick={() => setEditingItem(null)}>Cancel</button>
-
+      <button onClick={handleUpdateItem}>Update</button>
+      <button onClick={() => setEditingItem(null)}>Cancel</button>
+    </div>
   </div>
-
-</div>
-
 )}
+
 {/*  */}
       {showDetails && selectedItem && (
 <StockDetails item={selectedItem} onClose={() => { setShowDetails(false); setSelectedItem(null); }} />

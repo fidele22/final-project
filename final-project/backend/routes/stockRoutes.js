@@ -76,45 +76,51 @@ router.post('/add', async (req, res) => {
 // Route to update an existing item
 
 router.put('/update/:id', async (req, res) => {
-
   const { id } = req.params; // Get the item ID from the URL
-
   const { name, quantity, pricePerUnit } = req.body; // Get the updated data from the request body
-
   let totalAmount = quantity * pricePerUnit; // Calculate the new total amount
 
-
   try {
-
     const updatedItem = await StockItem.findByIdAndUpdate(
-
       id,
-
       { name, quantity, pricePerUnit, totalAmount },
-
       { new: true } // Return the updated document
-
     );
 
-
     if (!updatedItem) {
-
       return res.status(404).json({ message: 'Item not found' });
-
     }
 
+    // Create a new StockHistory record
+    const stockHistory = new StockHistory({
+      itemId: updatedItem._id,
+      entry: {
+        quantity: updatedItem.quantity,
+        totalAmount: updatedItem.totalAmount,
+        pricePerUnit: updatedItem.pricePerUnit
+      },
+      exit: {
+        quantity: 0,
+        totalAmount: 0,
+        pricePerUnit: updatedItem.pricePerUnit // Ensure pricePerUnit is the same
+      },
+      balance: {
+        quantity: updatedItem.quantity,
+        totalAmount: updatedItem.totalAmount,
+        pricePerUnit: updatedItem.pricePerUnit // Ensure pricePerUnit is the same
+      },
+      updatedAt: Date.now()
+    });
+
+    await stockHistory.save(); // Save the stock history record
 
     res.status(200).json(updatedItem); // Respond with the updated item
-
   } catch (error) {
-
     console.error('Error updating item:', error);
-
     res.status(500).json({ message: 'Error updating item' });
-
   }
-
 });
+
 // DELETE /api/stocks/:id - Delete stock item and related stock data and stock histories
 router.delete('/:id', async (req, res) => {
   try {
