@@ -320,8 +320,11 @@ const handleSignClick = () => {
        
               <>
           <div className="form-navigation">
+            <div className="form-nav-links">
           <button className='verify-requisition' onClick={ handleReceivedSubmit}>Mark as recieved</button>
           <button className='sign-button' onClick={handleSignClick}>Sign</button>
+        
+          </div>
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
           </div>
          <div id="pdf-content">

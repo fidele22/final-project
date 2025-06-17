@@ -68,13 +68,16 @@ const [filterStatus, setFilterStatus] = useState("");
   };
 
 
-  const filteredRequests = requests.filter((request) => {
+const filteredRequests = requests
+  .filter((request) => {
     const statusMatch = filterStatus ? request.status.toLowerCase().includes(filterStatus.toLowerCase()) : true;
     const departmentMatch = filterDepartment ? request.department.toLowerCase().includes(filterDepartment.toLowerCase()) : true;
     const dateMatch = filterDate ? new Date(request.createdAt).toISOString().slice(0, 10) === filterDate : true;
-  
+
     return statusMatch && departmentMatch && dateMatch;
-  });
+  })
+  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sort here
+
   
   const downloadPDF = async () => {
     const input = document.getElementById("pdf-content");
@@ -155,9 +158,7 @@ const [filterStatus, setFilterStatus] = useState("");
     </tr>
   </thead>
   <tbody>
-  {[...currentRequests]
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-  .map((request, index) => (
+ {currentRequests.map((request, index) => (
     <tr key={request._id} onClick={() => handleRequestClick(request._id)}>
       <td>{index + 1 + indexOfFirstRequest}</td>
       <td>

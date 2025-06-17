@@ -367,7 +367,7 @@ const formattedDate = new Date(request.date).toLocaleDateString('en-GB'); // For
 
 // Email content
 const mailOptions = {
-  from: process.env.EMAIL_USER,
+  from: `"Logistic MIS" <${process.env.EMAIL_USER}>`,
   to: user.email,
   subject: 'Requisition Verified',
   html: `
@@ -444,7 +444,7 @@ const formattedDate = new Date(request.date).toLocaleDateString('en-GB'); // For
 
 // Email content
 const mailOptions = {
-  from: process.env.EMAIL_USER,
+   from: `"Logistic MIS" <${process.env.EMAIL_USER}>`,
   to: user.email,
   subject: 'Requisition Approved',
   html: `

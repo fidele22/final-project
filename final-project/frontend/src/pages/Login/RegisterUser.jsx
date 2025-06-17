@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
-import Notification from '../Dashboards/ModelMessage/notification'
+import Notification from '../Dashboards/ModelMessage/notification';
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; 
 import './registeruser.css';
 //import './stylingpages/loginForm.css'; // Adjust your CSS file path
 
@@ -105,7 +107,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
         });
 
         console.log('User  registered:', response.data);
-        setSuccessMessage('Registration successful!');
+        toast.success('Registration successful!');
         setFormData({
           firstName: '',
           lastName: '',
@@ -120,7 +122,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
         });
       } catch (error) {
         console.error('Error registering user:', error);
-        setErrorMessage('Registration failed. Please try again.');
+         toast.error('Registration failed. Please try again.');
       }
     }
   };
@@ -223,9 +225,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
         <div className="form-group">
           <label htmlFor="">Password</label>
         <input type={showPassword ? 'tel' : 'password'} name="password" value={formData.password} onChange={handleChange} placeholder='Password' />
-        <span onClick={togglePasswordVisibility} className="password-view-signup">
-          {showPassword ? <FaEyeSlash /> : <FaEye />}
-        </span>
+       
         {registerErrors.password && <p className="error">{registerErrors.password}</p>}
         </div>
        
@@ -243,7 +243,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
        
       </form>
     </div>
-
+     <ToastContainer />
     {/* {notifation message} */}
 {successMessage && (
         <Notification message={successMessage} onClose={closeNotification} type="success" />

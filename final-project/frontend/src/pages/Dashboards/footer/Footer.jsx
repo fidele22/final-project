@@ -6,7 +6,7 @@ function Footer() {
     <div className='footer'>
         <div className="footer-content">
             <img src="" alt="" />
-            <p>Shyira District Hospital</p>
+            <p>District Hospital</p>
         </div>
         
         

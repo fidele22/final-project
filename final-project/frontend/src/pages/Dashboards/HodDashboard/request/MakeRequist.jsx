@@ -33,23 +33,41 @@ const UserRequestForm = () => {
     fetchItems();
   }, []);
 
-  const validateQuantities = () => {
-    for (const item of items) {
-      if (item.quantityRequested > (stockQuantities[item.itemId] || 0)) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Quantity Requested exceeds available Quantity in stock.',
-          icon: 'error',
-          confirmButtonText: 'OK',
-          customClass: {
-            popup: 'custom-swal', // Apply custom class to the popup
-          }
-        });
-        return false;
-      }
-    }
-    return true;
-  };
+  
+const validateQuantities = () => {
+  const exceededItems = items.filter(
+    (item) => Number(item.quantityRequested) > (stockQuantities[item.itemId] || 0)
+  );
+
+  if (exceededItems.length > 0) {
+    const message = `
+      <p>Quantity Requested exceeds available Quantity in stock.</p>
+      <ul style="text-align:left; padding-left: 20px;">
+        ${exceededItems
+          .map(item => {
+            const availableQty = stockQuantities[item.itemId] || 0;
+            return `<li><strong>${item.itemName}</strong>: Requested <strong>${item.quantityRequested}</strong>, Available <strong>${availableQty}</strong></li>`;
+          })
+          .join("")}
+      </ul>
+    `;
+
+    Swal.fire({
+      title: 'Quantity Exceeded!',
+      icon: 'error',
+      html: message,
+      confirmButtonText: 'OK',
+      customClass: {
+        popup: 'custom-swal',
+      },
+    });
+
+    return false;
+  }
+
+  return true;
+};
+
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -277,7 +295,7 @@ const UserRequestForm = () => {
                <label htmlFor="hodName">Name of head of {user.departmentName}</label>
                 <p>{user.firstName} {user.lastName}</p>
                 {user.signature ? (
-                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" />
+                  <img src={`${process.env.REACT_APP_BACKEND_URL}/${user.signature}`} alt="Signature" className="signature-img" />
                 ) : (
                   <p>No signature available</p>
                 )}
