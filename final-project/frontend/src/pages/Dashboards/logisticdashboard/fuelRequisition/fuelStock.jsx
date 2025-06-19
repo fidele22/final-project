@@ -5,6 +5,9 @@ import axios from 'axios';
 import { jsPDF } from "jspdf";
 import "jspdf-autotable"; // Import the autotable plugin
 import html2canvas from 'html2canvas'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import * as XLSX from "xlsx";
 import './registercar.css';
 
@@ -104,7 +107,7 @@ const FuelStockList = () => {
     e.preventDefault();
     try {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/fuel/add-fuel`, newFuelStock);
-      alert('Fuel data added successfully');
+      toast.success('Fuel data added successfully');
       setNewFuelStock({
         fuelType: '',
         quantity: '',
@@ -113,7 +116,7 @@ const FuelStockList = () => {
       fetchFuelStocks();
     } catch (error) {
       console.error('Error adding fuel stock:', error);
-      alert('Error adding fuel stock');
+      toast.success('Error adding fuel stock');
     }
   };
 
@@ -462,6 +465,9 @@ const FuelStockList = () => {
             </div>
           </div>
         )}
+
+        <ToastContainer />
+
     </div>
   );
 };

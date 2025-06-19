@@ -14,7 +14,7 @@
     height: auto;
     padding: 20px;
     border-radius: 20px; /* Smooth corners */
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    box-shadow: rgba(96, 142, 180, 0.16) 0px 1px 4px, rgb(42, 123, 177) 0px 0px 0px 3px;
     position: relative;
     overflow: hidden;
   }
@@ -27,7 +27,7 @@
     left: 0;
     width: 100px;
     height: 100px;
-    background-color: #007bff; /* Adjust color */
+    background-color: #53a0c4; /* Adjust color */
     border-top-right-radius: 100px;
   }
   
@@ -38,7 +38,7 @@
     right: 0;
     width: 100px;
     height: 100px;
-    background-color: #007bff; /* Adjust color */
+    background-color: #53a0c4; /* Adjust color */
     border-bottom-left-radius: 100px;
   }
 
@@ -46,13 +46,13 @@
 .welcome-nav h1 {
     text-align: center;
     color: black;
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 800;
 }
 
 .welcome-nav h1 span {
-    color: #007bff;
-    font-size: 30px;
+    color: #355e8a;
+    font-size: 25px;
 }
   .chart-section{
     display: flex;
@@ -96,6 +96,15 @@
     width: 100%;
     height: 20vh;
   
+  }
+  .overview-section h2{
+    font-size: 18px;
+    padding: 10px;
+  }
+  .overview-section h4{
+    font-size: 20px;
+    color: rgb(44, 44, 44);
+    font-weight: 900;
   }
   .logistic-overview-widgets {
     display: grid;

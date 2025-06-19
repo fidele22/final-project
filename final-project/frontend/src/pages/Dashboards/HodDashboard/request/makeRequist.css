@@ -1,17 +1,17 @@
 /* makeRequist.css */
 .requistion {
-  width: 100%;
+  width: 95%;
   margin: 0 auto;
   padding: 10px;
  
 }
 
-.heading-title .title{
+.request-form .title{
   display: flex;
 }
-.heading-title.title h4{
-  padding:10px; 
+.request-form .title h4{
   font-size: 12px;
+  color: rgb(53, 52, 52);
   
 }
 .heading-title .title input{

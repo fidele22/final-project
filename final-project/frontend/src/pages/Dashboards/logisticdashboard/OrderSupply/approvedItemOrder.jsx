@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //import './styling.css';
 
 const ForwardedRequests = () => {
@@ -157,14 +160,7 @@ const ForwardedRequests = () => {
 
     if (!isSigned) {
   
-      Swal.fire({
-        title: 'Error!',
-        text: 'You must sign before recieving this requistion.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-  
-      });
-  
+     toast.error('You must sign before recieving this requistion.')
       return;
   
     }
@@ -190,27 +186,14 @@ const ForwardedRequests = () => {
           signature: user.signature
         }
     });
-    setSelectedRequest(response.data);
-      Swal.fire({
-        title: 'Success',
-        text: 'receiving logistic item order successfully',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal',
-        }
-      });
+     setSelectedRequest(response.data);
+     toast.success( 'receiving logistic item order successfully')
+      fetchForwardedRequests ();
+
     } catch (error) {
       console.error('Error approving request:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to receiving item order',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal',
-        }
-    });
+     toast.error('Failed to receiving item order')
+
 }
 }
 };
@@ -372,7 +355,7 @@ const handleSignClick = () => {
                 <div className='date-done'>
                   <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
                 </div>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
@@ -466,6 +449,9 @@ const handleSignClick = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer />
+
     </div>
   );
 };

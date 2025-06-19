@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../contentCss/itemrequisitionpages.css';
 
 const ForwardedRequests = () => {
@@ -156,14 +158,7 @@ const ForwardedRequests = () => {
     e.preventDefault();
 
     if (!isSigned) {
-  
-      Swal.fire({
-        title: 'Error!',
-        text: 'You must sign before verifying.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-  
-      });
+    toast.error('You must sign before verifying.');
   
       return;
   
@@ -191,26 +186,13 @@ const ForwardedRequests = () => {
       }
     });
     setSelectedRequest(response.data);
-      Swal.fire({
-        title: 'Success',
-        text: 'Verifying logistic item order successfully',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal',
-        }
-      });
+    toast.success('Verifying logistic item order successfully');
+    fetchForwardedRequests ();
+
     } catch (error) {
       console.error('Error approving request:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to verify item order',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal',
-        }
-    });
+      toast.error('Failed to verify item order');
+
 }
 }
 };
@@ -238,7 +220,7 @@ const handleSignClick = () => {
     <div className={`verified-requist ${selectedRequest ? 'dim-background' : ''}`}>
       <div className="order-navigation">
         <div className='navigation-title'>
-          <h2>Requisition from logistic office for fuel</h2>
+          <h2>Pending requisition from logistic office for item</h2>
         </div>
         
         <div className='statusFilter'>
@@ -255,8 +237,8 @@ const handleSignClick = () => {
         <table className="requests-table">
           <thead>
             <tr>
-              <th>No</th>
-              <th>Request type</th>
+              <th style={{ width: '50px' }}>No</th>
+              <th style={{ width: '350px' }}>Request type</th>
               <th>Supplier Name</th>
               <th>Done on</th>
               <th>Status</th>
@@ -265,8 +247,9 @@ const handleSignClick = () => {
           <tbody>
             {currentRequests.map((request, index) => (
               <tr key={request._id} onClick={() => handleRequestClick(request._id)}>
-                <td>{index + 1 + indexOfFirstRequest}</td>
-                <td>Request of fuel from logistic office prepared by {request.logisticName}</td>
+               <td style={{ width: '50px' }}>{index + 1 + indexOfFirstRequest}</td>
+               <td style={{ width: '350px' }}>
+                Request of fuel from logistic office prepared by {request.logisticName}</td>
                 <td>{request.supplierName}</td>
                 <td>{new Date(request.createdAt).toDateString()}</td>
                 <td>
@@ -299,7 +282,7 @@ const handleSignClick = () => {
             {isEditing ? (
               <form>
                 <h2>Edit Request</h2>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
@@ -373,7 +356,7 @@ const handleSignClick = () => {
                 <div className='date-done'>
                   <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
                 </div>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
@@ -433,6 +416,9 @@ const handleSignClick = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer />
+
     </div>
   );
 };

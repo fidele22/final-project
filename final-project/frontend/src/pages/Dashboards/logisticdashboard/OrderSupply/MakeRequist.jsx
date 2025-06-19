@@ -182,44 +182,55 @@ const LogisticRequestForm = () => {
                   </p>
                 </div>
                 <button type="button" className="Add-item-btn" onClick={handleAddItem}>Add Item</button>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Item Name</th>
-                      <th>Quantity Requested</th>
-                      <th>Price</th>
-                      <th>Total Amount</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {items.map((item, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>
-                          <SearchableDropdown
-                            options={itemOptions}
-                            selectedValue={item.itemName}
-                            onSelect={(value) => handleItemChange(index, 'itemName', value)}
-                          />
-                        </td>
-                        <td>
-                          <input type="number" value={item.quantityRequested} onChange={(e) => handleItemChange(index, 'quantityRequested', e.target.value)} required />
-                        </td>
-                        <td>
-                          <input type="number" value={item.price} onChange={(e) => handleItemChange(index, 'price', e.target.value)} required />
-                        </td>
-                        <td>
-                          <input type="number" value={item.totalAmount} readOnly />
-                        </td>
-                        <td>
-                          <button type="button" className="remove-btn" onClick={() => handleRemoveItem(index)}>Remove</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+             <table>
+               <thead>
+                 <tr>
+                   <th style={{ width: '50px' }}>No</th>
+                   <th style={{ width: '250px' }}>Item Name</th>
+                   <th>Quantity Requested</th>
+                   <th>Price</th>
+                   <th>Total Amount</th>
+                   <th>Action</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 {items.map((item, index) => (
+                   <tr key={index}>
+                     <td style={{ width: '50px' }}>{index + 1}</td>
+                     <td style={{ width: '250px' }}>
+                       <SearchableDropdown
+                         options={itemOptions}
+                         selectedValue={item.itemName}
+                         onSelect={(value) => handleItemChange(index, 'itemName', value)}
+                       />
+                     </td>
+                     <td>
+                       <input
+                         type="number"
+                         value={item.quantityRequested}
+                         onChange={(e) => handleItemChange(index, 'quantityRequested', e.target.value)}
+                         required
+                       />
+                     </td>
+                     <td>
+                       <input
+                         type="number"
+                         value={item.price}
+                         onChange={(e) => handleItemChange(index, 'price', e.target.value)}
+                         required
+                       />
+                     </td>
+                     <td>
+                       <input type="number" value={item.totalAmount} readOnly />
+                     </td>
+                     <td>
+                       <button type="button" className="remove-btn" onClick={() => handleRemoveItem(index)}>Remove</button>
+                     </td>
+                   </tr>
+                 ))}
+               </tbody>
+             </table>
+
                 <div className='signature-section'>
                   <div className='logistic-signature'>
                     <label className='signature-title'>Logistic Office:</label>
@@ -239,8 +250,8 @@ const LogisticRequestForm = () => {
                   </div>
                 </div>
                 <hr />
-                <h4>SHYIRA DISTRICT HOSPITAL, WESTERN PROVINCE, NYABIHU DISTRICT</h4>
-                <button className='Log-submit-btn' type="submit">Submit</button>
+                <h4> DISTRICT HOSPITAL</h4>
+                <button className='Log-submit-btn' type="submit">Send</button>
               </form>
             </div>
           </div>
@@ -258,7 +269,7 @@ const LogisticRequestForm = () => {
           </button>
           {dropdownOpen.item && (
             <div className="dropdown-content">
-              <button onClick={() => handleDropdownItemClick('requisition')}>Make Item Requisition</button>
+              <button onClick={() => handleDropdownItemClick('requisition')}>Make Item Order</button>
               <button onClick={() => handleDropdownItemClick('item-status')}>Item Order Status</button>
               <button onClick={() => handleDropdownItemClick('approved-item-order')}>Item Order Approved</button>
             </div>

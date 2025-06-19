@@ -23,6 +23,9 @@
     width: 100px;
     height: 100px;
 }
+.form-register-columns input:focus{
+    border: 1px solid blue;
+}
 .form-register-columns select{
     width: 300px; 
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -62,6 +65,25 @@
     padding: 5px;
     border-radius: 10px;
 }
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  padding-right: 35px; /* Room for the icon */
+  width: 100%;
+}
+
+.toggle-password-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
 /* Media Queries for Responsiveness */ 
 @media (max-width: 608px) {
     .form-register-columns {

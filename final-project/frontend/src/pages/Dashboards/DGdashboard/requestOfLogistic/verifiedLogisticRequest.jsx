@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './styling.css';
 
 const ForwardedRequests = () => {
@@ -156,21 +159,14 @@ const ForwardedRequests = () => {
     e.preventDefault();
 
     if (!isSigned) {
-  
-      Swal.fire({
-        title: 'Error!',
-        text: 'You must sign before approving this requistion.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-  
-      });
+  toast.error('You must sign before verifying.');
   
       return;
   
     }
     const confirmReject = await Swal.fire({
         title: 'Are you sure?',
-        text: "You want to verify this requisition, You won't be able to revert this!",
+        text: "You want to approve this requisition, You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -191,26 +187,14 @@ const ForwardedRequests = () => {
       }
     });
     setSelectedRequest(response.data);
-      Swal.fire({
-        title: 'Success',
-        text: 'Verifying logistic item order successfully',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal',
-        }
-      });
+    
+         toast.success('Approve logistic item order successfully')
+    
     } catch (error) {
       console.error('Error approving request:', error);
-      Swal.fire({
-        title: 'Error!',
-        text: 'Failed to verify item order',
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal',
-        }
-    });
+      
+         toast.error('Failed to approve item order')
+ 
 }
 }
 };
@@ -299,7 +283,7 @@ const handleSignClick = () => {
             {isEditing ? (
               <form>
                 <h2>Edit Request</h2>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
@@ -373,7 +357,7 @@ const handleSignClick = () => {
                 <div className='date-done'>
                   <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
                 </div>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
@@ -449,6 +433,9 @@ const handleSignClick = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer />
+
     </div>
   );
 };

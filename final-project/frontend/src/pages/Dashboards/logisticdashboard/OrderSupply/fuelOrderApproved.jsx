@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ForwardedRequests = () => {
   const [forwardedRequests, setForwardedRequests] = useState([]);
@@ -67,12 +70,8 @@ const ForwardedRequests = () => {
   const handleReceivedClick = async (e) => {
     e.preventDefault();
     if (!isSigned) {
-      Swal.fire({
-        title: 'Error!',
-        text: 'You must sign before mark as recieved , click on sign please!!.',
-        icon: 'error',
-        confirmButtonText: 'OK',
-      });
+   toast.error('You must sign before mark as recieved , click on sign please!!')
+    
       return;
     }
 
@@ -106,21 +105,12 @@ const ForwardedRequests = () => {
     )
 
   );
-
-          Swal.fire({
-            title: 'Success!',
-            text: 'Reception sign and update fuel stock successfully',
-            icon: 'success',
-            confirmButtonText: 'OK',
-          });
+   toast.success('Reception received and update fuel stock successfully')
+           
         } catch (error) {
           console.error('Error for approving request:', error);
-          Swal.fire({
-            title: 'Error!',
-            text: 'Failed to sign reception of fuel order',
-            icon: 'error',
-            confirmButtonText: 'OK',
-          });
+        toast.success('Failed to sign reception of fuel order')
+     
         }
       }
     });
@@ -212,7 +202,7 @@ const ForwardedRequests = () => {
               {selectedRequest.items && selectedRequest.items.map((item, idx) => (
                 <tr key={idx}>
                   <td>{idx + 1}</td>
-                  <td>{item.destination}</td>
+                  <td>{item.desitination}</td>
                   <td>{item.quantityRequested}</td>
                   <td>{item.pricePerUnit}</td>
                   <td>{item.totalPrice}</td>
@@ -262,6 +252,9 @@ const ForwardedRequests = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer />
+
     </div>
   );
 };

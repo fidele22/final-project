@@ -24,9 +24,10 @@ const SignUpForm = ({ onSwitchToLogin }) => {
   const [departments, setDepartments] = useState([]);
   const [services, setServices] = useState([]);
   const [positions, setPositions] = useState([]);
-  const [showPassword, setShowPassword] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+
+ const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -130,10 +131,7 @@ const SignUpForm = ({ onSwitchToLogin }) => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  const closeNotification = () => {
-    setSuccessMessage('');
-    setErrorMessage('');
-  };
+  
 
   return (
     <div className="register-user-form">
@@ -224,14 +222,39 @@ const SignUpForm = ({ onSwitchToLogin }) => {
         </div>
         <div className="form-group">
           <label htmlFor="">Password</label>
-        <input type={showPassword ? 'tel' : 'password'} name="password" value={formData.password} onChange={handleChange} placeholder='Password' />
-       
+       <div className="password-wrapper">
+  <input
+    type={showPassword ? 'text' : 'password'}
+    name="password"
+    value={formData.password}
+    onChange={handleChange}
+    placeholder="Password"
+  />
+  <span className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </span>
+</div>
+{registerErrors.password && <p className="error">{registerErrors.password}</p>}
+
         {registerErrors.password && <p className="error">{registerErrors.password}</p>}
         </div>
        
         <div className="form-group">
           <label htmlFor="">Confirm password</label>
-        <input type={showPassword ? 'tel' : 'password'} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder='Confirm Password' />
+        <div className="password-wrapper">
+  <input
+    type={showConfirmPassword ? 'text' : 'password'}
+    name="confirmPassword"
+    value={formData.confirmPassword}
+    onChange={handleChange}
+    placeholder="Confirm Password"
+  />
+  <span className="toggle-password-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+  </span>
+</div>
+{registerErrors.confirmPassword && <p className="error">{registerErrors.confirmPassword}</p>}
+
         {registerErrors.confirmPassword && <p className="error">{registerErrors.confirmPassword}</p>}
        </div>
        </div>
@@ -243,14 +266,9 @@ const SignUpForm = ({ onSwitchToLogin }) => {
        
       </form>
     </div>
+
      <ToastContainer />
-    {/* {notifation message} */}
-{successMessage && (
-        <Notification message={successMessage} onClose={closeNotification} type="success" />
-      )}
-      {errorMessage && (
-        <Notification message={errorMessage} onClose={closeNotification} type="error" />
-      )}
+
     </div>
     
   );

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { FaQuestionCircle, FaEdit, FaTimes,FaCheckCircle, FaTimesCircle,FaTrash,FaCheck } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './stylingfuelorders.css'
 
 //import './ViewRequest.css'; // Import CSS for styling
@@ -104,16 +107,7 @@ const ForwardedRequests = () => {
       setForwardedRequests(prevRequests =>
         prevRequests.map(req => (req._id === response.data._id ? response.data : req))
       );
-      Swal.fire ({
-        title: 'Updated!',
-        text: 'requisition updated successful',
-        icon: 'success',
-        confirmButtonText: 'OK',
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-      });
-    alert('')
+    toast.success( 'requisition updated successful')
    
     } catch (error) {
       console.error('Error updating request:', error);
@@ -133,18 +127,7 @@ const handleApproveSubmit = async (e) => {
   e.preventDefault();
 
   if (!isSigned) {
-
-    Swal.fire({
-
-      title: 'Error!',
-
-      text: 'You must sign before verifying.',
-
-      icon: 'error',
-
-      confirmButtonText: 'OK',
-
-    });
+   toast.error('You must sign before verifying.')
 
     return;
 
@@ -173,28 +156,14 @@ const handleApproveSubmit = async (e) => {
           }
         });
         setSelectedRequest(response.data);
-        Swal.fire({
-          title: 'Success!',
-          text: 'Fuel order verified successfully',
-          icon: 'success',
-          confirmButtonText: 'OK',
-          customClass: {
-            popup: 'custom-swal', // Apply custom class to the popup
-          }
-        });
+          toast.success('Fuel order verified successfully')
+   
         // Optionally refresh the list
         fetchForwardedRequests();
       } catch (error) {
         console.error('Error approving request:', error);
-        Swal.fire({
-          title: 'Error!',
-          text: 'Failed to approve fuel order',
-          icon: 'error',
-          confirmButtonText: 'OK',
-          customClass: {
-            popup: 'custom-swal', // Apply custom class to the popup
-          }
-        });
+        toast.success('Failed to approve fuel order')
+        
       }
     }
   });
@@ -452,7 +421,8 @@ const handleRejectSubmit = async () => {
         </div>
       )}
      
- 
+ <ToastContainer />
+
     </div>
   );
 };

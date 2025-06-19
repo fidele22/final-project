@@ -29,21 +29,21 @@ const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
   return (
     <div ref={navbarRef} className={`adminavbar ${isMenuOpen ? 'open' : ''}`}>
      <div className="nav-logo">
-      <h1>Lmis</h1>
+
       </div>
       <ul>
-        <li onClick={() => handleLinkClick('adminoverview')}><FaHome /> Overview</li>
-        <li onClick={() => handleLinkClick('view-Users')}><FaUser  /> Users</li>
-        <li onClick={() => handleLinkClick('user-roles')}><FaHome /> User Roles</li>
-        <li onClick={() => handleLinkClick('view-service')}><FaList /> Services</li>
-        <li onClick={() => handleLinkClick('view-position')}><FaClipboardList /> Positions</li>
-        <li onClick={() => handleLinkClick('view-department')}><FaBurn /> Departments</li>
+        <li onClick={() => handleLinkClick('adminoverview')}><span><FaHome /></span> Overview</li>
+        <li onClick={() => handleLinkClick('view-Users')}><FaUser  /> <span></span> Users</li>
+        <li onClick={() => handleLinkClick('user-roles')}><FaHome /><span></span> User Roles</li>
+        <li onClick={() => handleLinkClick('view-service')}><FaList /><span></span> Services</li>
+        <li onClick={() => handleLinkClick('view-position')}><FaClipboardList /><span></span> Positions</li>
+        <li onClick={() => handleLinkClick('view-department')}><FaBurn /><span></span> Departments</li>
       </ul>
 
       <h2>Settings</h2>
       <ul>
-        <li onClick={() => handleLinkClick('user-profile')}><FaUser  /> Profile</li>
-        <li onClick={() => handleLinkClick('help-center')}><FaBurn /> Help Center</li>
+        <li onClick={() => handleLinkClick('user-profile')}><FaUser  /><span></span> Profile</li>
+        <li onClick={() => handleLinkClick('help-center')}><FaBurn /><span></span> Help Center</li>
         
       </ul>
     </div>

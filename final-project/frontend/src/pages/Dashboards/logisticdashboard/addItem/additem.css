@@ -71,7 +71,7 @@ color: #007bff;
   background-color: green;
 }  
   /* Input file field */
-  input[type="file"] {
+ .upload-data input[type="file"] {
     display: block;
     margin: 10px auto;
     padding: 20px;

@@ -17,7 +17,7 @@ const LogisticFuelOrder = () => {
 
   return (
     <div className="requistion">
-      <div className="links">
+      <div className="logistic-navigate-buttons">
       <button className='view-requisition' onClick={() => setActiveComponent('verifiedFuelOrder')} >
           <FaEye /> Verified logistic fuel requisition
         </button>

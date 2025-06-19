@@ -53,7 +53,7 @@ app.use(cors({
 connectDB();
 
 app.use(session({
-  secret: 'your_secret_key',
+  secret: 'lems_secret_key',
   resave: false,
   saveUninitialized: true,
  // store: MongoStore.create('mongodb://localhost:27017/shyiradb'),
@@ -66,6 +66,7 @@ app.use(session({
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, process.env.UPLOAD_PATH ||'uploads')));
 app.use('/files', express.static(path.join(__dirname, process.env.UPLOAD_FILE || 'files')));
+app.use('/profile-pics', express.static(path.join(__dirname, 'profile-pics')));
 
 app.get('/', (req, res) => {
   res.send('Static file serving test');

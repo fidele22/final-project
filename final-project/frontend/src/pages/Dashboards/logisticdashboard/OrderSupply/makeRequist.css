@@ -17,11 +17,11 @@
 
 /* Dropdown button */
 .dropdown-button {
-  background-color: #4CAF50; /* Green background */
-  color: white; /* White text */
+  background-color: #d9e6d9; /* Green background */
+  color: rgb(56, 55, 55); /* White text */
   padding: 10px 15px; /* Padding */
   font-size: 16px; /* Font size */
-  border: none; /* No border */
+  border-right:1px solid black; /* No border */
   border-radius: 4px; /* Rounded corners */
   cursor: pointer; /* Pointer cursor on hover */
   transition: background-color 0.3s; /* Transition effect */
@@ -29,7 +29,7 @@
 
 /* Change background color on hover */
 .dropdown-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background-color: #c7d4c8; /* Darker green on hover */
 }
 
 /* Dropdown content (hidden by default) */

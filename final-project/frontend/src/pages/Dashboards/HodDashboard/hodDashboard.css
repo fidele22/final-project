@@ -49,7 +49,7 @@ body {
   @media (min-width: 300px) and (max-width: 600px) {
     /* CSS rules here */
     .daf-dashboards{
-      background-color: blueviolet;
+
       margin: 0%;
       width: 100%;
       padding:0;

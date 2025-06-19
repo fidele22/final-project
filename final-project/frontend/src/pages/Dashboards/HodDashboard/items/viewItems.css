@@ -1,52 +1,60 @@
 *{
     margin: 0;
 }
-.hod-items{
-    background-color: white;
-    padding: 20px;
-    width:auto;
-    
+.hod-items-container {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
 }
-.hod-items h2{
-    padding: 20px;
+
+.hod-items {
+  flex: 2;
+  min-width: 300px;
 }
-.search-input input[type='text']{
-    width: 30%;
-    border-left: none;
-    border-top: none;
-    border-right: none;
-    font-size: 16px;
+
+.item-welcome-sidebar {
+  flex: 1;
+  min-width: 250px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-left: 2px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
 }
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.item-welcome-sidebar img {
+  width: 340px;
+  height: 250px;
+  margin-bottom: 10px;
+}
+
+.item-welcome-sidebar h3 {
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+.item-welcome-sidebar p {
+  font-size: 14px;
+  color: #444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hod-items-container {
+    flex-direction: column;
+  }
+
+  .item-welcome-sidebar {
     margin-top: 20px;
   }
-  
-  .pagination-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    margin: 0 5px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .pagination-btn:disabled {
-    background-color: #d6d6d6;
-    cursor: not-allowed;
-  }
-  
-  .pagination span {
-    margin: 0 10px;
-    font-size: 16px;
-  }
+}
+
    /* responsiviness */
    @media (min-width: 600px) and (max-width: 800px) {
     /* CSS rules here */
+    .hod-items-container{
+      padding: 10px;
+    }
     .hod-items{
       width: 90%;
       margin-left: 5%;
@@ -55,10 +63,18 @@
   }
   @media (min-width: 300px) and (max-width: 600px) {
     /* CSS rules here */
+      .hod-items-container{
+      padding: 10px;
+    }
   .search-input input[type="text"]{
     width: 100%;
   }
   table th,td{
     font-size: 12px;
   }
+  .item-welcome-sidebar img {
+  width: 300px;
+  height: 200px;
+  margin-bottom: 10px;
+}
   }

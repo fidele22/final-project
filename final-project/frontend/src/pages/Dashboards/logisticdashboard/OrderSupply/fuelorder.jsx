@@ -3,6 +3,9 @@ import axios from 'axios';
 import { FaQuestionCircle, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import Swal from 'sweetalert2'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //import './makeRequist.css'; // Import CSS for styling
 
 const LogisticRequestForm = () => {
@@ -62,15 +65,8 @@ const LogisticRequestForm = () => {
   
       console.log(response.data);
         // Show success message using SweetAlert2
-        Swal.fire ({
-          title: 'Success!',
-          text: 'Fuel order sent successfully',
-          icon: 'success',
-          confirmButtonText: 'OK',
-          customClass: {
-            popup: 'custom-swal', // Apply custom class to the popup
-          }
-        });
+    toast.success('Fuel order sent successfully')
+ 
 
       // Clear the form fields after successful submission
         setSupplierName('');
@@ -80,16 +76,8 @@ const LogisticRequestForm = () => {
 
     } catch (error) {
       console.error('Error submitting requisition:', error);
-        // Show success message using SweetAlert2
-        Swal.fire ({
-          title: 'Error!',
-          text: 'Failed to submit fuel order',
-          icon: 'error',
-          confirmButtonText: 'OK',
-          customClass: {
-            popup: 'custom-swal', // Apply custom class to the popup
-          }
-        });
+       toast.success( 'Failed to submit fuel order')
+ 
     }
   };
   
@@ -176,6 +164,7 @@ const LogisticRequestForm = () => {
                 onChange={(e) => setSupplierName(e.target.value)}
                 placeholder="Type here .........."
                 required
+                style={{fontSize:'16px'}}
               />
             </div>
           </div>
@@ -258,9 +247,12 @@ const LogisticRequestForm = () => {
 
          
 
-          <button className='hod-submit-btn' type="submit">Send Request</button>
+          <button style={{width:'150px',fontSize:'16px'}} type="submit">Send Request</button>
         </form>
       </div>
+
+      <ToastContainer />
+
     </div>
   );
 };

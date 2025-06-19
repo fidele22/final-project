@@ -54,7 +54,7 @@ color: white;
 }
 /* Input field styling */
 .login input[type='password'],
-[type='email']{
+[type='email'],[type='text']{
     width: 70%; 
     font-family: Georgia, 'Times New Roman', Times, serif;
     color: #6c6c6d;
@@ -87,7 +87,7 @@ color: white;
 .password-view-login {
     position: absolute;
     top: 74.6%;
-    right: 15%; /* Adjust to position inside input */
+    right: 20%; /* Adjust to position inside input */
     transform: translateY(-50%);
     cursor: pointer;
     color: black;
@@ -100,29 +100,29 @@ color: white;
 .password-view-login-error {
     top: calc(71.2% + 10px); /* Move down slightly when error is shown */
   }
-/* .password-lock-icon {
-    position: absolute;
-    top: 74.5%;
-    left: 15%;
-    transform: translateY(-50%);
-    color:white;
-    padding: 9px;
-    border-radius: 30px;
-    background-color: #6c6c6d;
-  } */
+.login-password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.login-password-wrapper .input-field {
+  padding-right: 35px; /* space for the icon */
+  width: 70%;
+}
+
+.login-toggle-password-icon {
+  position: absolute;
+  top: 50%;
+  right: 15%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+}
+
 .password-lock-icon-error{
     top: calc(71.2% + 10px); /* Move down slightly when error is shown */
     }
-/* .password-email-icon {
-    position: absolute;
-    top: 63%;
-    left: 15%;
-    transform: translateY(-50%);
-    color:white;
-    padding: 9px;
-    border-radius: 30px;
-    background-color: #6c6c6d;    
-} */
+
 .password-email-icon-error{
   top: calc(57.7% + 10px); /* Move down slightly when error is shown */
   }
@@ -135,9 +135,9 @@ color: white;
     text-decoration: none;
 }
 /* Button */
-.login-btn {
+.login .login-button {
     width: 40%;
-    padding: 12px;
+    padding: 10px;
     background: #07a8e7;
     border: none;
     color: white;
@@ -148,7 +148,7 @@ color: white;
     transition: 0.3s;
 }
 
-.login-btn:hover {
+.login .login-button:hover {
     background: #1fc0ff;
 }
 

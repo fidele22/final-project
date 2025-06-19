@@ -1,48 +1,92 @@
+.add-user {
+  position: relative;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  max-width: 1000px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
 
+.register-user {
+  position: relative;
 
-.register-user{
-    background-color: white;
-    padding: 20px;
+}
+
+.close-addform-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+}
+
+.form-three-columns {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.form-column {
+  flex: 1;
+  min-width: 280px;
+}
+
+.form-column label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.form-column input[type="text"],
+.form-column input[type="password"],
+.form-column input[type="file"],
+.form-column select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-column input:focus,
+.form-column select:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.register-user-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-user-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive: stack columns on small screens */
+@media (max-width: 992px) {
+  .form-three-columns {
+    flex-direction: column;
+  }
+
+  .form-column {
     width: 100%;
-    margin-left: 2%;
-}
-.register-user h1{
-    text-align: center;
-    color: blue;
-    font-size: 20px;
-}
-.register-user span{
-    color: black;
-    text-align: center;
-    padding: 10px;
-}
-.register-user input[type='text']{
-    font-size: 16px;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-}
-.register-user input[type='password']{
-    height: 40px;
-    font-size: 16px;
-
-    border-top: none;
-    border-left: none;
-    border-right: none;
-}
-
-.register-user-btn{
-    background-color: rgb(58, 134, 205);
-    font-size: 20px;
-    margin-top: 2rem;
-}
-.headers{
-    display: flex;
-}
-.add-new-user-btn{
-    position: absolute;
-    right:4%;
-    background-color:blue;
-    border-radius: 5px;
- 
+  }
 }

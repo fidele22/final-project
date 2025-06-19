@@ -16,7 +16,7 @@ const UserFuelRequesition = () => {
 
   return (
     <div className="requistion">
-      <div className="links">
+      <div className="logistic-navigate-buttons">
       <button className='view-requisition' onClick={() => setActiveComponent('verifiedOrder')} >
           <FaEye /> Verified requisition
         </button>
@@ -33,7 +33,7 @@ const UserFuelRequesition = () => {
         <Orderstatus />
       ) :(
         <div>
-    <p>Navigate to what you want to look.</p>
+        <Orderstatus />
         </div>
       )}
 

@@ -44,6 +44,18 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    twoFAEnabled: {
+    type: Boolean,
+    default: false, // or false if you want it off by default
+  },
+   //for 2FA code
+  twoFACode: String,
+  twoFACodeExpires: Date,
+
+  profilePic: {
+  type: String,
+  default: ''
+}
   },
   { timestamps: true } // Automatically add createdAt and updatedAt
 );

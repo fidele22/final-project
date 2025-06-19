@@ -3,6 +3,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 //import PrivateRoute from './Component/ProtectedRoute'
 import Login from './pages/Login/parentLoginRegister'
+import VerifyOTP from './pages/Login/OtpVerification';
+
 import ForgotPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPasswordPage';
 import AdminDashboard from './pages/Dashboards/admindashboard/AdminDashboard';
@@ -22,6 +24,7 @@ function App() {
         <Routes>
         
           <Route path="/" element={<Login />} />
+          <Route path="/verify-otp" element={<VerifyOTP />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/admin-dashboard/*" element={<ProtectedRoute component={AdminDashboard} />} />

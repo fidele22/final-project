@@ -47,11 +47,12 @@ const DataDisplay = ({ onItemSelect }) => {
   };
 
   return (
-    <div className="hod-items">
-      <h2>Items List Available</h2>
+ <div className="hod-items-container">
+  {/* Left: Table and Search */}
+  <div className="hod-items">
+    <h2>Items List Available</h2>
 
-      {/* Search input field */}
-      <div className="search-input">
+    <div className="search-input">
       <input
         type="text"
         placeholder="Search by name..."
@@ -59,47 +60,52 @@ const DataDisplay = ({ onItemSelect }) => {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="search-input"
       />
-      </div>
- 
-
-      <table>
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            {/* <th>Quantity Available</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              {/* <td>{item.quantity}</td> */}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {/* Pagination controls */}
-      <div className="pagination">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="pagination-btn"
-        >
-          Previous
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="pagination-btn"
-        >
-          Next
-        </button>
-      </div>
     </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {currentItems.map((item, index) => (
+          <tr key={index}>
+            <td>{item.name}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div className="pagination">
+      <button
+        onClick={handlePreviousPage}
+        disabled={currentPage === 1}
+        className="pagination-btn"
+      >
+        Previous
+      </button>
+      <span>
+        Page {currentPage} of {totalPages}
+      </span>
+      <button
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+        className="pagination-btn"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+
+  {/* Right: Welcome message with icon */}
+  <div className="item-welcome-sidebar">
+    <img src="/image/stockitem.jpg"  />
+    <h3>Welcome!</h3>
+    <p>Here you can view all the available items in our stock system. Use the search box to quickly find what you need.</p>
+  </div>
+</div>
+
   );
 };
 

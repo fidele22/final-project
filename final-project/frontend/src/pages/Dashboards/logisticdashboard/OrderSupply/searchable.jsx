@@ -44,8 +44,8 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
                   key={index}
                   className='dropdown-list'
                   onClick={() => handleOptionClick(option.name)} 
-                >
-                  {option.name} {/* Display the name */}
+                 >
+               {index + 1}. {option.name} {/* Display the name */}
                 </li>
               ))
             ) : (

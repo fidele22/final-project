@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-//import './contentCss/overview.css';
+import '../dafdashboard/contentCss/overview.css'
 
 const DashboardOverview = () => {
   const [lastName, setLastName] = useState('');
@@ -81,7 +81,7 @@ fetchDashboardStats();
       {/* Overview Sections */}
       <section className="overview-section">
 
-        <h2>Truck Overview</h2>
+        <h2>Overview</h2>
        
         <p>Here you can find essential logistic information relevant to hospital operations.</p>
         {/* Add relevant widgets and summaries here */}

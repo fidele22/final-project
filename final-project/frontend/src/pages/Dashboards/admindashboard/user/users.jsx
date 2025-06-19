@@ -276,7 +276,7 @@ const filteredUsers = Array.isArray(users) ? users.filter(user =>
       <div className="headers">
       <h2>System User Management</h2>
       <div >
-          <button className="add-new-user-btn" onClick={() => setShowAddUserForm(true)}>Add new user</button>
+          <button className="add-new-user-btn" onClick={() => setShowAddUserForm(true)}>+ Add new user</button>
         </div>
       </div>
      
@@ -345,11 +345,9 @@ const filteredUsers = Array.isArray(users) ? users.filter(user =>
   {/* Add User Form Overlay */}
   {showAddUserForm && (
           <div className="add-overlay">
-            <div className="add-user-form-container">
-              <button className="close-form-btn" onClick={() => setShowAddUserForm(false)}>
-                <FaTimes size={32} />
-              </button>
-              <AddUser /> {/* Add User Component */}
+            <div className="add-user-form-contaier">
+              <AddUser onClose={() => setShowAddUserForm(false)} />
+
             </div>
           </div>
         )}

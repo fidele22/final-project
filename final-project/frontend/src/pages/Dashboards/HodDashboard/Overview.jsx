@@ -95,22 +95,25 @@ const DashboardOverview = () => {
       )}
 
       <section className="overview-section">
-        <h2>Here are user's Overview:</h2>
+        <h2>Here are requests Overview:</h2>
 
         <p>Here you can find essential logistic information relevant to hospital operations.</p>
         <label htmlFor="">Item requisition status overview</label>
         <div className="logistic-overview-widgets">
           <div className="widget">
+            <h4>Pending request</h4>
             <h3>Number of requisition you sent waited to be verified</h3>
             <label>{requestCounts.pending}</label>
           </div>
          
           <div className="widget">
+            <h4>Verified request</h4>
             <h3>Number of verified Requisition for Item</h3>
             <label>{requestCounts.verified}</label>
           </div>
 
           <div className="widget">
+            <h4>Approved request</h4>
             <h3>Number of Approved Requisition for Item</h3>
             <label>{requestCounts.approved}</label>
           </div>

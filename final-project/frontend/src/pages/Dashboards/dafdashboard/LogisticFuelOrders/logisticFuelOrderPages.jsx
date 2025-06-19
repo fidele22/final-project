@@ -37,7 +37,7 @@ const LogisticFuelOrder = () => {
 
       )   :(
         <div>
-    <p>Navigate to what you want to look.</p>
+       <FuelOrderStatus />
         </div>
       )}
 

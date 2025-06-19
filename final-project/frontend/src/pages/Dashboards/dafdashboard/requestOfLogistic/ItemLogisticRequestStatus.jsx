@@ -111,29 +111,32 @@ const ForwardedRequests = () => {
         </div>
 
         <table className="requests-table">
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Request type</th>
-              <th>Supplier Name</th>
-              <th>Done on</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentRequests.map((request, index) => (
-              <tr key={request._id} onClick={() => handleRequestClick(request._id)}>
-                <td>{index + 1 + indexOfFirstRequest}</td>
-                <td>Request of item from logistic office prepared by {request.logisticName}</td>
-                <td>{request.supplierName}</td>
-                <td>{new Date(request.createdAt).toDateString()}</td>
-                <td>
-                  <b className={`status-${request.status?.toLowerCase()}`}>{request.status}</b>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+  <thead>
+    <tr>
+      <th style={{ width: '50px' }}>No</th>
+      <th style={{ width: '350px' }}>Request type</th>
+      <th>Supplier Name</th>
+      <th>Done on</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {currentRequests.map((request, index) => (
+      <tr key={request._id} onClick={() => handleRequestClick(request._id)}>
+        <td style={{ width: '50px' }}>{index + 1 + indexOfFirstRequest}</td>
+        <td style={{ width: '350px' }}>
+          Request of item from logistic office prepared by {request.logisticName}
+        </td>
+        <td>{request.supplierName}</td>
+        <td>{new Date(request.createdAt).toDateString()}</td>
+        <td>
+          <b className={`status-${request.status?.toLowerCase()}`}>{request.status}</b>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
 
         <div className="pagination">
           <button 
@@ -157,7 +160,7 @@ const ForwardedRequests = () => {
             {isEditing ? (
               <form>
                 <h2>Edit Request</h2>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
@@ -227,7 +230,7 @@ const ForwardedRequests = () => {
                 <div className='date-done'>
                   <label htmlFor="">{new Date(selectedRequest.date).toDateString()}</label>
                 </div>
-                <div className="request-recieved-heading">
+                <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
                   <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>

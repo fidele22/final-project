@@ -1,100 +1,241 @@
 .user-profile {
-  width: 500px;
-  margin: 20px auto;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
-}
-
-.profile-header {
-  align-items: center;
-  margin-bottom: 20px;
- 
-}
-
-.profile-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-   margin-left: 10rem;
-  border: 2px solid #2196F3; /* Add a border color */
+  max-width: 1000px;
+  margin: auto;
 }
 
 .user-profile h2 {
+  margin-bottom: 20px;
+  margin-top: 2rem;
   text-align: center;
-  color: #333;
+  color: #5e5d5d;
 }
 
-.user-profile h3 {
-  color: #8d8b8b;
-}
-
-.profile-form {
+/* Layout for desktop */
+.profile-container {
   display: flex;
-  flex-direction: column;
+  gap: 40px;
+  align-items: flex-start;
 }
 
-.form-group {
+/* Left column - Avatar + Name */
+.profile-sidebar {
+  flex: 1;
+  text-align: center;
+}
+
+/* Profile image */
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+/* Right column - Form + Settings */
+.profile-content {
+  flex: 2;
+}
+
+/* Form styling */
+.profile-form .form-group,
+.password-form .form-group,
+.switch-group {
   margin-bottom: 15px;
 }
 
-.label {
-  font-weight: bold;
+.form-group label {
+  display: block;
   margin-bottom: 5px;
+  font-weight: 500;
 }
 
-.form-group input[type="text"],
-input[type="email"] {
-  padding: 10px;
-  border-top: none;
-  border-left: none;
-  border-right: none;
- 
-  border-radius: 4px;
-  font-size: 16px;
+/* Default input styling (non-editable) */
+.form-groups input[type='text'],
+.form-groups input[type='email'] {
+  width: 100%;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  border: none; /* override the previous border */
+  background-color: #f9f9f9;
+  outline: none;
 }
 
-.form-group input:disabled {
-  background-color: #f0eeee; /* Gray out disabled fields */
+/* Editable state */
+.form-groups input.editable {
+  border: 1px solid #007bff !important;
+  background-color: #ffffff !important;
 }
 
+
+
+/* Action buttons */
 .form-actions {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 .update-button,
-.edit-button {
-  padding: 10px 15px;
+.edit-button,
+.toggle-password-form {
+
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 }
 
 .update-button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
   color: white;
 }
 
 .edit-button {
-  background-color: #2196F3; /* Blue */
+  background-color: #2196F3;
   color: white;
 }
 
-.update-button:disabled {
-  background-color: #ccc; /* Gray out button when disabled */
-  cursor: not-allowed;
+.toggle-password-form {
+  background-color: #c7bfb3;
+  color: white;
 }
 
-.loading {
-  text-align: center;
-  font-size: 18px;
-  color: #2196F3;
+/* 2FA switch styling */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-left: 10px;
 }
 
-.error {
-  color: red;
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider::before {
+  transform: translateX(26px);
+}
+
+.switch-label {
+  margin-left: 10px;
+  font-weight: 500;
+}
+.profile-sidebar {
   text-align: center;
+  padding: 20px;
+  background-color: #f4f5f7;
+  border-radius: 5px;
+}
+
+.profile-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-actions {
+  margin-top: 10px;
+}
+
+.upload-profile-btn, .remove-btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 8px 15px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 6px;
+  transition: background-color 0.3s;
+}
+
+.remove-btn {
+  background-color: #f44336;
+}
+
+.upload-btn:hover, .remove-btn:hover {
+  opacity: 0.8;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 35px; /* Space for the icon */
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #888;
+}
+
+/* ---------- RESPONSIVE BREAKPOINT ---------- */
+@media screen and (max-width: 608px) {
+  .profile-container {
+    flex-direction: column;
+    gap: 30px;
+   
+
+  }
+  .profile-container form{
+   width: 330px;
+  }
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  .update-button,
+  .edit-button,
+  .toggle-password-form {
+    width: 100%;
+  }
 }

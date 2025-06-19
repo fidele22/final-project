@@ -86,11 +86,15 @@ function TopNavbar({ setCurrentPage, toggleNav,isNavVisible}) {
         <li className="user-dropdown" onClick={toggleDropdown}>
           {user ? (
             <>
-              <img
-                src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.firstName}&backgroundColor=E3F2FD`}
-                alt={`${user.firstName} ${user.lastName}`}
-                className="profile-avatar"
-              />
+               <img
+        src={
+          user.profilePic
+            ? `${process.env.REACT_APP_BACKEND_URL}${user.profilePic}`
+            : `https://api.dicebear.com/6.x/initials/svg?seed=${user.firstName}&backgroundColor=E3F2FD`
+        }
+        alt={`${user.firstName} ${user.lastName}`}
+        className="profile-avatar"
+      />
               <h3>{`${user.firstName} ${user.lastName}`}</h3> <FaChevronDown />
             </>
           ) : (

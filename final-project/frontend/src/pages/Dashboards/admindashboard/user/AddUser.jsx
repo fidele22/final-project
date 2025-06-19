@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2'; 
 import axios from 'axios';
+import { FaTimes } from 'react-icons/fa';
+
 import '../css/AddUser.css';
 
 
-const AddUser  = () => {
+const AddUser = ({ onClose }) => {
+
 
   const [formData, setFormData] = useState({
 
@@ -172,8 +175,6 @@ const AddUser  = () => {
 
       formDataToSend.append('password', formData.password);
 
-      formDataToSend.append('confirmPassword', formData.confirmPassword);
-
 
       const response =await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/users/register`, formDataToSend, {
 
@@ -268,111 +269,76 @@ const AddUser  = () => {
 
     <div className='add-user'>
 
-      <div className="register-user">
+   
+    {/* Close Button */}
+    <button className="close-addform-btn" onClick={onClose}>
+  <FaTimes size={24} />
+   </button>
 
-        <form onSubmit={handleSubmitRegisterUser }>
+<form onSubmit={handleSubmitRegisterUser}>
+  <h1>Register New User</h1>
+  <span>Use your email for registration</span>
 
-          <h1>Register New User</h1>
+  <div className="form-three-columns">
+    {/* Column 1: Personal Info */}
+    <div className="form-column">
+      <label>First Name</label>
+      <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First name" required />
 
-          <span>Use your email for registration</span>
+      <label>Last Name</label>
+      <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last name" required />
 
-          <label htmlFor="">First Name</label>
+      <label>Phone Number</label>
+      <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone number" required />
+    </div>
 
-          <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder='First name' required />
+    {/* Column 2: Work Info */}
+    <div className="form-column">
+      <label>Department</label>
+      <select name="departmentName" value={formData.departmentName} onChange={handleChange}>
+        <option value="">Select Department</option>
+        {departments.map((department) => (
+          <option key={department._id} value={department.name}>{department.name}</option>
+        ))}
+      </select>
 
-          
+      <label>Service</label>
+      <select name="serviceName" value={formData.serviceName} onChange={handleChange}>
+        <option value="">Select Service</option>
+        {services.map((service) => (
+          <option key={service._id} value={service.name}>{service.name}</option>
+        ))}
+      </select>
 
-          <label htmlFor="">Last Name</label>
+      <label>Position</label>
+      <select name="positionName" value={formData.positionName} onChange={handleChange} required>
+        <option value="">Select Position</option>
+        {positions.map((position) => (
+          <option key={position._id} value={position.name}>{position.name}</option>
+        ))}
+      </select>
+    </div>
 
-          <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder='Last name' required />
+    {/* Column 3: Account Info */}
+    <div className="form-column">
+      <label>Email Address</label>
+      <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder="Email address" required />
 
-          
+      <label>Password</label>
+      <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Enter password" required />
+      <label>Signature</label>
+      <input type="file" name="signature" onChange={handleChange} />
+    </div>
+  </div>
 
-          <label htmlFor="">Position</label>
+  <button style={{width:'150px'}} className="register-user-btn">Register User</button>
+</form>
 
-          <select name="positionName" value={formData.positionName} onChange={handleChange} required>
 
-            <option value="">Select Position</option>
-
-            {positions.map((position) => (
-
-              <option key={position._id} value={position.name}>{position.name}</option>
-
-            ))}
-
-          </select>
-
-        
-
-          <label htmlFor="">Service</label>
-
-          <select name="serviceName" value={formData.serviceName} onChange={handleChange}>
-
-            <option value="">Select Service</option>
-
-            {services.map((service) => (
-
-              <option key={service._id} value={service.name}>{service.name}</option>
-
-            ))}
-
-          </select>
-
-        
-
-          <label htmlFor="">Department</label>
-
-          <select name="departmentName" value={formData.departmentName} onChange={handleChange}>
-
-            <option value="">Select Department</option>
-
-            {departments.map((department) => (
-
-              <option key={department._id} value={department.name}>{department.name}</option>
-
-            ))}
-
-          </select>
-
-          
-
-          <label htmlFor="">Phone Number</label>
-
-          <input type="text" name="phone" value={formData.phone} onChange={handleChange} placeholder='Phone number' required />
-
-          
-
-          <span>Signature</span>
-
-          <input type="file" name="signature" onChange={handleChange} />
-
-          
-
-          <label htmlFor="">Email Address</label>
-
-          <input type="text" name="email" value={formData.email} onChange={handleChange} placeholder='Email address' required />
-
-         
-
-          <label htmlFor="">Password</label>
-
-          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder='Enter password' required />
-
-          
-
-          <label htmlFor="">Confirm Password</label>
-
-          <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder='Enter confirm password' required />
-
-          
-
-          <button className='register-user-btn'>Register User</button>
-
-        </form>
 
       </div>
 
-    </div>
+
 
   );
 

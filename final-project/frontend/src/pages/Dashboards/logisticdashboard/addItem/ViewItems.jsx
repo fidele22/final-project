@@ -5,6 +5,9 @@ import UploadNewItem from './uploadItems';
 import AddNewItem from './addingitem';
 import  ItemHistory from './itemhistory';
 import  StockDetails from './stockDetails' ;
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import axios from 'axios';
 import './stock.css';
 
@@ -69,20 +72,11 @@ const DataDisplay = ({ onItemSelect }) => {
         await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/${id}`);
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
         setData(response.data);
-        setNotification('Item deleted successfully!'); // Set notification message
-        // Auto-remove notification after 3 seconds
-        setTimeout(() => {
-          setNotification('');
-        }, 3000);
-        Swal.fire(
-
-          'Deleted!',
-          'Your item has been deleted.',
-          'success'
-
-        );
+        toast.success('Item deleted successfully!'); // Set notification message
+      
       } catch (error) {
         console.error('Error deleting item:', error);
+        toast.error('Deleting item failed');
       }
     }
   };
@@ -96,17 +90,15 @@ const DataDisplay = ({ onItemSelect }) => {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
 
       setData(response.data);
-      setNotification('Item updated successfully!');
-      setTimeout(() => {
-        setNotification('');
-
-      }, 3000);
+      toast.success('Item updated successfully!');
 
       setEditingItem(null); // Clear the editing item
 
     } catch (error) {
 
       console.error('Error updating item:', error);
+      toast.error('Updating item failed');
+
 
     }
 
@@ -151,13 +143,7 @@ const DataDisplay = ({ onItemSelect }) => {
 
   return (
     <div className='view-items'>
-       {/* Notification Component */}
-       {notification && (
-   <div className="notification">
-       {notification}
-    </div>
 
-)}
       <div className='add-item'>
         <button className='add-item-btn' onClick={() => setShowAddItemForm(true)}>Add new Item</button>
         <button className='upload-item-btn' onClick={() => setShowUploadItemForm(true)}>Upload New Items</button>
@@ -319,6 +305,9 @@ const DataDisplay = ({ onItemSelect }) => {
           </div>
         </div>
       )}
+
+      <ToastContainer />
+
     </div>
   );
 };
