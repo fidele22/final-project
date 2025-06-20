@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser , FaSignOutAlt, FaChevronDown, FaBars,FaTimes } from 'react-icons/fa'; // Import FaBars for the toggle icon
+import { FaUser , FaSignOutAlt, FaChevronDown, FaBars,FaTimes,
+FaExclamationTriangle
+ } from 'react-icons/fa'; // Import FaBars for the toggle icon
 import './Navbar.css';
 import axios from 'axios';
 
@@ -118,6 +120,7 @@ function TopNavbar({ setCurrentPage, toggleNav,isNavVisible}) {
          {showLogoutConfirm && (
         <div className="modal-overlay">
           <div className="modal">
+            <FaExclamationTriangle className="logout-warning-icon" />
             <p>Are you sure you want to logout?</p>
             <div className="modal-buttons">
               <button className='confirm-logout' onClick={handleLogout}>Yes</button>

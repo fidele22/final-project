@@ -4,9 +4,7 @@ import { FaTimes,FaExclamationTriangle } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
 import 'react-toastify/dist/ReactToastify.css'; 
 import axios from 'axios';
-import { jsPDF } from 'jspdf';
-import * as XLSX from 'xlsx';
-import html2canvas from 'html2canvas';
+
 
 const StockHistory = ({ item, onClose }) => {
   const [stockHistory, setStockHistory] = useState([]);
@@ -64,40 +62,6 @@ const handleUpdate = async (id) => {
   }
 };
 ////
-  const downloadPDF = async () => {
-    const input = document.getElementById('history-content');
-    if (!input) {
-      console.error('Element with ID history-content not found');
-      return;
-    }
-
-    try {
-      const canvas = await html2canvas(input);
-      const data = canvas.toDataURL('image/png');
-
-      const pdf = new jsPDF();
-      const imgProps = pdf.getImageProperties(data);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const imgWidth = pdfWidth - 15;
-      const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
-
-      pdf.addImage(data, 'PNG', 5, 5, imgWidth, imgHeight);
-      pdf.save('Fiche de stock.pdf');
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    }
-  };
-
-  const downloadExcel = () => {
-    const table = document.getElementById("history-content").getElementsByTagName("table")[0];
-
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.table_to_sheet(table);
-
-    XLSX.utils.book_append_sheet(wb, ws, "Stock History");
-
-    XLSX.writeFile(wb, `Stock_History_${item.name}_${startDate}_to_${endDate}.xlsx`);
-  };
 
   return (
     <div className="stockHistory-overlay">
@@ -180,8 +144,8 @@ const handleUpdate = async (id) => {
 
           {/* Save + Cancel */}
           <td>
-            <button onClick={() => handleUpdate(entry._id)}>Save</button>
-            <button onClick={() => setEditingIndex(null)}>Cancel</button>
+            <button style={{backgroundColor:'green',color:'white'}} onClick={() => handleUpdate(entry._id)}>Update</button>
+            <button style={{backgroundColor:'rgb(196, 36, 36)',color:'white'}} onClick={() => setEditingIndex(null)}>Cancel</button>
           </td>
         </>
       ) : (
@@ -196,7 +160,8 @@ const handleUpdate = async (id) => {
           <td>{entry.balance.quantity}</td>
           <td>{entry.balance.pricePerUnit}</td>
           <td>{entry.balance.totalAmount}</td>
-          <td><button onClick={() => handleEditClick(index, entry)}>Edit</button></td>
+          <td><button 
+          style={{backgroundColor:'rgb(83, 82, 82)', color:'white'}} onClick={() => handleEditClick(index, entry)}>Edit</button></td>
         </>
       )}
     </tr>
@@ -205,9 +170,7 @@ const handleUpdate = async (id) => {
 
           </table>
         </div>
-        <button className='download-btn' onClick={downloadPDF}>Download PDF</button>
-        <button className='download-xcl' onClick={downloadExcel}>Download Excel</button>
-        
+ 
       </div>
     </div>
   );

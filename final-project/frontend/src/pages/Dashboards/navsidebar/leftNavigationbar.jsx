@@ -1,6 +1,6 @@
 import React, { useState ,useEffect,useRef} from 'react';
 import { FaHome, FaList, FaBoxOpen, FaPlus, FaGasPump, FaClipboardList, 
-  FaChartBar, FaClipboardCheck } from 'react-icons/fa';
+  FaChartBar, FaClipboardCheck,FaCubes,FaRegClipboard } from 'react-icons/fa';
 import './navigationbar.css';
 
 const LeftNavbar = ({ setCurrentPage, privileges, isVisible, closeNav }) => {
@@ -46,12 +46,12 @@ useEffect(() => {
         )}
         {privileges.includes('make_requisition_fuel') && (
           <li className={activePage === 'fuel-request' ? 'active' : ''} onClick={() => handleNavigation('fuel-request')}>
-            <span><FaBoxOpen /></span> Request Fuel
+            <span><FaRegClipboard /></span> Request Fuel
           </li>
         )}
         {privileges.includes('monthly_car_data') && (
           <li className={activePage === 'monthly_car_data' ? 'active' : ''} onClick={() => handleNavigation('monthly_car_data')}>
-            <span><FaBoxOpen /></span> Update Car Data
+            <span><FaCubes /></span> Update Car Data
           </li>
         )}
 

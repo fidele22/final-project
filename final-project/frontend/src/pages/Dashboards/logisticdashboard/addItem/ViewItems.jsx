@@ -142,7 +142,7 @@ const DataDisplay = ({ onItemSelect }) => {
   
 
   return (
-    <div className='view-items'>
+    <div className='manage-item-stock'>
 
       <div className='add-item'>
         <button className='add-item-btn' onClick={() => setShowAddItemForm(true)}>Add new Item</button>

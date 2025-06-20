@@ -7,6 +7,14 @@
    margin: 10px 20px 0px 20px; 
    padding: 20px;
 }
+.manage-item-stock{
+  background-color: white;
+  padding: 10px;
+}
+.manage-item-stock h2{
+text-align: center;
+color: #277ea0;
+}
 .pagination-controls{
   padding: 20px;
 }

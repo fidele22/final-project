@@ -1,6 +1,6 @@
 // routes/carRoutes.js
 const express = require('express');
-const Car = require('../models/carData');
+const CarData = require('../models/carData');
 
 const Carplaque = require('../models/carPlaque');
 
@@ -9,7 +9,7 @@ const router = express.Router();
 // Get all cars
 router.get('/', async (req, res) => {
   try {
-    const cars = await Car.find();
+    const cars = await CarData.find();
     res.json(cars);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,7 +28,7 @@ router.post('/save-data', async (req, res) => {
 
   try {
     // Check if an entry exists for the same registerNumber in the current month
-    const existingEntry = await Car.findOne({
+    const existingEntry = await CarData.findOne({
       registerNumber,
       createdAt: {
         $gte: new Date(year, month, 1),
@@ -40,7 +40,7 @@ router.post('/save-data', async (req, res) => {
       return res.status(400).json({ message: 'Data for this carPlaque has already been submitted in this month. Please wait next month or contact system admin for futher assistance' });
     }
 
-    const car = new Car({
+    const car = new CarData({
       registerNumber,
       kilometersCovered,
       remainingLiters
@@ -67,7 +67,7 @@ router.get('/check-reminders', async (req, res) => {
     const registerNumbers = cars.map(car => car.registerNumber);
 
     // Fetch all entries in CarData for the current month
-    const existingEntries = await Car.find({
+    const existingEntries = await CarData.find({
       createdAt: {
         $gte: new Date(year, month, 1),
         $lt: new Date(year, month + 1, 1)
@@ -88,6 +88,84 @@ router.get('/check-reminders', async (req, res) => {
   }
 });
 
+// Get latest 6 cars
+router.get('/latest', async (req, res) => {
+  try {
+    const latestCars = await CarData.find().sort({ createdAt: -1 }).limit(6);
+    res.json(latestCars);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch latest cars' });
+  }
+});
+
+// Filter by registerNumber or date
+router.get('/filter', async (req, res) => {
+  const { registerNumber, month, year } = req.query;
+
+  const query = {};
+
+  if (registerNumber) {
+    query.registerNumber = new RegExp(registerNumber, 'i');
+  }
+
+  if (month && year) {
+    const startDate = new Date(`${year}-${month}-01`);
+    const endDate = new Date(startDate);
+    endDate.setMonth(endDate.getMonth() + 1);
+
+    query.createdAt = { $gte: startDate, $lt: endDate };
+  }
+
+  try {
+    const filteredCars = await CarData.find(query).sort({ createdAt: -1 });
+    res.json(filteredCars);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to filter cars', error: err });
+  }
+});
+
+// Update a car
+router.put('/update-cardata/:id', async (req, res) => {
+  const { registerNumber, kilometersCovered, remainingLiters, createdAt } = req.body;
+
+  const updateDate = new Date(createdAt);
+  const month = updateDate.getMonth();
+  const year = updateDate.getFullYear();
+
+  try {
+    // Check if another record for the same registerNumber exists in that month
+    const existingEntry = await CarData.findOne({
+      _id: { $ne: req.params.id }, // exclude the one being updated
+      registerNumber,
+      createdAt: {
+        $gte: new Date(year, month, 1),
+        $lt: new Date(year, month + 1, 1)
+      }
+    });
+
+    if (existingEntry) {
+      return res.status(400).json({
+        message: 'A record for this car in the selected month already exists. Only one entry per car per month is allowed.'
+      });
+    }
+
+    // Proceed to update
+    const updatedCar = await CarData.findByIdAndUpdate(
+      req.params.id,
+      {
+        registerNumber,
+        kilometersCovered,
+        remainingLiters,
+        createdAt: updateDate
+      },
+      { new: true }
+    );
+
+    res.json(updatedCar);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to update car data', error: err });
+  }
+});
 
 
 module.exports = router;

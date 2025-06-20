@@ -7,6 +7,16 @@
    margin: 10px 20px 0px 20px; 
    padding: 20px;
 }
+.stock-items-truck{
+  background-color: white;
+  padding: 20px;
+  font-size: 14px;
+  margin: 0px 10px 0px 10px;
+}
+.stock-items-truck h2{
+  text-align: center;
+  color: #1f7792;
+}
 .pagination-controls{
   padding: 20px;
 }
@@ -99,7 +109,7 @@ input {
       background-color: white;
       width: 80%;
       position: absolute;
-      left: 16%;
+      left: 17%;
       border-radius: 4px;
       padding: 10px;
     
@@ -206,6 +216,7 @@ input {
       overflow-y: scroll;
     
     }
+
     .stock-history h2,h3{
       text-align: center;
       padding: 10px;

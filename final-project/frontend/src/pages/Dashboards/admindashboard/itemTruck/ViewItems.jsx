@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FaEdit,FaEllipsisH , FaTrash,FaHistory, FaTimes,FaEye } from 'react-icons/fa';
 import Swal from 'sweetalert2';
-import UploadNewItem from './uploadItems';
-import AddNewItem from './addingitem';
+
 import  ItemHistory from './itemhistory';
 import  StockDetails from './stockDetails' ;
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 
 import axios from 'axios';
 import './stock.css';
@@ -14,9 +14,7 @@ import './stock.css';
 const DataDisplay = ({ onItemSelect }) => {
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAddItemForm, setShowAddItemForm] = useState(false); 
-  const [showUploadItemForm, setShowUploadItemForm] = useState(false); 
-  const [notification, setNotification] = useState('');
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemDropdown, setItemDropdown] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -142,15 +140,9 @@ const DataDisplay = ({ onItemSelect }) => {
   
 
   return (
-    <div className='view-items'>
+    <div className='stock-items-truck'>
 
-      <div className='add-item'>
-        <button className='add-item-btn' onClick={() => setShowAddItemForm(true)}>Add new Item</button>
-        <button className='upload-item-btn' onClick={() => setShowUploadItemForm(true)}>Upload New Items</button>
-      </div>
-
-      <h2>Item list and Stock Management</h2>
-      <h3> Here are Items stored in stock with their updated balance</h3>
+      <h2>Item list and Stock truck</h2>
       <div className="search-item-input">
         <input
           type="text"
@@ -189,11 +181,11 @@ const DataDisplay = ({ onItemSelect }) => {
                 </button>
                 {itemDropdown === item._id && (
                   <div className="dropdown-menu" ref={dropdownRef}>
-                    <button className="dropdown-item" onClick={() => handleShowDetails(item)}>
+                    {/* <button className="dropdown-item" onClick={() => handleShowDetails(item)}>
 
                       <FaEye /> Current data
 
-                    </button>
+                    </button> */}
 
                     <hr />
 
@@ -204,14 +196,14 @@ const DataDisplay = ({ onItemSelect }) => {
                     </button>
 
                     <hr />
-                    <button className="dropdown-item" onClick={() => handleEditItem(item)}>
+                    {/* <button className="dropdown-item" onClick={() => handleEditItem(item)}>
 
                    <FaEdit color='brown' /> Edit
                   </button>
                     <hr />
                     <button className="dropdown-item" onClick={() => handleDelete(item._id)}>
                       <FaTrash color='red'/> Delete
-                    </button>
+                    </button> */}
                   </div>
                 )}
              
@@ -283,28 +275,9 @@ const DataDisplay = ({ onItemSelect }) => {
 
 )}
       {/* Add User Form Overlay */}
-      {showAddItemForm && (
-        <div className="add-overlay">
-          <div className="add-user-form-container">
-            <button className="close-form-btn" onClick={() => setShowAddItemForm(false)}>
-              <FaTimes size={32} />
-            </button>
-            <AddNewItem /> {/* Add User Component */}
-          </div>
-        </div>
-      )}
 
-      {/* Showing upload item form Overlay */}
-      {showUploadItemForm && (
-        <div className="add-overlay">
-          <div className="add-user-form-container">
-            <button className="close-form-btn" onClick={() => setShowUploadItemForm(false)}>
-              <FaTimes size={32} />
-            </button>
-            <UploadNewItem /> {/* Add User Component */}
-          </div>
-        </div>
-      )}
+
+ 
 
       <ToastContainer />
 

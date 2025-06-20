@@ -54,13 +54,13 @@
     color: #355e8a;
     font-size: 25px;
 }
-  .chart-section{
+.chart-section{
     display: flex;
-  }
-  .chart-section h2{
+}
+.chart-section h2{
  width: 100%;
  text-align: center;
-  }
+}
   .reminder-message {
     background-color: #f8d7da;
     color: #721c24;

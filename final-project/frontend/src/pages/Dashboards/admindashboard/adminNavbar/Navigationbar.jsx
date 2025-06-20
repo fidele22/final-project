@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
-import { FaHome, FaUser , FaList, FaClipboardList, FaBurn, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaUser , FaList, FaClipboardList, FaBurn, FaWarehouse,FaCubes } from 'react-icons/fa';
 import './Navigationbar.css';
 
 const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
@@ -38,14 +38,14 @@ const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
         <li onClick={() => handleLinkClick('view-service')}><FaList /><span></span> Services</li>
         <li onClick={() => handleLinkClick('view-position')}><FaClipboardList /><span></span> Positions</li>
         <li onClick={() => handleLinkClick('view-department')}><FaBurn /><span></span> Departments</li>
-        <li onClick={() => handleLinkClick('item-truck')}><FaBurn /><span></span> Item truck</li>
+        <li onClick={() => handleLinkClick('item-truck')}><FaWarehouse /><span></span> Item truck</li>
+        <li onClick={() => handleLinkClick('monthly-cardata')}><FaCubes /><span></span>Monthly car info</li>
+        
       </ul>
 
       <h2>Settings</h2>
       <ul>
-        <li onClick={() => handleLinkClick('user-profile')}><FaUser  /><span></span> Profile</li>
         <li onClick={() => handleLinkClick('help-center')}><FaBurn /><span></span> Help Center</li>
-        
       </ul>
     </div>
   );

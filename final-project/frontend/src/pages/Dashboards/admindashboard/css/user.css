@@ -1,10 +1,10 @@
 .add-overlay {
     position: fixed;
     top: 5%;
-    left: 8%;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(68, 68, 68, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,6 +15,10 @@
   position: absolute;
   right: 0;
   background-color: rgb(46, 111, 197);
+}
+.add-new-user-btn:hover{
+  background-color: rgb(125, 170, 228);
+  color: white;
 }
   .user-table{
    width: 90%;

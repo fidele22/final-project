@@ -98,7 +98,7 @@ const DashboardOverview = () => {
       )}
 
      {/* Chart Section */}
-     <h2>Item requisition Status charts  Overview</h2>
+     <h4>Item requisition Status charts  Overview</h4>
      <section className="chart-section">
       <div>
       <RequisitionChart data={chartData} />
