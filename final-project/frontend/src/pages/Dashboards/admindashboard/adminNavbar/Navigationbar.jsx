@@ -38,6 +38,7 @@ const Navbar = ({ setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
         <li onClick={() => handleLinkClick('view-service')}><FaList /><span></span> Services</li>
         <li onClick={() => handleLinkClick('view-position')}><FaClipboardList /><span></span> Positions</li>
         <li onClick={() => handleLinkClick('view-department')}><FaBurn /><span></span> Departments</li>
+        <li onClick={() => handleLinkClick('item-truck')}><FaBurn /><span></span> Item truck</li>
       </ul>
 
       <h2>Settings</h2>

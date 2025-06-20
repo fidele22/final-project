@@ -10,8 +10,10 @@ const ViewPosition = () => {
   const [roles, setRoles] = useState([]);
   const [editRole, setEditRole] = useState(null);
   const [roleName, setRoleName] = useState('');
-  const [isAddDepartmentVisible, setIsAddDepartmentVisible] = useState(false);
+  const [isAddRoleVisible, setIsAddRoleVisible] = useState(false);
   const [selectedPrivileges, setSelectedPrivileges] = useState([]);
+  const [selectedRoleDescription, setSelectedRoleDescription] = useState('');
+
 
   const availablePrivileges = [
    
@@ -180,35 +182,40 @@ const ViewPosition = () => {
         ))}
       </div>
 
-      <div className="service-table-data">
-        <h1>Role Management</h1>
+    <div className="role-table-description-container">
+  <div className="table-side">
+    <h1>Role Management</h1>
+    <button className="add-department-btn" onClick={() => setIsAddRoleVisible(true)}>
+      <FaPlus /> Add new role
+    </button>
+    <table className='table'>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Name</th>
+          <th style={{width:'150px'}}>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {roles.map((role, index) => (
+          <tr key={role._id} onClick={() => setSelectedRoleDescription(role.description)}>
+            <td>{index + 1}</td>
+            <td>{role.name}</td>
+            <td>
+              <a style={{cursor:'pointer'}} onClick={(e) => { e.stopPropagation(); handleEditClick(role); }}><FaEdit size={20} /></a>
+              <a style={{marginLeft:'20px',cursor:'pointer'}} onClick={(e) => { e.stopPropagation(); handleDelete(role._id); }}><FaTrash size={20} color="red" /></a>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div className="description-side">
+    <h2>Description</h2>
+    <p>{selectedRoleDescription || "Click on a role to view its description."}</p>
+  </div>
+</div>
 
-        <button className="add-department-btn" onClick={() => setIsAddDepartmentVisible(true)}>
-          <FaPlus /> Add new role
-        </button>
-        <table className='table'>
-          <thead>
-            <tr>
-              <th>No</th>
-              <th>Name</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {roles.map((role, index) => (
-              <tr key={role._id}>
-                <td>{index + 1}</td>
-                <td>{role.name}</td>
-                <td>
-                  <button onClick={() => handleEditClick(role)}><FaEdit size={24} color='black' /></button>
-                  <button onClick={() => handleDelete(role._id)}><FaTrash size={24} color='red' /></button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-   
 
       {editRole && (
         <div className="editing-userdata-overlay">
@@ -241,16 +248,14 @@ const ViewPosition = () => {
           </div>
         </div>
       )}
-      {isAddDepartmentVisible && (
-        <div className="editing-userdata-overlay">
-          <div className="overlay-content">
-            <button className="close-add-form" onClick={() => setIsAddDepartmentVisible(false)}>
-              <FaTimes />
-            </button>
-            <AddNewRole onClose={() => setIsAddDepartmentVisible(false)} />
-          </div>
-        </div>
-      )}
+ {isAddRoleVisible && (
+  <div className="editing-userdata-overlay">
+    <div className="overlay-content">
+      <AddNewRole onClose={() => setIsAddRoleVisible(false)} />
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

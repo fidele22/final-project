@@ -277,6 +277,86 @@ router.get('/history/:year/:month', async (req, res) => {
   res.status(500).json({ message: 'Error fetching stock history', error });
   }
   });
+router.put('/history/update/:entryId', async (req, res) => {
+  const { entryId } = req.params;
+  const updatedData = req.body;
+
+  try {
+    const targetEntry = await StockHistory.findById(entryId);
+    if (!targetEntry) return res.status(404).json({ message: 'Entry not found' });
+
+    const consistentPricePerUnit = Number(updatedData.entry?.pricePerUnit) || targetEntry.entry.pricePerUnit;
+
+    // Update the selected (target) entry with the new price
+    targetEntry.entry.quantity = updatedData.entry.quantity;
+    targetEntry.entry.pricePerUnit = consistentPricePerUnit;
+    targetEntry.entry.totalAmount = targetEntry.entry.quantity * consistentPricePerUnit;
+
+    targetEntry.exit.quantity = updatedData.exit.quantity;
+    targetEntry.exit.pricePerUnit = consistentPricePerUnit;
+    targetEntry.exit.totalAmount = targetEntry.exit.quantity * consistentPricePerUnit;
+
+    await targetEntry.save();
+
+    // Fetch all entries of the item sorted by creation or update time
+    const allEntries = await StockHistory.find({ itemId: targetEntry.itemId }).sort({ updatedAt: 1 });
+
+    let balance = { quantity: 0, totalAmount: 0 };
+
+    for (let i = 0; i < allEntries.length; i++) {
+      const current = allEntries[i];
+
+      // Use consistentPricePerUnit only for the edited entry and those after it
+      const useNewPrice = current._id.equals(targetEntry._id) || allEntries[i].updatedAt > targetEntry.updatedAt;
+      const pricePerUnitToUse = useNewPrice ? consistentPricePerUnit : current.entry.pricePerUnit;
+
+      if (useNewPrice) {
+        current.entry.pricePerUnit = pricePerUnitToUse;
+        current.entry.totalAmount = current.entry.quantity * pricePerUnitToUse;
+
+        current.exit.pricePerUnit = pricePerUnitToUse;
+        current.exit.totalAmount = current.exit.quantity * pricePerUnitToUse;
+      }
+
+      if (i === 0) {
+        balance.quantity = current.entry.quantity - current.exit.quantity;
+        balance.totalAmount = current.entry.totalAmount - current.exit.totalAmount;
+      } else {
+        const prev = allEntries[i - 1];
+        balance.quantity = prev.balance.quantity + current.entry.quantity - current.exit.quantity;
+        balance.totalAmount = prev.balance.totalAmount + current.entry.totalAmount - current.exit.totalAmount;
+      }
+
+      current.balance.quantity = balance.quantity;
+      current.balance.totalAmount = balance.totalAmount;
+      current.balance.pricePerUnit = current.entry.pricePerUnit;
+
+      await current.save();
+    }
+    // Get the latest stock history for this item (most recent update)
+       const latestHistory = await StockHistory.findOne({ itemId: targetEntry.itemId })
+         .sort({ updatedAt: -1 }); // Or use { _id: -1 } as a fallback
+       
+       if (latestHistory && latestHistory.balance) {
+         await StockItem.findByIdAndUpdate(targetEntry.itemId, {
+           quantity: latestHistory.balance.quantity,
+           pricePerUnit: latestHistory.balance.pricePerUnit,
+           totalAmount: latestHistory.balance.totalAmount
+         });
+       }
+       
+
+    const updatedHistory = await StockHistory.find({ itemId: targetEntry.itemId }).sort({ updatedAt: 1 });
+    res.status(200).json({ message: 'Updated successfully from this point onward', updatedHistory });
+
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating entry', error: err });
+  }
+});
+
+
+
+
   // Fetch all stock items
 router.get('/allItems', async (req, res) => {
   try {

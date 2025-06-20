@@ -1,8 +1,9 @@
 // ServiceForm.js
 import React, { useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 
-const ServiceForm = () => {
+const ServiceForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: ''
@@ -28,7 +29,8 @@ const ServiceForm = () => {
 
   return (
     <div className='add-service'>
-      <div className="add-service-form">
+      <div className="add-role-form">
+        <button className="close-button" onClick={onClose}><FaTimes /></button>
       <h2>Add New Position</h2>
       <form onSubmit={handleSubmit}>
       <div className='loginsignup-fields'>

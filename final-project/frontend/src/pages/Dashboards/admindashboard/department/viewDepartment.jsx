@@ -137,9 +137,7 @@ const ViewDepartment = () => {
       {isAddDepartmentVisible && (
         <div className="editing-userdata-overlay">
           <div className="overlay-content">
-          <button className="close-add-form" onClick={() => setIsAddDepartmentVisible(false)}>
-              <FaTimes />
-            </button>
+      
             <AddNewDepartment onClose={() => setIsAddDepartmentVisible(false)} />
             
           </div>

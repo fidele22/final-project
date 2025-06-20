@@ -9,6 +9,7 @@ import UserRole from './roles/viewRoles';
 import ViewS from './service/ViewServices';
 import ViewP from './position/viewPosition';
 import ViewD from './department/viewDepartment';
+import ItemTruck from './addItem/ViewItems';
 import UserProfile from '../UserProfile/profile';
 import './css/adminDashboard.css';
 import HelpCenter from '../helpcenter/helpcenter';
@@ -35,6 +36,9 @@ const AdminDashboard = () => {
         return <ViewP />;
       case 'view-department':
         return <ViewD />;
+
+      case 'item-truck':
+        return <ItemTruck />  
       case 'user-profile':
         return <UserProfile />;
       case 'help-center':

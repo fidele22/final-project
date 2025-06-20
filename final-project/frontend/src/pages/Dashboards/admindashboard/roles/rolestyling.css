@@ -75,4 +75,144 @@
   .edit-form input[type="checkbox"] {
     margin-right: 10px; /* Space between checkbox and label text */
   }
+    .editing-userdata-overlay {
+
+    position: fixed; /* Fixed position to cover the entire screen */
   
+    top: 0;
+  
+    left: 0;
+  
+    right: 0;
+  
+    bottom: 0;
+  
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  
+    display: flex; /* Center the content */
+  
+    justify-content: center; /* Center horizontally */
+  
+    align-items: center; /* Center vertically */
+  
+    z-index: 1000; /* Ensure it appears above other content */
+  
+  }
+  .role-table-description-container {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  align-items: flex-start;
+  background-color:white;
+  padding: 20px;
+}
+
+.table-side {
+  flex: 2;
+}
+
+.description-side {
+  flex: 1;
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.description-side h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.description-side p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+  /* adding role  */
+
+.add-role-form {
+  width: 350px;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: #555;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.close-button:hover {
+  color: crimson;
+}
+
+.flex-container {
+
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.add-role-form h2{
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #007bff;
+      text-align: center;
+      font-weight: 900;
+    }
+   
+input, textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  font-size: 18px;
+}
+.add-role-form  label {
+      display: block;
+      font-weight: bold;
+      font-size: 15px;
+      margin-bottom: 5px;
+      text-align: left;
+    }
+
+.add-role-form input[type='text'],
+    textarea
+    {
+     border-top: none;
+     border-left: none;
+     border-right: none;
+     font-size: 15px;
+    }
+input[type='text']:focus,
+    textarea:focus
+    {
+      outline: none;
+      border-color: #6c63ff;
+    }
+    
+button[type="submit"] {
+  padding: 12px 25px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838;
+}

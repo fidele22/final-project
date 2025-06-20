@@ -136,9 +136,6 @@ const ViewPosition = () => {
    {isAddDepartmentVisible && (
         <div className="editing-userdata-overlay">
           <div className="overlay-content">
-          <button className="close-add-form" onClick={() => setIsAddDepartmentVisible(false)}>
-              <FaTimes />
-            </button>
             <AddNewPosition onClose={() => setIsAddDepartmentVisible(false)} />
             
           </div>

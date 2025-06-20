@@ -151,9 +151,7 @@ const ViewService = () => {
          {isAddDepartmentVisible && (
         <div className="editing-userdata-overlay">
           <div className="overlay-content">
-          <button className="close-add-form" onClick={() => setIsAddDepartmentVisible(false)}>
-              <FaTimes />
-            </button>
+         
             <AddnewService onClose={() => setIsAddDepartmentVisible(false)} />
             
           </div>
