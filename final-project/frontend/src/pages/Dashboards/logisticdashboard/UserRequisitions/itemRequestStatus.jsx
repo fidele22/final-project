@@ -166,7 +166,7 @@ const filteredRequests = requests
         {request.hodName}
       </td>
       <td>{request.department}</td>
-      <td>{new Date(request.date).toDateString()}</td>
+      <td>{new Date(request.createdAt).toDateString()}</td>
       <td>
         <b className={`status-${request.status?.toLowerCase()}`}>
           {request.status}
@@ -220,7 +220,7 @@ const filteredRequests = requests
           </div>
           <div className="request-recieved-heading">
             <div className="date-done">
-              <label>{new Date(editFormData.date).toDateString()}</label>
+              <label>{new Date(editFormData.createdAt).toDateString()}</label>
             </div>
             <label>WESTERN PROVINCE</label>
             <label>DISTRIC: NYABIHU</label>

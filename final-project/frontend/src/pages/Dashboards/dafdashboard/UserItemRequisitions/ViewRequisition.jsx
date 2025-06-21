@@ -373,7 +373,7 @@ const handleSignClick = () => {
           {filteredRequests.slice().reverse().map((request, index) => (
             <li key={index}>
               <p onClick={() => handleRequestClick(request._id)}>
-                Requisition Form of item from <b>{request.department}</b>  service of <b>{request.service} </b>done on {new Date(request.date).toDateString()}
+                Requisition Form of item from <b>{request.department}</b>  service of <b>{request.service} </b>done on {new Date(request.createdAt).toDateString()}
               
               </p>
 
@@ -490,7 +490,7 @@ const handleSignClick = () => {
           </div>
           <div className="request-recieved-heading">
           <div className='date-done'>
-            <label htmlFor="">{new Date(editFormData.date).toDateString()}</label>
+            <label htmlFor="">{new Date(editFormData.createdAt).toDateString()}</label>
             </div>
          
             <label>WESTERN PROVINCE</label>

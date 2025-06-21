@@ -218,7 +218,7 @@ const LogisticRequestForm = () => {
           </div>
           <div className="request-recieved-heading">
             <div className="date-done">
-              <label>{new Date(editFormData.date).toDateString()}</label>
+              <label>{new Date(editFormData.createdAt).toDateString()}</label>
             </div>
             <label>WESTERN PROVINCE</label>
             <label>DISTRIC: NYABIHU</label>
