@@ -53,18 +53,30 @@
     transform: scale(1.2); /* Slightly larger checkboxes */
 }
 /* Container for privileges */
-.edit-form {
+.edit-role-form {
     width: 800px;
+    background-color: #f5f3f3;
+    padding: 10px;
+    border-radius: 5px;
 }
-.edit-form div {
+.edit-role-form h2{
+  color:#333;
+  font-size: 18px;
+  padding: 20px;
+}
+.edit-role-form div {
     display: flex;
     justify-content: space-between; /* Distribute items left and right */
     flex-wrap: wrap; /* Allow wrapping if necessary */
     gap: 10px; /* Add spacing between items */
   }
+.edit-role-form button{
+  background-color: #58a848;
+  margin-left: 20px;
   
+}  
   /* Individual privilege label styling */
-  .edit-form label {
+  .edit-role-form label {
     display: flex;
     align-items: center;
     margin: 2px 0;
@@ -72,7 +84,7 @@
   }
   
   /* Optional styling for checkboxes */
-  .edit-form input[type="checkbox"] {
+  .edit-role-form input[type="checkbox"] {
     margin-right: 10px; /* Space between checkbox and label text */
   }
     .editing-userdata-overlay {

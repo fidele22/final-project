@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import * as XLSX from "xlsx";
-import './registercar.css';
+// import './registercar.css';
 
 const FuelStockList = () => {
   const [fuelStocks, setFuelStocks] = useState([]);
@@ -263,9 +263,7 @@ const FuelStockList = () => {
   return (
     <div className='fuel-stock-managment'>
       <div className="fuel-stock">
-      <button className='add-new-user-btn' onClick={() => setShowAddFuelTypeForm(true)}>
-      <FaPlus /> Add new Item</button>
-
+  
       <div className="stock-updated">
         <h1>Fuel Stock Update</h1>
         {Array.isArray(fuelStocks) && fuelStocks.length > 0 ? (
@@ -422,50 +420,7 @@ const FuelStockList = () => {
       )}
       </div>
       </div>
-      {showAddFuelTypeForm && (
-          <div className="add-overlay">
-            <div className="add-user-form-container">
-           
-          <div className="additem">
-                   <button className="close-addfuel-form" onClick={() => setShowAddFuelTypeForm(false)}>
-                <FaTimes size={32} />
-              </button>
-        <h1>Add Fuel Type</h1>
-        <form onSubmit={handleAddFuelStock}>
-          <label htmlFor="">Fuel type:</label>
-          <input
-            type="text"
-            name="fuelType"
-            value={newFuelStock.fuelType}
-            onChange={handleChange}
-            placeholder="Fuel Type"
-            required
-          />
-          <label htmlFor="">Quantity in Liters</label>
-          <input
-            type="number"
-            name="quantity"
-            value={newFuelStock.quantity}
-            onChange={handleChange}
-            placeholder="Quantity in Liters"
-            required
-          />
-          <label htmlFor="">Price Per Unit</label>
-          <input
-            type="number"
-            name="pricePerUnit"
-            value={newFuelStock.pricePerUnit}
-            onChange={handleChange}
-            placeholder="Price Per Liter"
-            required
-          />
-          <button type="submit">Add Fuel Stock</button>
-        </form>
-      </div>
 
-            </div>
-          </div>
-        )}
 
         <ToastContainer />
 

@@ -256,7 +256,7 @@ const handleRejectRequest = async () => {
             requisitions.slice().reverse().map((request, index) => (
               <li key={index}>
                 <p onClick={() => handleRequestClick(request._id)}>
-                  Fuel requisition Form requested by {request.hodName} done on {new Date(request.RequestedDate).toDateString()}
+                  Fuel requisition Form requested by {request.hodName} done on {new Date(request.createdAt).toDateString()}
           
                 </p>
           
@@ -344,7 +344,7 @@ const handleRejectRequest = async () => {
        
        <label>Date of Request:</label>
        
-        <span>{new Date(selectedRequest.RequestedDate || '').toDateString()}</span>
+        <span>{new Date(selectedRequest.createdAt || '').toDateString()}</span>
        
        </div>
          <div className="form-group">

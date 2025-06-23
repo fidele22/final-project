@@ -451,9 +451,9 @@ const handlePrepareReport = async () => {
       <div className="stock-report" id='report-content' >
 
     
-      <div className="imag-logo">
+      {/* <div className="imag-logo">
           <img src="/image/logo2.png" alt="Logo" className="log"  />
-          </div>
+          </div> */}
 
       <div className="report-title">
          <p>HOPITAL DE SHYIRA</p>                                                                           
@@ -524,7 +524,8 @@ const handlePrepareReport = async () => {
     <td>{footerTotals.exitTotalAmount.toFixed(2)}</td>
     <td>-</td>
     <td>-</td>
-    <td>{footerTotals.balanceTotalAmount.toFixed(2)}</td>
+    <td>{((footerTotals.openingTotalAmount + footerTotals.entryTotalAmount) - footerTotals.exitTotalAmount).toFixed(2)}</td>
+
   </tr>
 </tfoot>
 

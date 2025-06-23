@@ -235,7 +235,7 @@ const validateQuantities = () => {
 
           </div>
 
-          <h3>REQUISITION FORM</h3>
+          <h3>ITEM REQUISITION FORM</h3>
           <button className='additem-btn' type="button" onClick={handleAddItem}>Add Item</button>
           <div className="table-container"> 
           <table>
@@ -304,9 +304,10 @@ const validateQuantities = () => {
               <p>Loading user profile...</p>
             )}
           </div>
-         <div className='footer-img'>
+          <hr />
+         {/* <div className='footer-img'>
          <img src="/image/footerimg.png" alt="Logo" className="footerimg" />
-         </div>
+         </div> */}
           <button className='hod-send-btn' type="submit">Send</button>
         </form>
       </div>

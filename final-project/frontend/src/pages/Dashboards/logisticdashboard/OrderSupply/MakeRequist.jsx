@@ -7,7 +7,6 @@ import ItemDecision from './approvedItemOrder';
 import FuelFormOrder from './fuelorder';
 import FuelOrderApproved from './fuelOrderApproved';
 import FuelOrderStatus from './fuelOrderstatus';
-import MakeRepairRequisition from '../repairRequisition/repairRequisition';
 import SearchableDropdown from './searchable'; // Import the custom dropdown component
 import './makeRequist.css'; // Import CSS for styling
 
@@ -152,8 +151,7 @@ const LogisticRequestForm = () => {
         return <FuelOrderStatus />;
       case 'fuel-order-approved':
         return <FuelOrderApproved />;
-      case 'repair-requisition':
-        return <MakeRepairRequisition />;
+
       case 'requisition':
       default:
         return (
@@ -176,7 +174,7 @@ const LogisticRequestForm = () => {
                   <div className="title"><h4>LOGISTIC OFFICE</h4></div>
                 </div>
                 <div className="requisition-title">
-                  <h4>REQUISITION FORM FROM LOGISTIC DEPARTMENT</h4>
+                  <h4>REQUISITION FORM FROM LOGISTIC OFFICER</h4>
                   <p>Supplier Name:
                     <input type="text" placeholder="Type names here..." value={supplierName} onChange={(e) => setSupplierName(e.target.value)} />
                   </p>
@@ -289,8 +287,7 @@ const LogisticRequestForm = () => {
             </div>
           )}
         </div>
-
-        {/* Repair Dropdown */}
+{/* 
         <div className="dropdown">
           <button className='dropdown-button' onClick={() => toggleDropdown('repair')}>
             <i className="fas fa-edit"></i> Repair
@@ -300,7 +297,7 @@ const LogisticRequestForm = () => {
               <button onClick={() => handleDropdownItemClick('repair-requisition')}>Make Repair Requisition</button>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
       {renderActiveComponent(activeComponent)}
     </div>

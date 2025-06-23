@@ -86,10 +86,10 @@
 
 
 /* Buttons in Request Details */
-.form-navigation button {
-    margin-right: 10px;
+.logistic-form-navigation{
+    display: flex;
+    gap: 10px;
 }
-
 .approve-request-btn:hover, .reject-request:hover, .verify-requisition:hover {
     background-color: #218838;
 }

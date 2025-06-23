@@ -3,6 +3,8 @@ import { FaEye, FaEdit,FaTimes, FaTimesCircle, FaCheck,
   FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; 
 //import '../contentCss/viewfuelrequest.css';
 
 const FuelRequisitionForm = () => {
@@ -41,10 +43,14 @@ const FuelRequisitionForm = () => {
         setLoading(false);
       }
     };
-  
+      
     const fetchRequisitions = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/approvedfuel`);
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/fuel-requisition/approvedfuel`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
         setRequisitions(response.data);
         setLoading(false);
       } catch (error) {
@@ -53,6 +59,7 @@ const FuelRequisitionForm = () => {
         setLoading(false);
       }
     };
+    
 
 
 
@@ -139,17 +146,8 @@ const FuelRequisitionForm = () => {
             },
             clicked: true // Include any other fields you want to update
           });
-  
-          // Show success message using SweetAlert2
-          Swal.fire({
-            title: 'Success!',
-            text: 'Requisition marked as received successfully',
-            icon: 'success',
-            confirmButtonText: 'OK',
-            customClass: {
-              popup: 'custom-swal',
-            }
-          });
+          toast.success('Requisition marked as received successfully')
+        
   
           // Refetch requisitions after verification
 
@@ -157,17 +155,16 @@ const FuelRequisitionForm = () => {
           setSelectedRequest(null); // Close the details view
   
         } catch (error) {
-          console.error('Error updating request:', error);
+         console.error('Error updating request:', error);
+         
+         let errorMsg = 'Failed to receive requisition';
+       
+         if (error.response && error.response.status === 400) {
+           errorMsg = error.response.data.message || errorMsg;
+         }
           // Show error message using SweetAlert2
-          Swal.fire({
-            title: 'Error!',
-            text: 'Failed to receive requisition',
-            icon: 'error',
-            confirmButtonText: 'OK',
-            customClass: {
-              popup: 'custom-swal',
-            }
-          });
+         toast.error('Failed to receive requisition')
+         
         }
       }
     });
@@ -244,7 +241,7 @@ const handleRejectRequest = async () => {
             requisitions.slice().reverse().map((request, index) => (
               <li key={index}>
                 <p onClick={() => handleRequestClick(request._id)}>
-                  Fuel requisition Form requested by {request.hodName} done on {new Date(request.RequestedDate).toDateString()}
+                  Fuel requisition Form requested by {request.hodName} done on {new Date(request.createdAt).toDateString()}
           
                 </p>
           
@@ -267,72 +264,127 @@ const handleRejectRequest = async () => {
             <button type="button" className='reject-request-btn' onClick={handleRejectRequest}>Reject</button>
             <button type="button" className='close-btn' onClick={handleCloseClick}><FaTimes /></button>
           </div>
-          <div className="imag-logo">
-          <img src="/image/logo2.png" alt="Logo" className="log"  />
-          </div>
-
-            <h2>Fuel Requisition Form</h2>
-            <form>
-              <div className="view-form-group">
-                <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
-              </div>
-              <div className="view-form-group">
-                <div className="right-side">
-                  <label>Car Plaque:</label>
-                  <span>{selectedRequest.carPlaque || ''}</span>
-                </div>
-                <div className="left-side">
-                  <label>Remaining (liters):</label>
-                  <span>{selectedRequest.remainingLiters || ''}</span>
-                </div>
-              </div>
-              <div className="view-form-group">
-                <div className="right-side">
-                  <label>Kilometers:</label>
-                  <span>{selectedRequest.kilometers || ''}</span>
-                </div>
-                <div className="right-side">
-                  <label>Quantity Requested (liters):</label>
-                  <span>{selectedRequest.quantityRequested || ''} liters</span>
-                </div>
-              </div>
-              <div className="view-form-group">
-                <div className="left-side">
-                <label>Quantity Received (liters):</label>
-                  {isEditing ? (
-                    <input
-                      type="number"
-                      name="quantityReceived"
-                      value={FormData.quantityReceived || ''}
-                      onChange={handleInputChange}
-                    />
-                  ) : (
-                    <span>{selectedRequest.quantityReceived || ''} liters</span>
-                  )}
-
+           <div className="fuel-img-logo">
+                           <img src="/image/logo2.png" alt="Logo" className="log"   />
+                           </div>
                  
-                </div>
-                <div className="left-side">
-                  <div className="quantity-recieved-field">
-                  <label>Average Km/l:</label>
-                  <span>{selectedRequest.average || ''}</span>
-                  </div>
-              
-                </div>
-              </div>
-              <div className="view-form-group">
-                <div className="detail-row">
-                {selectedRequest && selectedRequest.file ? (
-         <div className='file-uploaded'>
-         <label>Previous Destination file:</label>
-         <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
-            <FaEye /> View File
-           </a>
-          </div>
-          ) : (
-            <p>No file uploaded</p>
-          )}
-                    </div>
+                             <h3>Fuel Requisition Form</h3>
+                       <div className="form-columns">
+                             
+                             {/* Left Column */}
+                             
+                             <div className="form-column">
+                             
+                               <div className="form-group">
+                             
+                                
+                               <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
+                             
+                               </div>
+                             
+                             
+                               <div className="form-group">
+                             
+                                 <label htmlFor="carPlaque">Plaque of Car:</label>
+                             
+                                 <span>{selectedRequest.carPlaque || ''}</span>
+                               </div>
+                             
+                             
+                               <div className="form-group">
+                             
+                                 <label htmlFor="kilometers">Kilometers:</label>
+                             
+                                 <span>{selectedRequest.kilometers || ''}</span>
+                             
+                               </div>
+                             
+                             
+                               <div className="form-group">
+                             
+                                 <label htmlFor="remainingliters">Remaining Liters:</label>
+                                 <span>{selectedRequest.remainingLiters || ''}</span>
+                             
+                               </div>
+                             
+                             
+                               <div className="form-group">
+                             
+                                 <label htmlFor="quantityRequested">Quantity Requested (liters):</label>
+                                 <span>{selectedRequest.quantityRequested || ''} liters</span>
+                             
+                               </div>
+                             
+                             </div>
+                             
+                             
+                             {/* Right Column */}
+                             
+                             <div className="form-column">
+                             <div className="form-group">
+                             
+                             <label>Date of Request:</label>
+                             
+                              <span>{new Date(selectedRequest.createdAt || '').toDateString()}</span>
+                             
+                             </div>
+                               <div className="form-group">
+                             
+                                    <label>Quantity Received (liters):</label>
+                                               {isEditing ? (
+                                                 <input
+                                                   type="number"
+                                                   name="quantityReceived"
+                                                   value={FormData.quantityReceived || ''}
+                                                   onChange={handleInputChange}
+                                                 />
+                                               ) : (
+                                                 <span>{selectedRequest.quantityReceived || ''} liters</span>
+                                               )}
+                             
+                                              
+                               </div>
+                             
+                             
+                               <div className="form-group">
+                             
+                                 <label htmlFor="fuelType">Average:</label>
+                             
+                                 <span>{selectedRequest.average || ''}</span>
+                             
+                               </div>
+                             
+                             
+                               <div className="form-group">
+                             
+                                 <label htmlFor="destination">Previous Destination Report:</label>
+                              
+                             
+                               </div>
+                             
+                             
+                               <div className="detail-row">
+                             
+                                 {selectedRequest && selectedRequest.file ? (
+                             
+                                   <div className='file-uploaded'>
+                             
+                                     <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+                             
+                                       <FaEye /> View File
+                             
+                                     </a>
+                             
+                                   </div>
+                             
+                                 ) : (
+                             
+                                   <p>No file uploaded</p>
+                             
+                                 )}
+                             
+                               </div>
+                               </div>
               </div>
               <hr />
               <div className="signature-section">
@@ -402,11 +454,13 @@ const handleRejectRequest = async () => {
               <div className='footer-img'>
          <img src="/image/footerimg.png" alt="Logo" className="logo" />
          </div>
-            </form>
+        
           </div>
           
         </div>
       )}
+
+      <ToastContainer />
     </div>
   );
 };

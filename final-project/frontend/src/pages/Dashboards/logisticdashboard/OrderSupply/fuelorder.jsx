@@ -76,7 +76,7 @@ const LogisticRequestForm = () => {
 
     } catch (error) {
       console.error('Error submitting requisition:', error);
-       toast.success( 'Failed to submit fuel order')
+       toast.error( 'Failed to submit fuel order')
  
     }
   };
@@ -133,7 +133,7 @@ const LogisticRequestForm = () => {
           <div className="image-logo">
             <img src="/image/logo.png" alt="Logo" className="logo" />
           </div>
-          <div className="date-field">
+          {/* <div className="date-field">
               <label htmlFor="date">Date:</label>
               <input
                 type="date"
@@ -142,7 +142,7 @@ const LogisticRequestForm = () => {
                 onChange={(e) => setDate(e.target.value)}
                 required
               />
-            </div>
+            </div> */}
           <div className="heading-title">
             <div className="title">
               <h4>WESTERN PROVINCE</h4>

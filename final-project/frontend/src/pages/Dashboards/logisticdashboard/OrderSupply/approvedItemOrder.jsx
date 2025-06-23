@@ -22,10 +22,6 @@ const ForwardedRequests = () => {
   const tabId = sessionStorage.getItem('currentTab');
   const token = sessionStorage.getItem(`token_${tabId}`); 
 
-
-
-  
-  
   
     useEffect(() => {
       const fetchUser  = async () => {

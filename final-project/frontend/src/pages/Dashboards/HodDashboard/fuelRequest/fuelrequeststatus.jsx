@@ -156,7 +156,7 @@ const LogisticRequestForm = () => {
   return (
     <div className={`requisit ${selectedRequest ? "dim-background" : ""}`}>
       <div className="status-board">
-        <h2>User Fuel Requisition Status Board</h2>
+        <h2>Your fuel requisition status board</h2>
         <div className="filter-section">
        
        <div>
@@ -203,7 +203,7 @@ const LogisticRequestForm = () => {
                   Fuel Requisition from service of {request.service} and prepared by{" "}
                   {request.hodName}
                 </td>
-                <td>{new Date(request.RequestedDate).toDateString()}</td>
+                <td>{new Date(request.createdAt).toDateString()}</td>
                 <td>
                   <b className={`status-${request.status?.toLowerCase()}`}>
                     {request.status}
@@ -235,66 +235,135 @@ const LogisticRequestForm = () => {
       </div>
 
       {selectedRequest && (
-        <div className="fuel-request-details-overlay">
-      
-
-          <div className="fuel-request-details-content">
-          <div className="fixed-nav-bar">
-            <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
-          </div>
-            <h3>Fuel Requisition Form</h3>
-            <form>
-              <div className="view-form-group">
-                <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
-              </div>
-              <div className="view-form-group">
-                <div className="right-side">
-                  <label>Car Plaque:</label>
-                  <span>{selectedRequest.carPlaque || ''}</span>
-                </div>
-                <div className="left-side">
-                  <label>Remaining (liters):</label>
-                  <span>{selectedRequest.remainingLiters || ''}</span>
-                </div>
-              </div>
-              <div className="view-form-group">
-                <div className="right-side">
-                  <label>Kilometers:</label>
-                  <span>{selectedRequest.kilometers || ''}</span>
-                </div>
-                <div className="right-side">
-                  <label>Quantity Requested (liters):</label>
-                  <span>{selectedRequest.quantityRequested || ''}</span>
-                </div>
-              </div>
-              <div className="view-form-group">
-                <div className="left-side">
-                  <label>Average Km/l:</label>
-                  <span>{selectedRequest.average || ''}</span>
-                </div>
-                <div className="left-side">
-                  <label>Quantity Received (liters):</label>
-                  <span>{selectedRequest.quantityReceived || ''}</span>
-                </div>
-              </div>
-              <div className="view-form-group">
-                <div className="left-side">
-                  <label>Reason:</label>
-                  <span>{selectedRequest.reason || ''}</span>
-                </div>
-                <div className="detail-row">
-                  {selectedRequest && selectedRequest.file ? (
-                    <div className='file-uploaded'>
-                      <label>Previous Destination file:</label>
-                      <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
-                        <FaEye /> View File
-                      </a>
+           <div className="fuel-request-details-overlay">
+           
+        
+                  <div className="fuel-request-details-content">
+                  <div className="fixed-nav-bar">
+                    <button type="button" className='close-btn' onClick={handleCloseClick}>Close</button>
+                  </div>
+                  <div className="fuel-img-logo">
+                  <img src="/image/logo2.png" alt="Logo" className="log"   />
+                  </div>
+        
+                    <h3>Fuel Requisition Form</h3>
+              <div className="form-columns">
+                    
+                    {/* Left Column */}
+                    
+                    <div className="form-column">
+                    
+                      <div className="form-group">
+                    
+                       
+                      <label>Requester Name: <span>{selectedRequest.requesterName || ''}</span></label>
+                    
+                      </div>
+                    
+                    
+                      <div className="form-group">
+                    
+                        <label htmlFor="carPlaque">Plaque of Car:</label>
+                    
+                        <span>{selectedRequest.carPlaque || ''}</span>
+                      </div>
+                    
+                    
+                      <div className="form-group">
+                    
+                        <label htmlFor="kilometers">Kilometers:</label>
+                    
+                        <span>{selectedRequest.kilometers || ''}</span>
+                    
+                      </div>
+                    
+                    
+                      <div className="form-group">
+                    
+                        <label htmlFor="remainingliters">Remaining Liters:</label>
+                        <span>{selectedRequest.remainingLiters || ''}</span>
+                    
+                      </div>
+                    
+                    
+                      <div className="form-group">
+                    
+                        <label htmlFor="quantityRequested">Quantity Requested (liters):</label>
+                        <span>{selectedRequest.quantityRequested || ''} liters</span>
+                    
+                      </div>
+                    
                     </div>
-                  ) : (
-                    <p>No file uploaded</p>
-                  )}
-                </div>
-              </div>
+                    
+                    
+                    {/* Right Column */}
+                    
+                    <div className="form-column">
+                    <div className="form-group">
+                    
+                    <label>Date of Request:</label>
+                    
+                     <span>{new Date(selectedRequest.createdAt || '').toDateString()}</span>
+                    
+                    </div>
+                      <div className="form-group">
+                    
+                           <label>Quantity Received (liters):</label>
+                                      {isEditing ? (
+                                        <input
+                                          type="number"
+                                          name="quantityReceived"
+                                          value={FormData.quantityReceived || ''}
+                                          onChange={handleInputChange}
+                                        />
+                                      ) : (
+                                        <span>{selectedRequest.quantityReceived || ''} liters</span>
+                                      )}
+                    
+                                     
+                      </div>
+                    
+                    
+                      <div className="form-group">
+                    
+                        <label htmlFor="fuelType">Average:</label>
+                    
+                        <span>{selectedRequest.average || ''}</span>
+                    
+                      </div>
+                    
+                    
+                      <div className="form-group">
+                    
+                        <label htmlFor="destination">Previous Destination Report:</label>
+                     
+                    
+                      </div>
+                    
+                    
+                      <div className="detail-row">
+                    
+                        {selectedRequest && selectedRequest.file ? (
+                    
+                          <div className='file-uploaded'>
+                    
+                            <a href={`${process.env.REACT_APP_BACKEND_URL}/${selectedRequest.file}`} target="_blank" rel="noopener noreferrer">
+                    
+                              <FaEye /> View File
+                    
+                            </a>
+                    
+                          </div>
+                    
+                        ) : (
+                    
+                          <p>No file uploaded</p>
+                    
+                        )}
+                    
+                      </div>
+                      </div>
+                      </div>
               <hr />
 
               <div className="signature-section">
@@ -361,9 +430,10 @@ const LogisticRequestForm = () => {
                   )}
                 </div>
               </div>
-            </form>
+           
           </div>
-        </div>
+          </div>
+        
       )}
     </div>
   );

@@ -79,8 +79,9 @@
 .heading-title .title{
   display: flex;
 }
-.heading-title .title h3{
-padding: 10px;
+.heading-title .title h4{
+font-size: 13px;
+color: #656665;
 }
 .heading-title .title input{
   border-top: none;

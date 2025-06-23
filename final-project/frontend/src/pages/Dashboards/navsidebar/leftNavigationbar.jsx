@@ -1,6 +1,7 @@
 import React, { useState ,useEffect,useRef} from 'react';
-import { FaHome, FaList, FaBoxOpen, FaPlus, FaGasPump, FaClipboardList, 
-  FaChartBar, FaClipboardCheck,FaCubes,FaRegClipboard } from 'react-icons/fa';
+import { FaHome, FaList, FaBoxOpen, FaPlus, FaGasPump, FaClipboardList,FaCog,
+  FaChartBar, FaClipboardCheck,FaCubes,FaRegClipboard,FaFlag,FaHammer ,FaScrewdriver
+ } from 'react-icons/fa';
 import './navigationbar.css';
 
 const LeftNavbar = ({ setCurrentPage, privileges, isVisible, closeNav }) => {
@@ -81,12 +82,7 @@ useEffect(() => {
             <span><FaChartBar /></span> View Cars Data
           </li>
         )}
-        {privileges.includes('view_fuel_stock') && (
-          <li className={activePage === 'fuel-stock' ? 'active' : ''} onClick={() => handleNavigation('fuel-stock')}>
-            <span><FaPlus /></span> Fuel Stock
-          </li>
-        )}
-
+     
         {/* DAF Role Links */}
         {privileges.includes('view_stock_items') && (
           <li className={activePage === 'view-stock-items' ? 'active' : ''} onClick={() => handleNavigation('view-stock-items')}>
@@ -103,14 +99,14 @@ useEffect(() => {
             <span><FaGasPump /></span> Logistic Fuel Requisition
           </li>
         )}
-        {privileges.includes('Repair_logistic_request') && (
+        {/* {privileges.includes('Repair_logistic_request') && (
           <li className={activePage === 'Repair-logistic-Order' ? 'active' : ''} onClick={() => handleNavigation('Repair-logistic-Order')}>
             <span><FaGasPump /></span> Logistic Repair Requisition
           </li>
-        )}
+        )} */}
             {privileges.includes('Approve_user_item_request') && (
           <li className={activePage === 'Approve-user-item-request' ? 'active' : ''} onClick={() => handleNavigation('user-item-request')}>
-            <span><FaGasPump /></span>User item request
+            <span><FaScrewdriver /></span>User item request
           </li>
         )}
              {privileges.includes('Approve_user_fuel_request') && (
@@ -130,26 +126,36 @@ useEffect(() => {
             <span><FaGasPump /></span> Logistic Fuel Requisition
           </li>
         )}
-        {privileges.includes('approve_repair_logistic_request') && (
+        {/* {privileges.includes('approve_repair_logistic_request') && (
           <li className={activePage === 'repair-logistic-request' ? 'active' : ''} onClick={() => handleNavigation('repair-logistic-request')}>
             <span><FaGasPump /></span> Logistic Repair Requisition
           </li>
-        )}
-        {privileges.includes('view_user_requisition') && (
-          <li className={activePage === 'user-request' ? 'active' : ''} onClick={() => handleNavigation('user-request')}>
-            <span><FaBoxOpen /></span> User Item Requisition
+        )} */}
+        {privileges.includes('view_user_requisitions') && (
+          <li className={activePage === 'view-both-request' ? 'active' : ''} onClick={() => handleNavigation('view-both-request')}>
+            <span><FaBoxOpen /></span> User Requisitions
           </li>
         )}
-
+    
         {/* Shared Links */}
+       {privileges.includes('view_fuel_stock') && (
+          <li className={activePage === 'fuel-stock' ? 'active' : ''} onClick={() => handleNavigation('fuel-stock')}>
+            <span><FaPlus /></span> Fuel Stock
+          </li>
+        )}
+    {privileges.includes('manage_fuel_stock') && (
+          <li className={activePage === 'manage-fuel-stock' ? 'active' : ''} onClick={() => handleNavigation('manage-fuel-stock')}>
+            <span><FaPlus /></span> Fuel Stock
+          </li>
+        )}
         {privileges.includes('view_item_report') && (
           <li className={activePage === 'report' ? 'active' : ''} onClick={() => handleNavigation('report')}>
-            <span><FaChartBar /></span> Item Report
+            <span><FaFlag /></span> Item Report
           </li>
         )}
         {privileges.includes('view_fuel_report') && (
           <li className={activePage === 'fuel-report' ? 'active' : ''} onClick={() => handleNavigation('fuel-report')}>
-            <span><FaChartBar /></span> Fuel Report
+            <span><FaHammer /></span> Fuel Report
           </li>
         )}
            {privileges.includes('view_data_charts') && (
@@ -157,12 +163,18 @@ useEffect(() => {
             <span><FaChartBar /></span> Data Visualization
           </li>
         )}
-           {privileges.includes('view_help_center') && (
-          <li className={activePage === 'help_center' ? 'active' : ''} onClick={() => handleNavigation('help_center')}>
-            <span><FaChartBar /></span> Help Center
-          </li>
-        )}
+     
       </ul>
+       {/* Settings link at the bottom */}
+          <div className="nav-setting-bottom">
+            <ul>
+              <li 
+                className={activePage === 'settings' ? 'active' : ''} onClick={() => handleNavigation('setting')}
+              >
+                <FaCog  size={20}/><span></span> Settings
+              </li>
+            </ul>
+          </div>
     </div>
   );
 };

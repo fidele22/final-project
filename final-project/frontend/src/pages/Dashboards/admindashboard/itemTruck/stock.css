@@ -142,14 +142,15 @@ input {
       cursor: pointer;
       text-align: center;
     }
-   .history-close-btn{
-      position: absolute;
+   .history-closes-btn{
+      position:absolute;
       right: 0;
       top: 0;
       background-color: #d1d1d3da;
       text-decoration: none;
       color: rgb(191, 61, 61);;
-      font-size: 40px;
+      font-size: 30px;
+      padding: 5px;
       border-radius: 50%;
       cursor: pointer;
       text-align: center;

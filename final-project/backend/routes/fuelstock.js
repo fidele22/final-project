@@ -67,35 +67,43 @@ router.post('/add-fuel', async (req, res) => {
       res.status(500).json({ error: 'Error deleting fuel stock entry' });
     }
   });
-  router.get('/fuel-history', async (req, res) => {
-    try {
-      const records = await FuelStockHistory.find()
-        .select('carplaque requestedDate updatedAt entry exit balance')
-        .sort({ updatedAt: 1 });
-  
-      const shiftedRecords = records.map((record, index) => {
-        const next = records[index + 1];
-        return {
-          _id: record._id,
-          carplaque: record.carplaque,
-          requestedDate: record.requestedDate,
-          entry: record.entry,
-          exit: record.exit,
-          balance: next ? next.balance : { quantity: 0, pricePerUnit: 0, totalAmount: 0 },
-        };
-      });
-  
-      // ✅ FIX: return as object with "history" and "total"
-      res.status(200).json({
-        history: shiftedRecords,
-        total: shiftedRecords.length,
-      });
-  
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+router.get('/fuel-history', async (req, res) => {
+  try {
+    const { page = 1, limit = 10, startDate, endDate, fetchAll } = req.query;
+
+    const query = {};
+
+    // Filter by start and end date (requestedDate)
+    if (startDate && endDate) {
+      query.updatedAt = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
     }
-  });
-  
+
+    const sortOrder = { updatedAt: 1 };
+
+    if (fetchAll === 'true') {
+      // return all records with filters if any
+      const history = await FuelStockHistory.find(query).sort(sortOrder);
+      return res.json({ history });
+    }
+
+    const total = await FuelStockHistory.countDocuments(query);
+
+    const history = await FuelStockHistory.find(query)
+      .sort(sortOrder)
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit));
+
+    return res.json({ history, total });
+
+  } catch (err) {
+    console.error('Error fetching fuel history:', err);
+    res.status(500).json({ error: 'Failed to fetch fuel history' });
+  }
+});
+
 
 // Route to fetch stock report based on carPlaque and date range
 router.get('/stock-report', async (req, res) => {
@@ -310,22 +318,29 @@ router.get('/totalCostRepairs', async (req, res) => {
 
 router.get('/generate-repo', async (req, res) => {
   try {
-    const { month, year } = req.query;
+    let { startDate, endDate, month, year } = req.query;
 
-    if (month === undefined || !year) {
-      return res.status(400).json({ error: 'Provide month and year for the report.' });
+    let start, end;
+
+    if (startDate && endDate) {
+      start = new Date(startDate);
+      end = new Date(endDate);
+      end.setUTCHours(23, 59, 59, 999);
+    } else if (month !== undefined && year) {
+      start = new Date(year, month, 1);
+      end = new Date(year, parseInt(month) + 1, 0);
+      end.setUTCHours(23, 59, 59, 999);
+    } else {
+      return res.status(400).json({ error: 'Provide either date range or month and year.' });
     }
-
-    const start = new Date(year, month, 1);
-    const end = new Date(year, parseInt(month) + 1, 0);
-    end.setUTCHours(23, 59, 59, 999);
 
     // Get fuel requisitions in the given month
     const fuelEntries = await FuelRequisitionReceived.aggregate([
       {
         $match: {
           status: 'Received',
-          RequestedDate: { $gte: start, $lte: end },
+          createdAt: { $gte: start, $lte: end },
+
         },
       },
       {
@@ -355,7 +370,7 @@ router.get('/generate-repo', async (req, res) => {
         },
       },
       {
-        $sort: { RequestedDate: 1 },
+        $sort: { createdAt: 1 },
       },
     ]);
 
@@ -387,7 +402,7 @@ router.get('/generate-repo', async (req, res) => {
     const detailedReport = fuelEntries.map(entry => {
       const mileageInfo = mileageMap[entry.carPlaque] || { mileageAtBeginning: 0, mileageAtEnd: 0 };
       return {
-        requestedDate: entry.RequestedDate,
+        requestedDate: entry.createdAt,
         carPlaque: entry.carPlaque,
         modeOfVehicle: entry.carInfo?.modeOfVehicle || 'N/A',
         dateOfReception: entry.carInfo?.dateOfReception || 'N/A',

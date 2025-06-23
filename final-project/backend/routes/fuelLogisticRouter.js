@@ -222,6 +222,9 @@ router.post('/recieved-fuel/:id', async (req, res) => {
 
         const previousQuantity = fuelStock.quantity; 
         fuelStock.quantity += item.quantityRequested; 
+        // Update the pricePerUnit from requisition item
+        fuelStock.pricePerUnit = item.pricePerUnit;
+
         fuelStock.totalAmount += item.totalPrice; 
 
         await fuelStock.save(); // Save the updated stock

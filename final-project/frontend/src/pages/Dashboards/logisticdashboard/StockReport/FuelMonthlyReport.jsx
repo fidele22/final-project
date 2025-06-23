@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
+
+import './FuelReport.css'
 
 const FuelRequestReport = () => {
     const [mode, setMode] = useState("range"); // 'range' or 'month'
@@ -11,6 +18,9 @@ const FuelRequestReport = () => {
     const [reportData, setReportData] = useState([]);
     const [totalQuantity, setTotalQuantity] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+
+    const [carSummary, setCarSummary] = useState([]);
+
 
     const fetchReport = async () => {
         let url = `${process.env.REACT_APP_BACKEND_URL}/api/fuel/generate-repo`;
@@ -45,6 +55,26 @@ const FuelRequestReport = () => {
       
         setTotalQuantity(totalQuantityCalc);
         setTotalCost(totalCostCalc);
+          // After setReportData(sortedData), add this:
+
+const summary = {};
+
+sortedData.forEach(req => {
+  const plaque = req.carPlaque || req.carInfo?.registerNumber || "N/A";
+  if (!summary[plaque]) {
+    summary[plaque] = {
+      carPlaque: plaque,
+      totalLiters: 0,
+      distanceCovered: req.distanceCovered || 0, // ✅ just pick one
+    };
+  }
+
+  summary[plaque].totalLiters += req.litersConsumed || 0;
+});
+
+
+setCarSummary(Object.values(summary));
+
       };
       
 
@@ -62,6 +92,107 @@ const FuelRequestReport = () => {
     { name: "November", value: 10 },
     { name: "December", value: 11 },
   ];
+
+
+  // export pdf file 
+  const exportToPDF = () => {
+  const doc = new jsPDF();
+  doc.text("Fuel Received Report", 14, 10);
+
+  const tableColumn = [
+    "Requested Date",
+    "Car Plaque",
+    "Mode of Vehicle",
+    "Date of Reception",
+    "Department",
+    "Mileage Start",
+    "Mileage End",
+    "Distance",
+    "Liters",
+    "Price/Liter",
+    "Total Cost"
+  ];
+
+  const tableRows = reportData.map(req => [
+    new Date(req.requestedDate).toLocaleDateString(),
+    req.carPlaque || req.carInfo?.registerNumber || "N/A",
+    req.modeOfVehicle || "N/A",
+    req.dateOfReception ? new Date(req.dateOfReception).toLocaleDateString() : "N/A",
+    req.department || "N/A",
+    req.mileageAtBeginning,
+    req.mileageAtEnd,
+    req.distanceCovered,
+    req.litersConsumed,
+    req.pricePerLiter?.toLocaleString() || "N/A",
+    req.totalCost?.toLocaleString() || "N/A"
+  ]);
+
+  // Add totals row
+  tableRows.push([
+    "", "", "", "", "", "", "", "Total:",
+    totalQuantity.toLocaleString(),
+    "",
+    totalCost.toLocaleString()
+  ]);
+
+  doc.autoTable({
+    head: [tableColumn],
+    body: tableRows,
+    startY: 20,
+    styles: { fontSize: 8 }
+  });
+
+  doc.save("fuel_report.pdf");
+};
+
+// export excel formt
+const exportToExcel = () => {
+  const worksheetData = reportData.map(req => ({
+    "Requested Date": new Date(req.requestedDate).toLocaleDateString(),
+    "Car Plaque": req.carPlaque || req.carInfo?.registerNumber || "N/A",
+    "Mode of Vehicle": req.modeOfVehicle || "N/A",
+    "Date of Reception": req.dateOfReception
+      ? new Date(req.dateOfReception).toLocaleDateString()
+      : "N/A",
+    Department: req.department || "N/A",
+    "Mileage At Beginning": req.mileageAtBeginning,
+    "Mileage At End": req.mileageAtEnd,
+    "Distance Covered": req.distanceCovered,
+    "Liters Consumed": req.litersConsumed,
+    "Price Per Liter": req.pricePerLiter || "N/A",
+    "Total Cost": req.totalCost || "N/A",
+  }));
+
+  worksheetData.push({
+    "Requested Date": "",
+    "Car Plaque": "",
+    "Mode of Vehicle": "",
+    "Date of Reception": "",
+    Department: "",
+    "Mileage At Beginning": "",
+    "Mileage At End": "",
+    "Distance Covered": "Total:",
+    "Liters Consumed": totalQuantity,
+    "Price Per Liter": "",
+    "Total Cost": totalCost
+  });
+
+  const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Fuel Report");
+
+  const excelBuffer = XLSX.write(workbook, {
+    bookType: "xlsx",
+    type: "array"
+  });
+
+  const data = new Blob([excelBuffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  });
+
+  saveAs(data, "fuel_report.xlsx");
+};
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Fuel Received Report</h2>
@@ -193,7 +324,28 @@ const FuelRequestReport = () => {
     </tr>
   </tfoot>
       </table>
-      
+
+      {carSummary.length > 0 && (
+  <div className="mt-6 p-4 bg-gray-50 border rounded shadow">
+    <h3 className="font-bold mb-2">Summary per Car Plaque:</h3>
+    {carSummary.map((item, index) => (
+      <p key={index}>
+        <strong>{item.carPlaque}</strong>: {item.totalLiters} Liters consumed, {item.distanceCovered} km covered
+      </p>
+    ))}
+  </div>
+)}
+
+      <div className="export-buttons">
+  <button style={{backgroundColor:'black',margin:'10px'}} onClick={exportToPDF} className="export-btn pdf-btn">
+    Export to PDF
+  </button>
+  <button style={{backgroundColor:'green',margin:'10px'}} onClick={exportToExcel} className="export-btn excel-btn">
+    Export to Excel
+  </button>
+</div>
+
+
     </div>
   );
 };

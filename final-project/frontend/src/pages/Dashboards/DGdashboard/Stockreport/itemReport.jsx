@@ -487,7 +487,7 @@ const handlePrepareReport = async () => {
             <td><strong>{totals.exitTotalAmount.toFixed(2)}</strong></td>
             <td>-</td>
             <td>-</td>
-            <td><strong>{totals.balanceTotalAmount.toFixed(2)}</strong></td>
+            <td>{((totals.openingTotalAmount + totals.entryTotalAmount) - totals.exitTotalAmount).toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>

@@ -126,16 +126,22 @@ router.get('/verifiedfuel', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-// GET route to fetch all approved fuel requisitions 
-router.get('/approvedfuel', async (req, res) => {
+
+// GET route to fetch approved fuel requisitions for a specific user
+router.get('/approvedfuel', authMiddleware, async (req, res) => {
   try {
-    const requisitions = await FuelRequisition.find({ status: 'Approved' }); // Filter by status
+    const userId = req.userId; // assuming you're attaching user to req in your middleware
+    const requisitions = await FuelRequisition.find({ 
+      status: 'Approved',
+      userId: userId // or requesterId, hodId, etc., depending on your schema
+    });
     res.status(200).json(requisitions);
   } catch (error) {
     console.error('Error fetching requisitions:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 router.get('/userfuelstatus', authMiddleware, async (req, res) => {
   try {
     const userId = req.userId; // Ensure userId is an ObjectId
@@ -329,8 +335,19 @@ router.put('/receivefuel/:id', async (req, res) => {
           return res.status(400).json({ message: 'This requisition has already been marked as received.' });
         }
     // Extract quantityReceived from the request itself
-    const quantityReceived = request.quantityRequested; // Adjust this if the correct field is different
+     const quantityReceived = request.quantityReceived;
 
+    const fuelStock = await FuelStock.findOne({ fuelType: request.fuelType });
+    if (!fuelStock) {
+      return res.status(404).json({ message: `Fuel stock not found for ${request.fuelType}` });
+    }
+
+    // 🔒 Prevent negative stock
+    if (fuelStock.quantity < quantityReceived) {
+      return res.status(400).json({
+        message: `Insufficient stock: only ${fuelStock.quantity} liters available, but you to receive ${quantityReceived} liters.`,
+      });
+    }
 
     // Update the status and other relevant fields
     request.status = 'Received';
@@ -347,16 +364,6 @@ router.put('/receivefuel/:id', async (req, res) => {
       };
     }
 
-    // Find the fuel stock
-    const fuelStock = await FuelStock.findOne({ fuelType: request.fuelType });
-    if (!fuelStock) {
-      return res.status(404).json({ message: `Fuel stock not found for ${request.fuelType}` });
-    }
-
-   // Check stock availability and adjust if needed
-   if (fuelStock.quantity < quantityReceived) {
-    quantityReceived = 0; // Not enough stock, avoid negative
-  }
 
     // Update stock levels
     fuelStock.quantity -= quantityReceived;

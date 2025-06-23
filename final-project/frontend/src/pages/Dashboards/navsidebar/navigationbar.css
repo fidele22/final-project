@@ -55,7 +55,17 @@
   border-radius: 5px;
   padding: 5px;
 }
-
+.nav-setting-bottom{
+   margin-top: auto; /* Ensures it's pushed to the bottom */
+  padding-top: 20px;
+  border-top: 1px solid #444;
+}
+.nav-setting-bottom ul li{
+    border-radius: 5px;
+  padding: 5px;
+  color: white;
+  background-color: #000;
+}
 .menu-toggle-button{
   position: absolute;
   top: 0%;

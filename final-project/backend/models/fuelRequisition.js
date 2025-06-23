@@ -35,7 +35,7 @@ const fuelRequisitionSchema = new Schema({
   },
   RequestedDate:{
     type: Date,
-    required:true,
+    required:false,
   }
 ,
   file: { type: String },

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
-import { FaQuestionCircle, FaEdit,FaTimes, FaTimesCircle, FaCheck,
-  FaCheckCircle, FaCheckDouble, FaCheckSquare } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+
   import Swal from 'sweetalert2'; 
 import './stylingpages/resetPassword.css'
 import axios from 'axios';
@@ -10,6 +10,8 @@ const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [showModal, setShowModal] = useState(false); // State for modal visibility
   const [modalMessage, setModalMessage] = useState(''); //
@@ -61,20 +63,32 @@ const ResetPassword = () => {
       <h1>Reset Password</h1>
      
       <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter new password"
-          required
-        />
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm new password"
-          required
-        />
+       <div className="password-wrapper">
+           <input
+             type={showPassword ? 'text' : 'password'}
+             value={password}
+             onChange={(e) => setPassword(e.target.value)}
+             placeholder="Enter new password"
+             required
+           />
+           <span onClick={() => setShowPassword(!showPassword)} className="toggle-eye">
+             {showPassword ? <FaEyeSlash /> : <FaEye />}
+           </span>
+         </div>
+         
+         <div className="password-wrapper">
+           <input
+             type={showConfirmPassword ? 'text' : 'password'}
+             value={confirmPassword}
+             onChange={(e) => setConfirmPassword(e.target.value)}
+             placeholder="Confirm new password"
+             required
+           />
+           <span onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="toggle-eye">
+             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+           </span>
+         </div>
+         
         <button type="submit">Reset Password</button>
       </form>
       {showModal && (

@@ -10,7 +10,11 @@
     align-items: center;
     z-index: 999;
   }
-  
+.headers h2{
+  color: rgb(83, 83, 83);
+  font-size: 20px;
+  text-align: center;
+}
 .add-new-user-btn{
   position: absolute;
   right: 0;
@@ -20,9 +24,54 @@
   background-color: rgb(125, 170, 228);
   color: white;
 }
-  .user-table{
-   width: 90%;
-  }
+/* user managament  */
+.searchbar {
+  position: relative;
+  width: 250px;
+}
+
+.searchbar input {
+  width: 100%;
+  padding-left: 100px; /* space for icon on the left */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.searchbar .search-icon {
+  position: absolute;
+  top: 49%;
+  right: 10%;;
+  transform: translateY(-50%);
+  color: #777;
+}
+
+  .user-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+}
+
+.user-table th,
+.user-table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ccc; /* Horizontal line */
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.user-table thead th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Optional: remove all vertical lines from the table itself */
+.user-table tr {
+  border-left: none;
+  border-right: none;
+}
+
 
   /***responsiviness*********/
 

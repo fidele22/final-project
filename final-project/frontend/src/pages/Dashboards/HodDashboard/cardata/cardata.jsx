@@ -4,6 +4,7 @@ import axios from 'axios';
 import './carformdata.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2'; 
 
 const CarForm = () => {
   const [carOptions, setCarOptions] = useState([]);
@@ -34,8 +35,16 @@ const CarForm = () => {
       };
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/usercar-data/save-data`, newCarData);
       
-      toast.success('Car kilometer covered and remaining liters saved');
-
+      // toast.success('Car kilometer covered and remaining liters saved');
+     Swal.fire({
+            title: 'Success!',
+            text: 'Car kilometer covered and remaining liters saved',
+            icon: 'success',
+            confirmButtonText: 'OK',
+            customClass: {
+              popup: 'custom-swal',
+            }
+          });
       // Clear the form
       setCarPlaque('');
       setKilometers('');

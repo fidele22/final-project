@@ -466,7 +466,7 @@ const handleSignClick = () => {
               <>
        <div className="form-navigation">
         <div className="form-nav-links">
-        <a href="#" className='verify-requisition' onClick={handleVerifySubmit}>Verify Request</a>
+        <a href="#" className='verify-user-requisition-btn' onClick={handleVerifySubmit}>Verify Request</a>
         <a href="#" className='sign-button' onClick={handleSignClick}>Sign</a>
         <a href="#" className='request-edit-btn' onClick={handleEditClick}>Edit</a>
          <a href="#" onClick={() => handleRejectClick(selectedRequest._id)} className="reject-button">Reject request</a>
@@ -491,14 +491,14 @@ const handleSignClick = () => {
             </div>
          
             <label>WESTERN PROVINCE</label>
-            <label>DISTRIC: NYABIHU</label>
-            <label>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</label>
+            <label>DISTRICT: NYABIHU</label>
+            <label>HEALTH FACILITY</label>
             <label>DEPARTMENT: <span>{editFormData.department}</span> </label>
             <label>SERVICE: <span>{editFormData.service}</span> </label>
 
           </div>
            
-            <u><h2>REQUISITON FORM</h2></u>  
+            <u><h2>ITEM REQUISITON FORM</h2></u>  
                <table>
                   <thead>
                     <tr>

@@ -53,10 +53,25 @@
 .adminavbar ul li:hover {
   color: brown;
 }
-.logout-button{
-  position: absolute;
-  bottom: 5%;
+.adminavbar ul li.active {
+  background-color: #ffffff;
+  color: #000;
+  border-radius: 3px;
+  padding: 10px;
+  font-weight: bold;
 }
+.nav-bottom {
+  margin-top: auto; /* Ensures it's pushed to the bottom */
+  padding-top: 20px;
+  border-top: 1px solid #444;
+
+}
+.nav-bottom ul li{
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #000;
+}
+
 .menu-toggle {
   display: none; /* Hidden by default */
   font-size: 24px;

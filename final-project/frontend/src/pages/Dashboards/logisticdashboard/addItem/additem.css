@@ -1,14 +1,15 @@
-.add-item {
+.add-item-buttons{
   width: 100%;
   display: flex;
+  gap: 20px;
 }
 .add-item-btn{
   background-color: #007bff;
-  font-size: 16px;
+  font-size: 15px;
 }
 .upload-item-btn{
   background-color: green;
-  font-size: 16px;
+  font-size: 15px;
 }
   /* Container styles */
  .additem {

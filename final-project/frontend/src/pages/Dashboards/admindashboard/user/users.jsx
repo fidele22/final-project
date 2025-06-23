@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaTrash,FaTimes,FaTimesCircle,FaCheckCircle } from 'react-icons/fa';
+import { FaEdit, FaTrash,FaTimes,FaSearch,FaCheckCircle } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
 import AddUser from './AddUser'; // Import the AddUser component
@@ -281,14 +281,16 @@ const filteredUsers = Array.isArray(users) ? users.filter(user =>
       </div>
      
       <div className='items-table'>
-        <div className="searchbar">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
+       <div className="searchbar">
+  <FaSearch className="search-icon" />
+  <input
+    type="text"
+    placeholder="Search..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+</div>
+
 
         <table className='user-table'>
           <thead>

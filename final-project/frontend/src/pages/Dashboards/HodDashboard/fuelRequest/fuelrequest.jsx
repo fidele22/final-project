@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'; 
+import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
+import 'react-toastify/dist/ReactToastify.css'; 
 import './fuelrequest.css';
 
 const RequisitionForm = () => {
@@ -102,13 +104,7 @@ const RequisitionForm = () => {
                 },
             });
 
-            Swal.fire({
-                title: 'Success!',
-                text: 'Submit fuel requisition to logistic successfully',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                customClass: { popup: 'custom-swal' }
-            });
+          toast.success('request of fuel sent successfully')
             
             // Reset form fields
             setRequesterName('');
@@ -124,13 +120,8 @@ const RequisitionForm = () => {
             setFile(null);
         } catch (error) {
             console.error('Error submitting requisition:', error);
-            Swal.fire({
-                title: 'Error!',
-                text: 'Failed to submit fuel requisition',
-                icon: 'error',
-                confirmButtonText: 'OK',
-                customClass: { popup: 'custom-swal' }
-            });
+           toast.error('Failed to submit fuel requisition')
+         
         }
     };
 
@@ -229,7 +220,11 @@ const RequisitionForm = () => {
                             required
                         />
                     </div>
-                    <div className="form-group">
+                  
+                    </div>
+   {/* Right Column */}
+               <div className="form-column">
+                     <div className="form-group">
                         <label htmlFor="quantityRequested">Quantity Requested (liters):</label>
                         <input
                             type="number"
@@ -239,10 +234,6 @@ const RequisitionForm = () => {
                             required
                         />
                     </div>
-                    </div>
-   {/* Right Column */}
-               <div className="form-column">
-                   
 
                     <div className="form-group">
                         <label htmlFor="quantityReceived">Quantity Received (liters):</label>
@@ -253,11 +244,11 @@ const RequisitionForm = () => {
                             
                         />
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                        <label>Date of Request:</label>
                         <input type="date" name="date" value={RequestedDate} onChange={(e) => setRequestedDate(e.target.value)}
                         required />
-                     </div>
+                     </div> */}
            <div className="form-group">
              <label htmlFor="destination">Previous Destination Report:</label>
              <input
@@ -286,6 +277,9 @@ const RequisitionForm = () => {
             
             </form>
         </div>
+
+
+    <ToastContainer />
         </div>
     );
 };

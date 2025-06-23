@@ -343,11 +343,11 @@ const handleSignClick = () => {
               </form>
             ) : (
               <>
-                <div className="form-navigation">
+                <div className="logistic-form-navigation">
                   <button className='verify-requisition' onClick={handleVerifySubmit}>Verify Request</button>
                   <button className='reject-request' onClick={handleRejectRequest}>Reject Request</button>
                   <button className='sign-button' onClick={handleSignClick}>Sign</button>
-                  <button></button>
+              
                   <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
                 </div>
                 <div className="image-request-recieved">
@@ -359,11 +359,11 @@ const handleSignClick = () => {
                 <div className="logistic-request-heading">
                   <h1>WESTERN PROVINCE</h1>
                   <h1>DISTRICT: NYABIHU</h1>
-                  <h1>HEALTH FACILITY: SHYIRA DISTRICT HOSPITAL</h1>
+                  <h1>HEALTH FACILITY</h1>
                   <h1>DEPARTMENT: LOGISTIC OFFICE</h1>
                 </div>
 
-                <h2>REQUISITION FORM OF LOGISTIC</h2>
+                <h2>ITEM REQUISITION FORM OF LOGISTIC</h2>
                 <table>
                   <thead>
                     <tr>
@@ -396,7 +396,7 @@ const handleSignClick = () => {
                 className='signature-img' />
                 </div>
 
-                {isSigned && (
+        {isSigned && (
          <div className="daf-signature">
            <h4>DAF Office</h4>
            <label htmlFor="dgName">Verified By:</label>
@@ -406,8 +406,8 @@ const handleSignClick = () => {
            ) : (
              <p>No signature available</p>
            )}
-       </div>
-     )}
+          </div>
+        )}
     
                   </div>
             

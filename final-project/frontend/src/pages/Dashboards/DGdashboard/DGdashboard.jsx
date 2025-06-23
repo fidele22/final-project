@@ -4,16 +4,16 @@ import TopNavigation from '../navbar/Navbar';
 import Footer from '../footer/Footer'
 import LeftNavbar from '../navsidebar/leftNavigationbar';
 import Overview from './Overview';
-import ViewRequest from './userRequisition/RequestVerified'
-import ViewLogisticRequest from './requestOfLogistic/OrderPage'
-import FuelRequisition from './userfuelRequisition/fuelRequisitionPages'
-import UserRequestRecieved from '../logisticdashboard/receivedRequisitions/itemRequestReceived'
+import ViewLogisticRequest from './requestOfLogistic/OrderPage';
+import FuelRequisition from './userfuelRequisition/fuelRequisitionPages';
+import BothUserRequesition from './bothUserRequisition/bothuserRequisition';
 import ViewItems from './StockItem/viewitems'
 import ItemStockReport from './Stockreport/itemReport';
-import FuelReport from './Stockreport/FuelReport';
-import FuelStock from './Stockreport/FuelFullReport'
+import FuelReport from '../logisticdashboard/StockReport/FuelMonthlyReport';
+import FuelStock from '../dafdashboard/itemReport/fuelStock';
 import FuelLogisticRequest from './LogisticFuelOrders/logisticFuelOrderPages'
 import RepairLogisticRequest from './logisticRepairRequest/repairRequisitionPage'
+import DataVisualization from '../dafdashboard/dataAnalysis/itemRequisitionAnalysis';
 import DafProfile from '../UserProfile/profile'
 import HelpCenter from '../helpcenter/helpcenter'
 import './DafDashboard.css';
@@ -62,13 +62,8 @@ const Dashboard = () => {
     switch (currentPage) {
       case 'overview':
         return <Overview />;
-     case 'view-request':
-          return <ViewRequest />;
-   
       case 'view-stock-items':
-          return <ViewItems/>
-      case 'user-request-recieved':
-         return <UserRequestRecieved />  
+          return <ViewItems/> 
       case 'view-logistic-request':
           return <ViewLogisticRequest />
       case 'fuel-logistic-request':
@@ -77,14 +72,16 @@ const Dashboard = () => {
          return<RepairLogisticRequest />       
       case 'fuel-requisition':
           return <FuelRequisition />;
-                    
+      case 'view-both-request':
+         return <BothUserRequesition />              
       case 'report':
         return <ItemStockReport />;
     case 'fuel-report':
         return <FuelReport />;   
     case 'fuel-stock':
         return <FuelStock />; 
-
+    case 'data_charts':
+      return <DataVisualization />
       case 'user-profile':
           return <DafProfile />;  
       case 'help-center':

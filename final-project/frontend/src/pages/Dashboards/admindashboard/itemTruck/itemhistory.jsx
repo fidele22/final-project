@@ -95,7 +95,7 @@ const handleUpdate = async (id) => {
             </label>
           
             </div>
-            <p className='history-close-btn' onClick={onClose}><FaTimes /></p>
+            <p className='history-closes-btn' onClick={onClose}><FaTimes /></p>
           </div>
           <div id='history-content'>
           <h2>Stock sheet of {item.name}</h2>

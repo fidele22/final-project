@@ -62,8 +62,10 @@
 .fuel-request-details-content {
   background: #fff;
   padding: 0px 30px 30px 30px;
-  width: 70%;
-  max-height: 90%;
+  width: 60%;
+  max-height: 85%;
+  margin-left: 10%;
+  margin-top: 3%;
   overflow-y: auto;
   border-radius: 10px;
   position: relative; /* important */

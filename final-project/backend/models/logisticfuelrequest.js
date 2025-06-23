@@ -10,7 +10,7 @@ const itemSchema = new mongoose.Schema({
 const logisticFuelSchema = new mongoose.Schema({
   supplierName: { type: String, required: true },
   items: [itemSchema], // Array of items
-  date: { type: Date, required: true },
+  date: { type: Date, required: false },
   hodName: { type: String, required: true },
   hodSignature: { type: String },
 

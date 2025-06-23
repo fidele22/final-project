@@ -30,6 +30,7 @@ const ViewPosition = () => {
     'view_fuel_stock',
     'view_item_report',
     'view_fuel_report',
+    'manage_fuel_stock',
     'view_stock_items',
     'view_data_charts',
 
@@ -45,7 +46,7 @@ const ViewPosition = () => {
     
     'Approve_user_item_request',
     'Approve_user_fuel_request',
-    'view_user_requisition',
+    'view_user_requisitions',
     'View_user_fuel_request',
     'approve_repair_logistic_request',
 
@@ -219,8 +220,8 @@ const ViewPosition = () => {
 
       {editRole && (
         <div className="editing-userdata-overlay">
-          <div className="edit-form">
-            <h2>Edit Role</h2>
+          <div className="edit-role-form">
+            <h2>Edit Role/Assign specific privileges</h2>
             <input
               type="text"
               value={roleName}
@@ -244,7 +245,7 @@ const ViewPosition = () => {
               ))}
             </div>
             <button onClick={handleUpdate}>Update</button>
-            <button onClick={() => setEditRole(null)}>Cancel</button>
+            <button style={{backgroundColor:'crimson'}} onClick={() => setEditRole(null)}>Cancel</button>
           </div>
         </div>
       )}

@@ -8,6 +8,7 @@ import FuelRequestPages from './fuelRequest/fuelRequisitionPages';
 import Items from './items/viewItems';
 import CarMontlyData from './cardata/cardata'
 import UserProfile from '../UserProfile/profile';
+import Setting from '../UserProfile/profile';
 import HelpCenter from '../helpcenter/helpcenter';
 import './hodDashboard.css';
 
@@ -53,6 +54,9 @@ const HodDashboard = () => {
         return <FuelRequestPages />;
       case 'requisition':
         return <MakeRequest />;
+       
+      case 'setting':
+        return <Setting /> 
       case 'user-profile':
         return <UserProfile />;
       case 'monthly_car_data':

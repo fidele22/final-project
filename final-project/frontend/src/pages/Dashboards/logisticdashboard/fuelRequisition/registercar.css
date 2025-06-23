@@ -110,6 +110,13 @@
   .filter-title p{
     padding: 10px;
   }
+  .close-addfuel-form{
+    background-color: #e0e1e2;
+    position: absolute;
+    right: 35%;
+    padding: 2px;
+    color: #dc3545;
+  }
   .generate-stock-card-btn{
     background: #0056b3;
   }

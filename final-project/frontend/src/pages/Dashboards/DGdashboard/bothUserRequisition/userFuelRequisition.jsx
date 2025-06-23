@@ -192,7 +192,7 @@ const LogisticRequestForm = () => {
                   Fuel Requisition from service of {request.service} and prepared by{" "}
                   {request.hodName}
                 </td>
-                <td>{new Date(request.createdAt).toDateString()}</td>
+                <td>{new Date(request.RequestedDate).toDateString()}</td>
                 <td>
                   <b className={`status-${request.status?.toLowerCase()}`}>
                     {request.status}
@@ -292,7 +292,7 @@ const LogisticRequestForm = () => {
             
             <label>Date of Request:</label>
             
-             <span>{new Date(selectedRequest.createdAt || '').toDateString()}</span>
+             <span>{new Date(selectedRequest.RequestedDate || '').toDateString()}</span>
             
             </div>
               <div className="form-group">

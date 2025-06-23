@@ -12,7 +12,7 @@ import ViewD from './department/viewDepartment';
 import ItemTruck from './itemTruck/ViewItems';
 import UserProfile from '../UserProfile/profile';
 import './css/adminDashboard.css';
-import HelpCenter from '../helpcenter/helpcenter';
+import Setting from '../UserProfile/profile';
 import MonthlyCarData from './cardata/updateCarData';
 
 const AdminDashboard = () => {
@@ -44,8 +44,8 @@ const AdminDashboard = () => {
         return <MonthlyCarData />  
       case 'user-profile':
         return <UserProfile />;
-      case 'help-center':
-        return <HelpCenter />  
+      case 'settings':
+        return <Setting />  
       default:
         return <AdminOverview />;
     }
@@ -62,7 +62,7 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <Navbar setCurrentPage={setCurrentPage} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <Navbar   currentPage={currentPage} setCurrentPage={setCurrentPage} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       
       <div className="Admincontent-page">
         <div className="Admincontent">

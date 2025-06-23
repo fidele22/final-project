@@ -57,7 +57,7 @@ const handleUpdate = async () => {
     <div className="filter-section">
   <input
     type="text"
-    placeholder="Register Number"
+    placeholder="Car Plaque"
     value={filters.registerNumber}
     onChange={(e) => setFilters({ ...filters, registerNumber: e.target.value })}
   />
@@ -116,7 +116,7 @@ const handleUpdate = async () => {
       value={editCar.remainingLiters}
       onChange={(e) => setEditCar({ ...editCar, remainingLiters: Number(e.target.value) })}
     />
-    <label htmlFor="">The issue date</label>
+    <label htmlFor="">The issued date</label>
     <input
       type="date"
       value={editCar.createdAt ? new Date(editCar.createdAt).toISOString().split('T')[0] : ''}

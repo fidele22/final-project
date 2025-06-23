@@ -9,11 +9,10 @@ import RecieveduserRequest from '../logisticdashboard/receivedRequisitions/itemR
 import ViewLogisticRequest from './requestOfLogistic/orderpages';
 import UserFuelRequest from './UserfuelRequest/userfuelrequestpage';
 import LogisticFuelOrder from './LogisticFuelOrders/logisticFuelOrderPages';
-import RepairLogisticOrder from './logisticRepairRequest/repairRequisitionPage';
 import ViewItems from '../DGdashboard/StockItem/viewitems';
 import ItemStockReport from './itemReport/itemReport';
-import FuelStock from '../logisticdashboard/fuelRequisition/fuelStock';
-import FuelReport from '../logisticdashboard/StockReport/FuelReport';
+import FuelStock from './itemReport/fuelStock';
+import FuelReport from '../logisticdashboard/StockReport/FuelMonthlyReport';
 import DataVisualization from './dataAnalysis/itemRequisitionAnalysis';
 import DafProfile from '../UserProfile/profile';
 import './DafDashboard.css';
@@ -80,10 +79,7 @@ const LogisticDashboard = () => {
           return <FuelReport />;   
       case 'fuel-stock':
           return <FuelStock />; 
-
-
-     case 'Repair-logistic-Order':
-      return <RepairLogisticOrder />     
+    
      case 'user-fuel-request':
           return <UserFuelRequest />;
      case 'data_charts':

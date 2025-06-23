@@ -144,7 +144,7 @@ const DataDisplay = ({ onItemSelect }) => {
   return (
     <div className='manage-item-stock'>
 
-      <div className='add-item'>
+      <div className='add-item-buttons'>
         <button className='add-item-btn' onClick={() => setShowAddItemForm(true)}>Add new Item</button>
         <button className='upload-item-btn' onClick={() => setShowUploadItemForm(true)}>Upload New Items</button>
       </div>
