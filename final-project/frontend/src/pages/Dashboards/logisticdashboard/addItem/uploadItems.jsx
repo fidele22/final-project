@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import axios from 'axios';
-import { FaFileExcel } from 'react-icons/fa';
+import { FaFileExcel,FaTimes } from 'react-icons/fa';
+
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
-const ExcelUpload = () => {
+const ExcelUpload = ({ onClose }) => {
   const [file, setFile] = useState(null);
   const [existingItems, setExistingItems] = useState([]); // State to hold existing items
 
@@ -91,6 +92,9 @@ const ExcelUpload = () => {
 
   return (
     <div className="import-container">
+        <button type="button" className="close-uploaditemform-btn" onClick={onClose}>
+          <FaTimes size={20} />
+        </button>
       <div className="upload-data">
         <label htmlFor="">Here add items in stock with its data, with uploading file of .xlsx, .xls format</label>
         <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} required />

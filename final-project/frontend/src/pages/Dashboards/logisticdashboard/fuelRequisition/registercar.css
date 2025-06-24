@@ -16,12 +16,20 @@
     padding: 20px;
     color: #0056b3;
   }
+.register-car-form{
+  width: 320px;
+}  
 .cancel-edit-btn{
   position: absolute;
   background-color: #dc3545;
  
 }  
-  
+.close-registercarform-btn{
+  position: absolute;
+  right: 37%;
+  top: 11%;
+  background-color: #e6b8b8;
+}
   form div {
     margin-bottom: 15px;
   }

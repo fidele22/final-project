@@ -62,6 +62,44 @@ const DashboardOverview = () => {
 
       <MonthlyRequisitionChart data={monthlyData} />
       <h3>Chart data of {monthNames[currentMonth]} {currentYear}</h3>
+{monthlyData.length > 0 && (
+  <div className="monthly-summary">
+    <h4>Summary of Requisitions in {monthNames[currentMonth]} {currentYear}:</h4>
+    <ul>
+      {monthlyData.map((entry) => {
+        const statuses = ['Pending', 'Verified', 'Approved', 'Rejected', 'Received'];
+        const total = statuses.reduce((sum, status) => sum + (entry[status] || 0), 0);
+
+        return (
+          <li key={entry.department}>
+            <strong>{entry.department}:</strong>{" "}
+            {statuses.map((status, idx) => (
+              <span key={status}>
+                {entry[status] || 0} {status}{idx < statuses.length - 1 ? ', ' : ''}
+              </span>
+            ))}
+            <br />
+            <strong>Total:</strong> {total} requisition(s)
+          </li>
+        );
+      })}
+    </ul>
+    <p>
+      <strong>Overall Total:</strong>{" "}
+      {monthlyData.reduce((sum, entry) => {
+        return (
+          sum +
+          ['Pending', 'Verified', 'Approved', 'Rejected', 'Received'].reduce(
+            (subSum, key) => subSum + (entry[key] || 0),
+            0
+          )
+        );
+      }, 0)} requisitions across all departments.
+    </p>
+  </div>
+)}
+
+
     </div>
   );
 };

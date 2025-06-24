@@ -15,8 +15,8 @@ import FuelStock from './itemReport/fuelStock';
 import FuelReport from '../logisticdashboard/StockReport/FuelMonthlyReport';
 import DataVisualization from './dataAnalysis/itemRequisitionAnalysis';
 import DafProfile from '../UserProfile/profile';
+import Setting from '../UserProfile/profile';
 import './DafDashboard.css';
-import HelpCenter from '../helpcenter/helpcenter';
 
 
 const LogisticDashboard = () => {
@@ -84,8 +84,9 @@ const LogisticDashboard = () => {
           return <UserFuelRequest />;
      case 'data_charts':
           return <DataVisualization />      
-      case 'help_center':
-        return <HelpCenter />    
+      case 'setting':
+        return <Setting />
+            
       default:
         return <Overview />;
     }

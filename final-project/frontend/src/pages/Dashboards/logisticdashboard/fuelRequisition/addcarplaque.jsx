@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2'; 
 import './registercar.css'
 import '../addItem/additem.css'
-function CarRegistrationForm() {
+function CarRegistrationForm({ onClose }) {
   const [formData, setFormData] = useState({
     registerNumber: '',
     modeOfVehicle: '',
@@ -64,7 +64,11 @@ function CarRegistrationForm() {
 
   return (
     <form onSubmit={handleSubmit} className='addcar'>
-      <div >
+      <button type="button" className="close-registercarform-btn" onClick={onClose}>
+      <i className="fas fa-times"></i>
+      </button>
+
+      <div className='register-car-form'>
         <label>Register Number (Plaque):</label>
         <input
           type="text"

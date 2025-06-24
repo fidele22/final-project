@@ -372,7 +372,8 @@ const mailOptions = {
   subject: 'Requisition Verified',
   html: `
     <h3>Hello  ${user.lastName},</h3>
-    <p>This is an automatic notification confirming that Your requisition request done on :<strong> ${formattedDate}</strong> has been <strong>verified</strong>.</p>
+    <p>This is an automatic notification confirming that Your requisition request done on :<strong> ${formattedDate}</strong> has been <strong>verified</strong> 
+    but be patient to be approved.</p>
     <p><b>Status:</b> ${request.status}</p>
     <p><b>Requisition Date:</b> ${formattedDate}</p>
     <p><b>Requested Items:</b></p>

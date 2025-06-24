@@ -9,6 +9,7 @@ import AddItem from './addItem/addingitem';
 import MakeRequist from './OrderSupply/MakeRequist';
 import FuelOrder from './OrderSupply/fuelorder';
 import ViewCars from './fuelRequisition/viewcars';
+
 import CarMontlyData from '../HodDashboard/cardata/cardata';
 import LogisticProfile from '../UserProfile/profile';
 import ItemStockReport from './StockReport/ItemReport';
@@ -17,7 +18,7 @@ import ViewFuelRequest from './fuelRequisition/fuelRequisitionPages';
 import ManageFuelStock from './fuelRequisition/fuelStock';
 import FuelReport from './StockReport/FuelMonthlyReport';
 import DataVisualization from '../dafdashboard/dataAnalysis/itemRequisitionAnalysis';
-import HelpCenter from '../helpcenter/helpcenter';
+import Setting from '../UserProfile/profile';
 import './contentCss/LogisticDashboard.css';
 
 const LogisticDashboard = () => {
@@ -82,9 +83,8 @@ const LogisticDashboard = () => {
 
       case 'data_charts':
          return <DataVisualization />  
-
-      case 'help_center':
-        return <HelpCenter />;
+      case 'setting':
+        return <Setting />
       default:
         return <Overview />;
     }

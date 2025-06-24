@@ -11,6 +11,21 @@
   background-color: green;
   font-size: 15px;
 }
+.close-additemform-btn{
+  background-color: rgb(245, 195, 195);
+  position: absolute;
+  right: 33.5%;
+  top: 13%;
+}
+.close-uploaditemform-btn{
+  background-color: rgb(245, 195, 195);
+  position: absolute;
+  right: 32%;
+  top: 14.5%;
+}
+.close-uploaditemform-btn:hover{
+  background-color: rgb(240, 133, 133);
+}
   /* Container styles */
  .additem {
     width: 450px;

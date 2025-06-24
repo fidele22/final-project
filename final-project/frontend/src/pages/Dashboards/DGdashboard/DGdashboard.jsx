@@ -12,11 +12,10 @@ import ItemStockReport from './Stockreport/itemReport';
 import FuelReport from '../logisticdashboard/StockReport/FuelMonthlyReport';
 import FuelStock from '../dafdashboard/itemReport/fuelStock';
 import FuelLogisticRequest from './LogisticFuelOrders/logisticFuelOrderPages'
-import RepairLogisticRequest from './logisticRepairRequest/repairRequisitionPage'
 import DataVisualization from '../dafdashboard/dataAnalysis/itemRequisitionAnalysis';
-import DafProfile from '../UserProfile/profile'
-import HelpCenter from '../helpcenter/helpcenter'
-import './DafDashboard.css';
+import DafProfile from '../UserProfile/profile';
+import Setting from '../UserProfile/profile';
+import './DGdashboard.css';
 
 
 const Dashboard = () => {
@@ -68,24 +67,23 @@ const Dashboard = () => {
           return <ViewLogisticRequest />
       case 'fuel-logistic-request':
           return <FuelLogisticRequest /> 
-      case 'repair-logistic-request':
-         return<RepairLogisticRequest />       
+      
       case 'fuel-requisition':
           return <FuelRequisition />;
       case 'view-both-request':
          return <BothUserRequesition />              
       case 'report':
         return <ItemStockReport />;
-    case 'fuel-report':
+      case 'fuel-report':
         return <FuelReport />;   
-    case 'fuel-stock':
+      case 'fuel-stock':
         return <FuelStock />; 
-    case 'data_charts':
+      case 'data_charts':
       return <DataVisualization />
       case 'user-profile':
           return <DafProfile />;  
-      case 'help-center':
-          return <HelpCenter />;
+      case 'setting':
+        return <Setting />
 
       default:
         return <Overview />;

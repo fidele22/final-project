@@ -338,12 +338,12 @@ const handleRejectSubmit = async () => {
               </form>
             ) : (
               <>
-               <div className="form-navigation">
+               <div className="logistict-form-navigation">
                <button className='approve-requisition' onClick={handleApproveSubmit}>Verify Order</button>
                <button className='sign-button' onClick={handleSignClick}>Sign</button>
                <button className='reject-request' onClick={handleRejectSubmit}>Reject Order</button>
                {/* <button className='edit-btn' onClick={handleEditClick}>Edit</button> */}
-               <button></button>
+               
              <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
           </div>
             <div className="image-request-recieved">

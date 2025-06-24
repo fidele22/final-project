@@ -219,13 +219,12 @@ function CarList() {
           )
         )}
             {/* Add User Form Overlay */}
-  {showAddCarForm && (
+       {showAddCarForm && (
           <div className="add-overlay">
             <div className="add-user-form-container">
-              <button className="close-form-btn" onClick={() => setShowAddCarForm(false)}>
-                <FaTimes size={32} />
-              </button>
-              <AddNewCar /> {/* Add User Component */}
+          
+              <AddNewCar onClose={() => setShowAddCarForm(false)} />
+       {/* Add User Component */}
             </div>
           </div>
         )}

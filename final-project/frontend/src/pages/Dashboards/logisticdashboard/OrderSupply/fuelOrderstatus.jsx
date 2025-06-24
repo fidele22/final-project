@@ -21,7 +21,11 @@ const ForwardedRequests = () => {
     const fetchForwardedRequests = async () => {
       try {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/logisticFuel`);
-        setForwardedRequests(response.data);
+            // Sort by createdAt in descending order
+        const sortedData = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+        setForwardedRequests(sortedData);
+        
       } catch (error) {
         console.error('Error fetching forwarded requests:', error);
         setError('Failed to fetch forwarded requests');

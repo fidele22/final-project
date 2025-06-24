@@ -22,7 +22,6 @@ const ViewPosition = () => {
     'view_reports',
     'view_items',
     'monthly_car_data',
-    'view_help_center',
     'Manage_item_stock',
     'Make_item_order',
     

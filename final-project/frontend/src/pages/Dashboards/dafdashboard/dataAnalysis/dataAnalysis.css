@@ -5,3 +5,60 @@
     margin-bottom: 2rem;
 
 }
+.monthly-summary {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f9f9fb;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.monthly-summary h4 {
+  margin-bottom: 1rem;
+  color: #333;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.monthly-summary ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.monthly-summary li {
+  background-color: #ffffff;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.monthly-summary li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.monthly-summary li strong {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.monthly-summary span {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.monthly-summary p {
+  font-weight: 600;
+  color: #222;
+  margin-top: 1rem;
+  border-top: 1px solid #ccc;
+  padding-top: 0.8rem;
+}

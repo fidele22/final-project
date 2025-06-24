@@ -15,9 +15,13 @@
     cursor: pointer;
 }
 /******buttons**********/
+.logistict-form-navigation{
+    display: flex;
+    gap: 10px;
+}
 .reject-request{
-    background-color: rgb(255, 166, 0);
-    color: black;
+    background-color: rgb(209, 32, 61);
+    color: white;
     margin-left: 0;
 }
 .reject-request:hover{

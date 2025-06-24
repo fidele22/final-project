@@ -121,7 +121,7 @@
 .slider {
   position: absolute;
   cursor: pointer;
-  background-color: #ccc;
+  background-color: #bdbbbb;
   transition: .4s;
   border-radius: 24px;
   top: 0;
@@ -157,7 +157,7 @@ input:checked + .slider::before {
 .profile-sidebar {
   text-align: center;
   padding: 20px;
-  background-color: #f4f5f7;
+  background-color: #ebf0fa;
   border-radius: 5px;
 }
 

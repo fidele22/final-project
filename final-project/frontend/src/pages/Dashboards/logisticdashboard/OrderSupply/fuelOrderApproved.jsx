@@ -74,6 +74,12 @@ const ForwardedRequests = () => {
     
       return;
     }
+    console.log("Selected status:", selectedRequest?.status);
+
+  if (selectedRequest.status === 'Received') {
+    toast.error('This request has already been marked as Received.');
+    return;
+  }
 
     Swal.fire({
       title: 'Are you sure?',
@@ -83,6 +89,9 @@ const ForwardedRequests = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, recieve it!',
+      customClass: {
+        popup: 'custom-swal', // Apply custom class to the popup
+      }
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -169,7 +178,7 @@ const ForwardedRequests = () => {
       {selectedRequest && (
         
         <div className="request-details">
-              <div className="form-navigation">
+              <div className="logistict-form-navigation">
         <button className='mark-received-btn' onClick={handleReceivedClick}>Mark as Received</button>
         <button className='sign-button' onClick={handleSignClick}>Sign</button>
         <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>

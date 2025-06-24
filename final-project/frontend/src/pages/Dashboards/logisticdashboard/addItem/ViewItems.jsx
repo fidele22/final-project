@@ -249,21 +249,21 @@ const DataDisplay = ({ onItemSelect }) => {
       </label>
 
       <label>
-        Quantity:
+        Quantity(read only):
         <input
           type="number"
           value={editingItem.quantity}
           onChange={(e) => setEditingItem({ ...editingItem, quantity: e.target.value })}
-        />
+          readOnly />
       </label>
 
       <label>
-        Price per Unit:
+        Price per Unit(read only):
         <input
           type="number"
           value={editingItem.pricePerUnit}
           onChange={(e) => setEditingItem({ ...editingItem, pricePerUnit: e.target.value })}
-        />
+           readOnly />
       </label>
 
       <button onClick={handleUpdateItem}>Update</button>
@@ -286,10 +286,9 @@ const DataDisplay = ({ onItemSelect }) => {
       {showAddItemForm && (
         <div className="add-overlay">
           <div className="add-user-form-container">
-            <button className="close-form-btn" onClick={() => setShowAddItemForm(false)}>
-              <FaTimes size={32} />
-            </button>
-            <AddNewItem /> {/* Add User Component */}
+          
+           <AddNewItem onClose={() => setShowAddItemForm(false)} />
+
           </div>
         </div>
       )}
@@ -298,10 +297,8 @@ const DataDisplay = ({ onItemSelect }) => {
       {showUploadItemForm && (
         <div className="add-overlay">
           <div className="add-user-form-container">
-            <button className="close-form-btn" onClick={() => setShowUploadItemForm(false)}>
-              <FaTimes size={32} />
-            </button>
-            <UploadNewItem /> {/* Add User Component */}
+            
+            <UploadNewItem onClose={() => setShowUploadItemForm(false)} /> {/* Add User Component */}
           </div>
         </div>
       )}

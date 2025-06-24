@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 import './additem.css';
+import { FaTimes } from 'react-icons/fa';
+
 import './customAlert.css'; // Import your custom styles
 
-const AddItem = () => {
+const AddItem = ({ onClose }) => {
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [pricePerUnit, setPricePerUnit] = useState('');
@@ -85,7 +87,11 @@ const AddItem = () => {
 
   return (
     <div className='add-new-item'>
+      
       <div className="additem">
+          <button type="button" className="close-additemform-btn" onClick={onClose}>
+    <FaTimes size={20} />
+  </button>
         <h2>Add New Item</h2>
         <form onSubmit={handleSubmit}>
           <div>
