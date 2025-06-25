@@ -93,7 +93,7 @@ const DashboardOverview = () => {
     {/* reminder message section */}
       {isReminderVisible && (
         <marquee className="reminder-message">
-          {`Reminder: Data of kilometer covered and remaining liters in this month are missing for the following register numbers: ${missingEntries.join(', ')}`}
+          {`Reminder: Data of kilometer covered and remaining liters in this month are missing for the following register numbers: ${missingEntries.join(', ')} Complete it no later than 30 June 2025`}
         </marquee>
       )}
 

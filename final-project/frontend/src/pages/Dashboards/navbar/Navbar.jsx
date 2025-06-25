@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaUser , FaSignOutAlt, FaChevronDown, FaBars,FaTimes,
-FaExclamationTriangle
+FaBell,FaExclamationTriangle
+
  } from 'react-icons/fa'; // Import FaBars for the toggle icon
 import './Navbar.css';
 import axios from 'axios';
@@ -14,46 +15,58 @@ function TopNavbar({ setCurrentPage, toggleNav,isNavVisible}) {
   const token = sessionStorage.getItem(`token_${tabId}`);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchUser  = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/profile/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser (response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser ();
+const [lowStockItems, setLowStockItems] = useState([]);
+const [showNotifications, setShowNotifications] = useState(false);
 
 
-    const handleOutsideClick = (event) => {
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/profile/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(response.data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      if (!event.target.closest('.user-dropdown')) {
+  const fetchLowStockItems = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
+      const lowItems = response.data.filter(item => item.quantity < 5);
+      setLowStockItems(lowItems);
+    } catch (error) {
+      console.error('Failed to fetch low stock items:', error);
+    }
+  };
 
-        setDropdownOpen(false);
+  fetchUser();
+  fetchLowStockItems(); // initial fetch
 
-      }
+  const intervalId = setInterval(() => {
+    fetchLowStockItems(); // auto-refresh every 30 seconds
+  }, 30000);
 
-    };
+  const handleOutsideClick = (event) => {
+    if (!event.target.closest('.user-dropdown') && !event.target.closest('.notification-icon-container')) {
+      setDropdownOpen(false);
+      setShowNotifications(false);
+    }
+  };
 
+  document.addEventListener('click', handleOutsideClick);
 
-    document.addEventListener('click', handleOutsideClick);
+  return () => {
+    document.removeEventListener('click', handleOutsideClick);
+    clearInterval(intervalId); // cleanup interval
+  };
+}, []);
 
-
-    return () => {
-
-      document.removeEventListener('click', handleOutsideClick);
-
-    };
-
-  }, []);
 
 
   const toggleDropdown = () => {
@@ -116,6 +129,32 @@ function TopNavbar({ setCurrentPage, toggleNav,isNavVisible}) {
           )}
         </li>
       </ul>
+    {user.role?.name === 'LOGISTIC'  && (
+  <div className="notification-icon-container">
+    <div className="notification-icon" onClick={() => setShowNotifications(!showNotifications)}>
+      <FaBell size={24} color="#333" />
+      {lowStockItems.length > 0 && <span className="notification-badge">{lowStockItems.length}</span>}
+    </div>
+    {showNotifications && (
+      <div className="notification-dropdown">
+        <h4>Low Stock Alerts</h4>
+        {lowStockItems.length === 0 ? (
+          <p>No low stock items.</p>
+        ) : (
+          <ul>
+            {lowStockItems.map((item) => (
+              <li key={item._id}>
+                {item.name} — {item.quantity} left
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )}
+  </div>
+)}
+
+
          {/* Logout confirmation modal */}
          {showLogoutConfirm && (
         <div className="modal-overlay">

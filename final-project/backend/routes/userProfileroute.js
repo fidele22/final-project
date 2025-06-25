@@ -90,7 +90,11 @@ router.put('/enable-disable-2fa', authMiddleware, async (req, res) => {
 // Get User Profile
 router.get('/profile', authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password'); // Exclude password
+    const user = await User.findById(req.userId)
+  .select('-password')
+  .populate('role', 'name'); 
+  
+// Exclude password
     if (!user) return res.status(404).json({ message: 'User not found' });
     res.json(user);
       // console.log("Sending user profile:", user); // Check this logs `profilePic`
