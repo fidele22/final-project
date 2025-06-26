@@ -9,7 +9,11 @@ import Items from './items/viewItems';
 import CarMontlyData from './cardata/cardata'
 import UserProfile from '../UserProfile/profile';
 import Setting from '../UserProfile/profile';
-import HelpCenter from '../helpcenter/helpcenter';
+// 
+import DataVisualization from '../dafdashboard/dataAnalysis/itemRequisitionAnalysis';
+import ItemStockReport from '../logisticdashboard/StockReport/ItemReport';
+import FuelReport from '../logisticdashboard/StockReport/FuelMonthlyReport';
+import ViewItem from '../logisticdashboard/addItem/ViewItems';
 import './hodDashboard.css';
 
 const HodDashboard = () => {
@@ -61,8 +65,16 @@ const HodDashboard = () => {
         return <UserProfile />;
       case 'monthly_car_data':
         return <CarMontlyData />; 
-      case 'help_center':
-        return <HelpCenter />;
+     
+
+      case 'manage-items-stock':
+        return <ViewItem />;
+      case 'report':
+        return <ItemStockReport />;
+      case 'fuel-report':
+        return <FuelReport />;
+        case 'data_charts':
+         return <DataVisualization />  
       default:
         return <Overview />;
     }

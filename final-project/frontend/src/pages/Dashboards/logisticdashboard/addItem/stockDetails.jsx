@@ -59,85 +59,44 @@ const StockDetails = ({ item, onClose }) => {
       <div className="stock-details">
       <p className="detail-close-btn" onClick={onClose}><FaTimes /></p>
         <h2>Item Details for {item.name}</h2>
-        <table>
-          <thead>
-            <tr>
-              <th rowSpan={2}>Date</th>
-              <th colSpan="3">ENTRY</th>
-              <th colSpan="3">EXIT</th>
-              <th colSpan="3">BALANCE</th>
-              <th rowSpan={2}>Actions</th>
-            </tr>
-            <tr>
-              <th>Quantity</th>
-              <th>Price per Unit</th>
-              <th>Total Amount</th>
-              <th>Quantity</th>
-              <th>Price per Unit</th>
-              <th>Total Amount</th>
-              <th>Quantity</th>
-              <th>Price per Unit</th>
-              <th>Total Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stockDetails.map((entry, index) => (
-              <tr key={index}>
-                <td>{new Date(entry.updatedAt).toLocaleString()}</td>
-                <td>
-                  {editedStock && editedStock._id === entry._id ? (
-                    <input
-                      type="number"
-                      value={editedStock.entry.quantity}
-                      onChange={(e) => handleInputChange(e, 'entry', 'quantity')}
-                    />
-                  ) : (
-                    entry.entry.quantity
-                  )}
-                </td>
-                <td>
-                  {editedStock && editedStock._id === entry._id ? (
-                    <input
-                      type="number"
-                      value={editedStock.entry.pricePerUnit}
-                      onChange={(e) => handleInputChange(e, 'entry', 'pricePerUnit')}
-                    />
-                  ) : (
-                    entry.entry.pricePerUnit
-                  )}
-                </td>
-                <td>{entry.entry.totalAmount}</td>
-                <td>
-                  {editedStock && editedStock._id === entry._id ? (
-                    <input
-                      type="number"
-                      value={editedStock.exit.quantity}
-                      onChange={(e) => handleInputChange(e, 'exit', 'quantity')}
-                    />
-                  ) : (
-                    entry.exit.quantity
-                  )}
-                </td>
-                <td>{entry.exit.pricePerUnit}</td>
-                <td>{entry.exit.totalAmount}</td>
-                <td>{entry.balance.quantity}</td>
-                <td>{entry.balance.pricePerUnit}</td>
-                <td>{entry.balance.totalAmount}</td>
-                <td>
-                  {editedStock && editedStock._id === entry._id ? (
-                    <>
-                      <button onClick={handleUpdateStock}>Update</button>
-                      <button onClick={() => setEditedStock(null)}>Cancel</button>
-                    </>
-                  ) : (
-                    <button>Edit</button>
-                    // <button onClick={() => handleEditStock(entry)}>Edit</button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+       <table>
+  <thead>
+    <tr>
+      <th rowSpan={2}>Date</th>
+      <th colSpan="3">ENTRY</th>
+      <th colSpan="3">EXIT</th>
+      <th colSpan="3">BALANCE</th>
+    </tr>
+    <tr>
+      <th>Quantity</th>
+      <th>Price per Unit</th>
+      <th>Total Amount</th>
+      <th>Quantity</th>
+      <th>Price per Unit</th>
+      <th>Total Amount</th>
+      <th>Quantity</th>
+      <th>Price per Unit</th>
+      <th>Total Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    {stockDetails.map((entry, index) => (
+      <tr key={index}>
+        <td>{new Date(entry.updatedAt).toLocaleString()}</td>
+        <td>{entry.entry.quantity}</td>
+        <td>{entry.entry.pricePerUnit}</td>
+        <td>{entry.entry.totalAmount}</td>
+        <td>{entry.exit.quantity}</td>
+        <td>{entry.exit.pricePerUnit}</td>
+        <td>{entry.exit.totalAmount}</td>
+        <td>{entry.balance.quantity}</td>
+        <td>{entry.balance.pricePerUnit}</td>
+        <td>{entry.balance.totalAmount}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
        
 
         {showModal && (

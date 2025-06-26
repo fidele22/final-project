@@ -344,11 +344,11 @@ const handleSignClick = () => {
               </form>
             ) : (
               <>
-                <div className="form-navigation">
+                <div className="logistic-form-navigation">
                   <button className='verify-requisition' onClick={handleVerifySubmit}>Approve Request</button>
                   <button className='reject-request' onClick={handleRejectRequest}>Reject Request</button>
                   <button className='sign-button' onClick={handleSignClick}>Sign</button>
-                  <button></button>
+                
                   <label className='request-close-btn' onClick={() => setSelectedRequest(null)}><FaTimes /></label>
                 </div>
                 <div className="image-request-recieved">

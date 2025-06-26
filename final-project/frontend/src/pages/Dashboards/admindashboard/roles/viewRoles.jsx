@@ -41,13 +41,13 @@ const ViewPosition = () => {
     'Verify_logistic_fuel_request',
     'Approve_logistic_request',
     'approve_fuel_logistic_request',
-    'Repair_logistic_request',
+    
     
     'Approve_user_item_request',
     'Approve_user_fuel_request',
     'view_user_requisitions',
-    'View_user_fuel_request',
-    'approve_repair_logistic_request',
+   
+    
 
 
 

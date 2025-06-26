@@ -262,10 +262,13 @@ router.post('/receivedItemOrder/:id', async (req, res) => {
         stockData.entry.totalAmount = incomingTotalAmount;
 
 
+        // Update entry quantity and total amount
+
+
+        stockData.exit.pricePerUnit = item.price;
         // Update balance quantity and total amount
 
         stockData.balance.quantity += item.quantityRequested;
-
         stockData.balance.pricePerUnit = stockData.entry.pricePerUnit;
 
 
@@ -340,6 +343,39 @@ router.post('/receivedItemOrder/:id', async (req, res) => {
 
 });
 
+router.post('/rejectItemOrder/:id', async (req, res) => {
+
+  try {
+    const requestId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(requestId)) {
+      return res.status(400).json({ message: 'Invalid ID' });
+
+    }
+    const request = await LogisticItemRequest.findById(requestId);
+    if (!request) {
+      return res.status(404).json({ message: 'Request not found' });
+
+    }
+
+
+    // Update the request with verified information
+
+
+    request.status = 'Rejected';
+
+    // Save the updated request
+
+    await request.save();
+
+
+    res.json(request);
+  } catch (error) {
+    console.error('Error verifying request:', error);
+    res.status(500).json({ message: 'Server error' });
+
+  }
+
+});
 router.put('/:id', async (req, res) => {
   try {
     const updateData = { ...req.body };
