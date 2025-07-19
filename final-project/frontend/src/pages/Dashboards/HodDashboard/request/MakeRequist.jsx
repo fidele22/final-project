@@ -206,7 +206,7 @@ const validateQuantities = () => {
             
           </div>
           
-          {/* <div className="date-field">
+          <div className="date-field">
             <label htmlFor="date">Date:</label>
             <input
               type="date"
@@ -215,7 +215,7 @@ const validateQuantities = () => {
               onChange={(e) => setDate(e.target.value)}
               required
             />
-          </div> */}
+          </div>
           <div className="request-form">
             <div className="title">
               <h4>WESTERN PROVINCE</h4>

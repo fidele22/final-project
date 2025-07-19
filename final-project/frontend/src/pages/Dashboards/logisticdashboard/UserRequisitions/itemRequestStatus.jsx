@@ -72,11 +72,11 @@ const filteredRequests = requests
   .filter((request) => {
     const statusMatch = filterStatus ? request.status.toLowerCase().includes(filterStatus.toLowerCase()) : true;
     const departmentMatch = filterDepartment ? request.department.toLowerCase().includes(filterDepartment.toLowerCase()) : true;
-    const dateMatch = filterDate ? new Date(request.createdAt).toISOString().slice(0, 10) === filterDate : true;
+    const dateMatch = filterDate ? new Date(request.date).toISOString().slice(0, 10) === filterDate : true;
 
     return statusMatch && departmentMatch && dateMatch;
   })
-  .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sort here
+  .sort((a, b) => new Date(b.date) - new Date(a.date)); 
 
   
   const downloadPDF = async () => {
@@ -166,7 +166,7 @@ const filteredRequests = requests
         {request.hodName}
       </td>
       <td>{request.department}</td>
-      <td>{new Date(request.createdAt).toDateString()}</td>
+      <td>{new Date(request.date).toDateString()}</td>
       <td>
         <b className={`status-${request.status?.toLowerCase()}`}>
           {request.status}
@@ -220,7 +220,7 @@ const filteredRequests = requests
           </div>
           <div className="request-recieved-heading">
             <div className="date-done">
-              <label>{new Date(editFormData.createdAt).toDateString()}</label>
+              <label>{new Date(editFormData.date).toDateString()}</label>
             </div>
             <label>WESTERN PROVINCE</label>
             <label>DISTRIC: NYABIHU</label>
