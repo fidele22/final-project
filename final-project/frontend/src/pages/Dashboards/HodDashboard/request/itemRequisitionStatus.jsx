@@ -116,9 +116,12 @@ const LogisticRequestForm = () => {
     pdf.save("requisition-form.pdf");
   };
 
-  const filteredRequests = requests.filter((request) =>
+const filteredRequests = requests
+  .filter((request) =>
     request.status.toLowerCase().includes(filterStatus.toLowerCase())
-  );
+  )
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
+
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const indexOfLastRequest = currentPage * itemsPerPage;
