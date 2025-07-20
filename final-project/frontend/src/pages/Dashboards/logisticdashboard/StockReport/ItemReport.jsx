@@ -72,7 +72,8 @@ const tableRef = useRef(null);
   
       // Combine all items with current and previous stock data
   
-      aggregateStockData(currentResponse.data, previousResponse.data, allItems);
+      aggregateStockData(currentResponse.data, previousResponse.data, allItems, year, month);
+
   
     } catch (error) {
   
@@ -82,121 +83,134 @@ const tableRef = useRef(null);
   
   };
   
-   // Function to fetch the latest stock for an item
-   const fetchLatestStock = async (itemId) => {
-    try {
-      // Fetch all stock history for the item sorted by date (latest first)
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/${itemId}`);
-      
-      const stockHistory = response.data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by latest date
-  
-      // Find the latest stock entry with a balance
-      const latestStock = stockHistory.find(stock => stock.balance?.quantity !== undefined);
-  
-      if (latestStock) {
-        return {
-          balanceQuantity: latestStock.balance.quantity || 0,
-          balanceTotalAmount: latestStock.balance.totalAmount || 0,
-          pricePerUnit: latestStock.entry?.pricePerUnit || 0,
-        };
-      }
-    } catch (error) {
-      console.error(`Error fetching latest stock for item ${itemId}:`, error);
-    }
-  
-    return { balanceQuantity: 0, balanceTotalAmount: 0, pricePerUnit: 0 };
-  };
-  
 
-  useEffect(() => {
-    fetchLatestStock();
-    fetchStockData();
-    fetchSignatures();
-  }, [year, month]);
+// Function to fetch the latest stock BEFORE a specific year and month
+const fetchLatestStock = async (itemId, year, month) => {
+  try {
+    // Calculate the first day of the given month
+    const endDate = new Date(year, month - 1, 1);
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/api/stocks/history/latest/${itemId}/${year}/${month}`
+    );
+
+    const stock = response.data;
+
+    return {
+      balanceQuantity: stock?.balance?.quantity || 0,
+      balanceTotalAmount: stock?.balance?.totalAmount || 0,
+      pricePerUnit: stock?.balance?.pricePerUnit || stock?.entry?.pricePerUnit || 0,
+    };
+  } catch (error) {
+    console.warn(`No previous stock for item ${itemId}:`, error?.response?.data?.message || error.message);
+    return { balanceQuantity: 0, balanceTotalAmount: 0, pricePerUnit: 0 };
+  }
+};
+
+
+useEffect(() => {
+  fetchStockData();
+  fetchSignatures();
+}, [year, month]);
+
 
   const handleYearChange = (e) => setYear(e.target.value);
   const handleMonthChange = (e) => setMonth(e.target.value);
 
-  const aggregateStockData = async (currentData, previousData, allItems) => {
-    const aggregatedData = {};
-  
-    for (const item of allItems) {
-      const itemId = item._id;
-      let latestStock = await fetchLatestStock(itemId); // Get latest stock if available
-  
-      aggregatedData[itemId] = {
-        itemName: item.name,
-        openingQuantity: latestStock.balanceQuantity || 0,
-        openingTotalAmount: latestStock.balanceTotalAmount || 0,
-        openingPricePerUnit: latestStock.pricePerUnit || 0,
-        entryQuantity: 0,
-        lastEntryPricePerUnit: item.pricePerUnit || 0, 
-        entryTotalAmount: 0,
-        exitQuantity: 0,
-        exitTotalAmount: 0,
-        // balanceQuantity: openingQuantity +  || 0, // Initialize balance to opening quantity
-        // balanceTotalAmount: item.totalAmount || 0, // Initialize balance total amount
+const aggregateStockData = async (currentData, previousData, allItems, year, month) => {
+  const aggregatedData = {};
 
-      };
+  // Step 1: Initialize all items with default opening values
+  for (const item of allItems) {
+    const itemId = item._id;
+    aggregatedData[itemId] = {
+      itemName: item.name,
+      openingQuantity: 0,
+      openingTotalAmount: 0,
+      openingPricePerUnit: item.pricePerUnit || 0,
+      entryQuantity: 0,
+      lastEntryPricePerUnit: item.pricePerUnit || 0,
+      entryTotalAmount: 0,
+      exitQuantity: 0,
+      exitTotalAmount: 0,
+      balanceQuantity: 0,
+      balanceTotalAmount: 0
+    };
+  }
+
+  // Step 2: Fill in opening from previous month's stock if available
+  previousData.forEach(stock => {
+    const itemId = stock.itemId._id;
+    if (aggregatedData[itemId] && stock.balance) {
+      aggregatedData[itemId].openingQuantity = stock.balance.quantity;
+      aggregatedData[itemId].openingTotalAmount = stock.balance.totalAmount;
+      aggregatedData[itemId].openingPricePerUnit = stock.balance.pricePerUnit || aggregatedData[itemId].openingPricePerUnit;
     }
-  
-    // Merge previous month's stock if available
-    previousData.forEach(stock => {
-      const itemId = stock.itemId._id;
-      if (aggregatedData[itemId]) {
-        aggregatedData[itemId].openingQuantity = stock.balance?.quantity || aggregatedData[itemId].openingQuantity;
-        aggregatedData[itemId].openingTotalAmount = stock.balance?.totalAmount || aggregatedData[itemId].openingTotalAmount;
-        aggregatedData[itemId].openingPricePerUnit = stock.balance?.pricePerUnit || aggregatedData[itemId].openingPricePerUnit;
-      }
-    });
-  
-    // Merge current month's stock
-    currentData.forEach(stock => {
-      const itemId = stock.itemId._id;
-      if (aggregatedData[itemId]) {
-        if (stock.entry) {
-          aggregatedData[itemId].entryQuantity += stock.entry.quantity || 0;
-          aggregatedData[itemId].entryTotalAmount += stock.entry.totalAmount || 0;
-        }
-        if (stock.exit) {
-          aggregatedData[itemId].exitQuantity += stock.exit.quantity || 0;
-          aggregatedData[itemId].exitTotalAmount += stock.exit.totalAmount || 0;
-        }
-        if (stock.balance) {
-          aggregatedData[itemId].balanceQuantity = aggregatedData[itemId].openingQuantity + 
-            aggregatedData[itemId].entryQuantity - aggregatedData[itemId].exitQuantity;
-          aggregatedData[itemId].balanceTotalAmount = aggregatedData[itemId].openingTotalAmount + 
-            aggregatedData[itemId].entryTotalAmount - aggregatedData[itemId].exitTotalAmount;
+  });
+
+  // Step 3: Fill in missing openings from latest available previous stock (older than selected month)
+  const fetchMissingOpenings = await Promise.all(
+    Object.entries(aggregatedData).map(async ([itemId, data]) => {
+      if (data.openingQuantity === 0) {
+        console.log(`Fetching previous stock for itemId: ${itemId}, year: ${year}, month: ${month - 1}`);
+        try {
+          const latestStock = await fetchLatestStock(itemId, year, month - 1); // Fetch from the previous month
+          console.log(`Fetched latestStock for ${itemId}:`, latestStock);
+          if (latestStock.balanceQuantity > 0) {
+            return {
+              itemId,
+              ...latestStock,
+            };
+          }
+        } catch (error) {
+          console.error(`Error fetching latest stock for itemId ${itemId}:`, error);
         }
       }
-    });
-  
-    setAggregatedStock(Object.values(aggregatedData));
-  
-  //   // Calculate totals
-  //   const totalValues = Object.values(aggregatedData).reduce((acc, stock) => {
-  //     acc.openingQuantity += stock.openingQuantity || 0;
-  //     acc.openingTotalAmount += stock.openingTotalAmount || 0;
-  //     acc.entryQuantity += stock.entryQuantity || 0;
-  //     acc.entryTotalAmount += stock.entryTotalAmount || 0;
-  //     acc.exitQuantity += stock.exitQuantity || 0;
-  //     acc.exitTotalAmount += stock.exitTotalAmount || 0;
-  //     acc.balanceQuantity += stock.balanceQuantity || 0;
-  //     acc.balanceTotalAmount += stock.balanceTotalAmount || 0;
-  //     return acc;
-  //   }, {
-  //     openingQuantity: 0,
-  //     openingTotalAmount: 0,
-  //     entryQuantity: 0,
-  //     entryTotalAmount: 0,
-  //     exitQuantity: 0,
-  //     exitTotalAmount: 0,
-  //     balanceQuantity: 0,
-  //     balanceTotalAmount: 0,
-  //   });
-  
-  //   setTotals(totalValues);
-  };
+      return null;
+    })
+  );
+
+  // Step 4: Apply the fetched latest stock data to aggregatedData
+  fetchMissingOpenings.forEach((result) => {
+    if (result) {
+      const { itemId, balanceQuantity, balanceTotalAmount, pricePerUnit } = result;
+      aggregatedData[itemId].openingQuantity = balanceQuantity;
+      aggregatedData[itemId].openingTotalAmount = balanceTotalAmount;
+      aggregatedData[itemId].openingPricePerUnit = pricePerUnit;
+    }
+  });
+
+  // Step 5: Process current month's transactions and calculate balances
+  currentData.forEach(stock => {
+    const itemId = stock.itemId._id;
+    if (aggregatedData[itemId]) {
+      if (stock.entry) {
+        aggregatedData[itemId].entryQuantity += stock.entry.quantity || 0;
+        aggregatedData[itemId].entryTotalAmount += stock.entry.totalAmount || 0;
+        aggregatedData[itemId].lastEntryPricePerUnit = stock.entry.pricePerUnit || aggregatedData[itemId].lastEntryPricePerUnit;
+      }
+      if (stock.exit) {
+        aggregatedData[itemId].exitQuantity += stock.exit.quantity || 0;
+        aggregatedData[itemId].exitTotalAmount += stock.exit.totalAmount || 0;
+      }
+
+      // Calculate current balance
+      aggregatedData[itemId].balanceQuantity = 
+        aggregatedData[itemId].openingQuantity +
+        aggregatedData[itemId].entryQuantity - 
+        aggregatedData[itemId].exitQuantity;
+      
+      aggregatedData[itemId].balanceTotalAmount = 
+        aggregatedData[itemId].openingTotalAmount +
+        aggregatedData[itemId].entryTotalAmount - 
+        aggregatedData[itemId].exitTotalAmount;
+    }
+  });
+
+  // Final: Update state
+  setAggregatedStock(Object.values(aggregatedData));
+};
+
+
   
   const calculateTotalsFromDOM = () => {
     const table = tableRef.current;

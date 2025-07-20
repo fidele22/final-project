@@ -105,16 +105,6 @@ const LogisticRequestForm = () => {
     setEditFormData((prevState) => ({ ...prevState, items: updatedItems }));
   };
 
-  const downloadPDF = async () => {
-    const input = document.getElementById("pdf-content");
-    if (!input) return;
-
-    const canvas = await html2canvas(input);
-    const data = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
-    pdf.addImage(data, "PNG", 10, 10);
-    pdf.save("requisition-form.pdf");
-  };
 
 const filteredRequests = requests
   .filter((request) =>
@@ -141,13 +131,101 @@ const filteredRequests = requests
       setCurrentPage(currentPage - 1);
     }
   };
+const downloadPDF = async () => {
+  const input = document.getElementById("pdf-content");
+  if (!input) {
+    console.error("Element with ID 'pdf-content' not found.");
+    return;
+  }
+
+  // Ensure all images are loaded
+  const loadImages = () => {
+    const images = input.querySelectorAll("img");
+    return Promise.all(
+      Array.from(images).map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.onload = img.onerror = resolve;
+        });
+      })
+    );
+  };
+
+  await loadImages();
+
+  // Temporarily expand container to show all content
+  const originalHeight = input.style.height;
+  const originalOverflow = input.style.overflow;
+
+  input.style.height = "auto";
+  input.style.overflow = "visible";
+
+  // Force layout recalculation
+  const originalScrollTop = window.scrollY;
+  window.scrollTo(0, 0); // scroll to top
+
+  try {
+    const canvas = await html2canvas(input, {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0,
+      windowWidth: document.body.scrollWidth,
+      windowHeight: document.body.scrollHeight,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+  const drawWatermark = (pdfInstance) => {
+  pdfInstance.setTextColor(200, 200, 200); // Light gray
+  pdfInstance.setFontSize(20);
+  
+  pdfInstance.setFont(undefined, "bold");
+  pdfInstance.text("SHYIRA DH", pdfWidth / 2, pdfHeight / 1.8, {
+    angle: 45,
+    align: "center",
+  });
+};
+
+
+    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+    drawWatermark(pdf);
+    heightLeft -= pdfHeight;
+
+    while (heightLeft > 0) {
+      position -= pdfHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+      drawWatermark(pdf);
+      heightLeft -= pdfHeight;
+    }
+
+    pdf.save(`Requisition_Form_${selectedRequest._id}.pdf`);
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  } finally {
+    // Restore original styles
+    input.style.height = originalHeight;
+    input.style.overflow = originalOverflow;
+    window.scrollTo(0, originalScrollTop); // restore scroll
+  }
+};
+
+
   return (
     <div className={`requisit ${selectedRequest ? "dim-background" : ""}`}>
       <div className="status-board">
       <h2>User Item Requisition Status Board</h2>
 
-<table className="requests-table">
-  <thead>
+   <table className="requests-table">
+   <thead>
     <tr>
       <th>No</th>
       <th>Request Type</th>
@@ -155,8 +233,8 @@ const filteredRequests = requests
       <th>Done On</th>
       <th>Status</th>
     </tr>
-  </thead>
-  <tbody>
+   </thead>
+   <tbody>
     {currentRequests.map((request, index) => (
       <tr
         key={request._id}
@@ -214,7 +292,8 @@ const filteredRequests = requests
             <FaTimes />
           </label>
         </div>
-        <div id="pdf-content" className="request-details" >
+     
+        <div id="pdf-content" className="request-details" style={{ position: 'relative', zIndex: 1 }} >
 
           <div className="image-request-recieved">
             <img src="/image/logo2.png" alt="Logo" className="logo" />
@@ -322,8 +401,10 @@ const filteredRequests = requests
           </div>
         </div>
         </div>
+   
       )}
     </div>
+    
   );
 };
 

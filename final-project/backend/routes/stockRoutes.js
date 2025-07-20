@@ -259,7 +259,25 @@ res.status(400).json({ message: 'Error fetching stock history', error });
 }
 });
 
-// Fetch stock history for a specific month,detting stock report
+// Example backend endpoint
+router.get('/history/latestBefore/:itemId/:date', async (req, res) => {
+  const { itemId, date } = req.params;
+  try {
+    const latestStock = await StockHistory.findOne({
+      itemId,
+      updatedAt: { $lt: new Date(date) }
+    })
+    .sort({ updatedAt: -1 })
+    .populate('itemId', 'name');
+
+    res.json(latestStock);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching latest stock before date', error });
+  }
+});
+
+
+// Fetch stock history for a specific month, stock report
 router.get('/history/:year/:month', async (req, res) => {
   const { year, month } = req.params;
   const startDate = new Date(year, month - 1, 1);
@@ -277,6 +295,10 @@ router.get('/history/:year/:month', async (req, res) => {
   res.status(500).json({ message: 'Error fetching stock history', error });
   }
   });
+
+  
+  //updating itecm records this is admin right
+  
 router.put('/history/update/:entryId', async (req, res) => {
   const { entryId } = req.params;
   const updatedData = req.body;

@@ -5,7 +5,6 @@ import Footer from '../footer/Footer'
 import LeftNavbar from '../navsidebar/leftNavigationbar';
 import Overview from './Overview';
 import ViewUserRequest from './UserItemRequisitions/parentPage';
-import RecieveduserRequest from '../logisticdashboard/receivedRequisitions/itemRequestReceived';
 import ViewLogisticRequest from './requestOfLogistic/orderpages';
 import UserFuelRequest from './UserfuelRequest/userfuelrequestpage';
 import LogisticFuelOrder from './LogisticFuelOrders/logisticFuelOrderPages';
@@ -64,8 +63,7 @@ const LogisticDashboard = () => {
           return <ViewUserRequest />;
       case 'user-profile':
           return <DafProfile />;
-      case 'recieved-requisition':
-         return <RecieveduserRequest />
+
       case 'view-stock-items':
             return <ViewItems/>
       case 'view-logistic-request':

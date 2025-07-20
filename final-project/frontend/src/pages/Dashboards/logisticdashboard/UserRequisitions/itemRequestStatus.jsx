@@ -78,17 +78,80 @@ const filteredRequests = requests
   })
   .sort((a, b) => new Date(b.date) - new Date(a.date)); 
 
-  
   const downloadPDF = async () => {
-    const input = document.getElementById("pdf-content");
-    if (!input) return;
+  const input = document.getElementById("pdf-content");
+  if (!input) {
+    console.error("Element with ID 'pdf-content' not found.");
+    return;
+  }
 
-    const canvas = await html2canvas(input);
-    const data = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
-    pdf.addImage(data, "PNG", 10, 10);
-    pdf.save("requisition-form.pdf");
+  // Ensure all images are loaded
+  const loadImages = () => {
+    const images = input.querySelectorAll("img");
+    return Promise.all(
+      Array.from(images).map((img) => {
+        if (img.complete) return Promise.resolve();
+        return new Promise((resolve) => {
+          img.onload = img.onerror = resolve;
+        });
+      })
+    );
   };
+
+  await loadImages();
+
+  // Temporarily expand container to show all content
+  const originalHeight = input.style.height;
+  const originalOverflow = input.style.overflow;
+
+  input.style.height = "auto";
+  input.style.overflow = "visible";
+
+  // Force layout recalculation
+  const originalScrollTop = window.scrollY;
+  window.scrollTo(0, 0); // scroll to top
+
+  try {
+    const canvas = await html2canvas(input, {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0,
+      windowWidth: document.body.scrollWidth,
+      windowHeight: document.body.scrollHeight,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    let heightLeft = imgHeight;
+    let position = 0;
+
+
+
+    pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+    heightLeft -= pdfHeight;
+    while (heightLeft > 0) {
+      position -= pdfHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, pdfWidth, imgHeight);
+   
+      heightLeft -= pdfHeight;
+    }
+
+    pdf.save(`Requisition_Form_${selectedRequest._id}.pdf`);
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  } finally {
+    // Restore original styles
+    input.style.height = originalHeight;
+    input.style.overflow = originalOverflow;
+    window.scrollTo(0, originalScrollTop); // restore scroll
+  }
+};
 
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);

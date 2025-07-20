@@ -127,6 +127,19 @@ form h4{
   width: 100%;
 }
 
+#pdf-content::before {
+  content: "SHYIRA DH";
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 80px;
+  color: rgba(200, 200, 200, 0.2);
+  z-index: 0;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 
 /* responsiviness */
 
