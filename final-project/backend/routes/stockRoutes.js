@@ -366,7 +366,16 @@ router.put('/history/update/:entryId', async (req, res) => {
            totalAmount: latestHistory.balance.totalAmount
          });
        }
-       
+      
+      // ✅ Also update StockData so /receive uses correct quantity
+      await StockData.findOneAndUpdate(
+        { itemId: targetEntry.itemId },
+        {
+          balance: latestHistory.balance,
+          exit: latestHistory.exit, // optional, to stay consistent
+          entry: latestHistory.entry // optional, to stay consistent
+        }
+      );
 
     const updatedHistory = await StockHistory.find({ itemId: targetEntry.itemId }).sort({ updatedAt: 1 });
     res.status(200).json({ message: 'Updated successfully from this point onward', updatedHistory });

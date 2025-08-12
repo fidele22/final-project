@@ -48,36 +48,7 @@ const DataDisplay = ({ onItemSelect }) => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-    const handleDelete = async (id) => {
 
-      const { value: isConfirmed } = await Swal.fire({
-  
-        title: 'Are you sure?',
-        text: "You won't be able to recover this item!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!', 
-        customClass: {
-          popup: 'custom-swal', // Apply custom class to the popup
-        }
-  
-      });
-  
-    if (isConfirmed) {
-      try {
-        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/stocks/${id}`);
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/stocks`);
-        setData(response.data);
-        toast.success('Item deleted successfully!'); // Set notification message
-      
-      } catch (error) {
-        console.error('Error deleting item:', error);
-        toast.error('Deleting item failed');
-      }
-    }
-  };
   // update item data
   const handleUpdateItem = async () => {
 

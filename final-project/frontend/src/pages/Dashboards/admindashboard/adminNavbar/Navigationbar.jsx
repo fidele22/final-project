@@ -74,6 +74,12 @@ const Navbar = ({ currentPage, setCurrentPage, isMenuOpen, setIsMenuOpen }) => {
         >
           <FaWarehouse /> <span></span> Item truck
         </li>
+         <li 
+          className={currentPage === 'fuel-truck' ? 'active' : ''}
+          onClick={() => handleLinkClick('fuel-truck')}
+        >
+          <FaWarehouse /> <span></span> Fuel truck
+        </li>
         <li 
           className={currentPage === 'monthly-cardata' ? 'active' : ''}
           onClick={() => handleLinkClick('monthly-cardata')}

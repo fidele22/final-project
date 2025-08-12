@@ -10,6 +10,7 @@ import ViewS from './service/ViewServices';
 import ViewP from './position/viewPosition';
 import ViewD from './department/viewDepartment';
 import ItemTruck from './itemTruck/ViewItems';
+import FuelTruck from './fuelTruck/fuelStockTruck';
 import UserProfile from '../UserProfile/profile';
 import './css/adminDashboard.css';
 import Setting from '../UserProfile/profile';
@@ -37,7 +38,8 @@ const AdminDashboard = () => {
         return <ViewP />;
       case 'view-department':
         return <ViewD />;
-
+      case 'fuel-truck':
+        return <FuelTruck />
       case 'item-truck':
         return <ItemTruck />  
       case 'monthly-cardata':

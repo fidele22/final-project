@@ -5,7 +5,7 @@ const Car = require('../models/carPlaque');
 const FuelRequisitionReceived = require('../models/fuelRequisition');
 const FuelStock = require('../models/fuelStock');
 const FuelStockHistory =require ('../models/fuelStockHistory');
-const ApprovedRepairRequest = require('../models/logisticRepairApproved');
+
 const CarData =require('../models/carData');
 
 // Create a new fuel stock entry
@@ -103,6 +103,121 @@ router.get('/fuel-history', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch fuel history' });
   }
 });
+
+router.put('/updated-fuel-history/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { entry, exit } = req.body;
+
+    // Find current record
+    const currentRecord = await FuelStockHistory.findById(id);
+    if (!currentRecord) return res.status(404).json({ error: 'Record not found' });
+
+    // Update entry and exit fields if provided
+    if (entry) {
+      currentRecord.entry.quantity = entry.quantity ?? currentRecord.entry.quantity;
+      currentRecord.entry.pricePerUnit = entry.pricePerUnit ?? currentRecord.entry.pricePerUnit;
+
+      // Recalculate entry.totalAmount
+      const entryQty = Number(currentRecord.entry.quantity) || 0;
+      const entryPrice = Number(currentRecord.entry.pricePerUnit) || 0;
+      currentRecord.entry.totalAmount = entryQty * entryPrice;
+    }
+    if (exit) {
+      currentRecord.exit.quantity = exit.quantity ?? currentRecord.exit.quantity;
+      currentRecord.exit.pricePerUnit = exit.pricePerUnit ?? currentRecord.exit.pricePerUnit;
+
+      // Recalculate exit.totalAmount
+      const exitQty = Number(currentRecord.exit.quantity) || 0;
+      const exitPrice = Number(currentRecord.exit.pricePerUnit) || 0;
+      currentRecord.exit.totalAmount = exitQty * exitPrice;
+    }
+
+    // Find previous record for balance reference
+    const previousRecord = await FuelStockHistory.findOne({
+      updatedAt: { $lt: currentRecord.updatedAt }
+    }).sort({ updatedAt: -1 });
+
+    let previousBalance = previousRecord
+      ? previousRecord.balance
+      : { quantity: 0, pricePerUnit: 0, totalAmount: 0 };
+
+    // Recalculate balance quantity
+    const newQuantity = previousBalance.quantity +
+      (currentRecord.entry.quantity || 0) -
+      (currentRecord.exit.quantity || 0);
+
+    // Use entry pricePerUnit if available; else fallback to previous balance pricePerUnit
+    const pricePerUnit = currentRecord.entry.pricePerUnit || previousBalance.pricePerUnit;
+    const totalAmount = newQuantity * pricePerUnit;
+
+    currentRecord.balance = {
+      quantity: newQuantity,
+      pricePerUnit,
+      totalAmount
+    };
+
+    await currentRecord.save();
+
+    // Recalculate all future records
+    let nextBalance = { ...currentRecord.balance };
+
+    const futureRecords = await FuelStockHistory.find({
+      updatedAt: { $gt: currentRecord.updatedAt },
+    }).sort({ updatedAt: 1 });
+
+    for (let record of futureRecords) {
+      // Recalculate entry totalAmount for each future record if needed
+      record.entry.totalAmount = (Number(record.entry.quantity) || 0) * (Number(record.entry.pricePerUnit) || 0);
+      // Recalculate exit totalAmount for each future record if needed
+      record.exit.totalAmount = (Number(record.exit.quantity) || 0) * (Number(record.exit.pricePerUnit) || 0);
+
+      // Recalculate balance for future records
+      const quantity = nextBalance.quantity +
+        (record.entry.quantity || 0) -
+        (record.exit.quantity || 0);
+
+      const price = record.entry.pricePerUnit || nextBalance.pricePerUnit;
+      const total = quantity * price;
+
+      record.balance = {
+        quantity,
+        pricePerUnit: price,
+        totalAmount: total
+      };
+
+      nextBalance = { ...record.balance };
+      await record.save();
+    }
+
+// Sync main fuel stock with latest balance
+const latestRecord = await FuelStockHistory.findOne().sort({ updatedAt: -1 });
+
+if (latestRecord) {
+  const updatedStock = await FuelStock.findOneAndUpdate(
+    { fuelType: "Fuel" }, // strictly match existing record
+    {
+      quantity: latestRecord.balance.quantity,
+      pricePerUnit: latestRecord.balance.pricePerUnit,
+      totalAmount: latestRecord.balance.totalAmount,
+      date: new Date(),
+    },
+    { new: true } // return updated doc
+  );
+
+  if (!updatedStock) {
+    console.log("FuelStock record not found for fuelType 'Fuel'");
+  }
+}
+
+
+    res.json({ message: 'Fuel record and balances updated' });
+  } catch (err) {
+    console.error('Error updating fuel history:', err);
+    res.status(500).json({ error: 'Failed to update fuel history' });
+  }
+});
+
 
 
 // Route to fetch stock report based on carPlaque and date range
@@ -281,40 +396,7 @@ router.get('/fuelFull-Report', async (req, res) => {
   }
 });
 
-// Endpoint to get total cost of repairs for a specific car plaque based on month and year
-router.get('/totalCostRepairs', async (req, res) => {
-  const { month, year, carPlaque } = req.query;
 
-  let start, end;
-  if (month && year) {
-    start = new Date(year, month - 1, 1); // First day of the month
-    end = new Date(year, month, 0, 23, 59, 59, 999); // Last day of the month
-  } else {
-    return res.status(400).json({ message: 'Month and year must be provided.' });
-  }
-
-  try {
-    const totalCostRepairs = await ApprovedRepairRequest.aggregate([
-      {
-        $match: {
-          carplaque: carPlaque, // Filter by specific car plaque
-          createdAt: { $gte: start, $lte: end }
-        }
-      },
-      {
-        $group: {
-          _id: "$carplaque",
-          totalRepairs: { $sum: { $toDouble: "$totalOverallPrice" } }
-        }
-      }
-    ]);
-
-    res.json({ totalCostRepairs: totalCostRepairs[0]?.totalRepairs || 0 });
-  } catch (error) {
-    console.error('Error fetching total cost repairs:', error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 router.get('/generate-repo', async (req, res) => {
   try {

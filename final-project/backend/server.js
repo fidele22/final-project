@@ -28,7 +28,7 @@ const addCarRoute = require ('./routes/carplaque')
 const UsercarDataRoutes = require('./routes/UsercarData')
 const fuelStock = require ('./routes/fuelstock')
 const StockData = require('./models/stockData')
-const RepairRequisition = require('./routes/RepairRequisition')
+
 const userdataRoutes =require ('./routes/userData')
 const reportSignature = require('./routes/itemReportSign')
 
@@ -93,7 +93,7 @@ app.use('/api/countrequisitions',countRequisitionRouter)
 app.use('/api/UserRequest', userRequest);
 app.use('/api/forwardedrequests', forwardedRequestsRouter);
 app.use('/api/stocks', stockRoutes); 
-app.use('/api/RepairRequisition',RepairRequisition)
+
 app.use('/api/reportSignature',reportSignature)
 
 

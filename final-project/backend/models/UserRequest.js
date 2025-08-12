@@ -67,23 +67,6 @@ UserRequestSchema.pre('save', function(next) {
   next();
 });
 
-// // Pre-update middleware to ensure quantityReceived matches quantityRequested if updated
-// UserRequestSchema.pre('findOneAndUpdate', async function(next) {
-//   const update = this.getUpdate();
-  
-//   // Check if items are being updated
-//   if (update.items) {
-//     const updatedItems = update.items.map(item => {
-//       // Ensure quantityReceived is set to quantityRequested if quantityRequested is updated
-//       if (item.quantityRequested !== undefined) {
-//         item.quantityReceived = item.quantityRequested;
-//       }
-//       return item;
-//     });
-//     update.items = updatedItems;
-//   }
 
-//   next();
-// });
 
 module.exports = mongoose.model('UserRequest', UserRequestSchema);
